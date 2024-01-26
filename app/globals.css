@@ -4,26 +4,20 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
   }
 }
 
 body {
+  --custom-color1: #4e0685;
+  --custom-color2: #87b4c0;
+  background-image: linear-gradient(var(--custom-color1), var(--custom-color2));
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding: 1rem;
 }
 
 @layer utilities {
