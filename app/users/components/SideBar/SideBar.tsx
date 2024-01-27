@@ -16,6 +16,60 @@ const SideBar = () => {
             <h1 className="text-2xl font-bold mb-4">Filters</h1>
           </li>
         </ul>
+        <ul className="px-2">
+          <details className="dropdown">
+            <summary className="m-1 btn">Gender: {}</summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+              <li>
+                <a>Male</a>
+              </li>
+              <li>
+                <a>Female</a>
+              </li>
+              <li>
+                <a>Other</a>
+              </li>
+            </ul>
+          </details>
+        </ul>
+        <ul className="px-2">
+          <details className="dropdown">
+            <summary className="m-1 btn">Experience Level: {}</summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+              <li>
+                <a>Beginner</a>
+              </li>
+              <li>
+                <a>Intermediate</a>
+              </li>
+              <li>
+                <a>Advanced</a>
+              </li>
+              <li>
+                <a>Help</a>
+              </li>
+            </ul>
+          </details>
+        </ul>
+        <ul className="px-2">
+          <details className="dropdown">
+            <summary className="m-1 btn">Age: {}</summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+              <li>
+                <a>Baby</a>
+              </li>
+              <li>
+                <a>Young man</a>
+              </li>
+              <li>
+                <a>Adult</a>
+              </li>
+              <li>
+                <a>Elderly</a>
+              </li>
+            </ul>
+          </details>
+        </ul>
       </div>
     </div>
   );
