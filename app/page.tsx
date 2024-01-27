@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       <div>
-        <SideBar />
+        <CreateAccountPage />
       </div>
     </main>
   );

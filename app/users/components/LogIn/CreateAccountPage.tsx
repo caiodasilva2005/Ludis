@@ -2,13 +2,13 @@ import React from "react";
 
 const CreateAccountPage = () => {
   return (
-    <div className="flex justify-center items-center">
-      <div className="box-content bg-white sm:w-3/5 h-96 rounded p-4 shadow-lg">
-        <div className="border-2 border-gray-300 w-108 h-96 rounded shadow-sm">
+    <div className="flex justify-center items-center h-screen">
+      <div className="box-content bg-white sm:w-3/5 sm:h-4/5 rounded p-4 shadow-lg">
+        <div className="border-2 border-gray-300 w-108 h-full rounded shadow-sm">
           <div className="flex justify-center">
             <h1 className="font-bold mt-4">ACCOUNT INFO</h1>
           </div>
-          <div className="flex">
+          <div className="flex items-center">
             <div className="flex-col ml-4">
               <ul>
                 <li className="py-2">
@@ -19,6 +19,12 @@ const CreateAccountPage = () => {
                     type="file"
                     className="file-input file-input-bordered file-input-xs file-input-info w-48 max-w-xs"
                   />
+                </li>
+                <li className="ml-16 py-2">
+                  <textarea
+                    className="textarea textarea-bordered"
+                    placeholder="Bio"
+                  ></textarea>
                 </li>
               </ul>
             </div>
