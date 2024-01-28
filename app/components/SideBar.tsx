@@ -1,7 +1,9 @@
 import React from "react";
 import ChatButton from "./ChatButton";
+import MoreInfoModal from "./MoreInfoModal";
 
 const SideBar = () => {
+  // State to manage modal visibility
   return (
     <div className="h-screen w-48 bg-gray-800 text-white p-4">
       <div className="flex-col items-end">
@@ -45,7 +47,7 @@ const SideBar = () => {
                 <a>Advanced</a>
               </li>
               <li>
-                <a>Help</a>
+                <MoreInfoModal></MoreInfoModal>
               </li>
             </ul>
           </details>
@@ -68,6 +70,14 @@ const SideBar = () => {
               </li>
             </ul>
           </details>
+        </ul>
+        <ul>
+          <li>
+            <div className="divider divider-info" />
+          </li>
+          <li>
+            <h1 className="text-2xl font-bold mb-4">Workout</h1>
+          </li>
         </ul>
       </div>
     </div>
