@@ -1,4 +1,5 @@
 import React from "react";
+import CreateAccountButton from "./CreateAccountButton";
 
 const LogIn = () => {
   return (
@@ -29,7 +30,7 @@ const LogIn = () => {
             </li>
             <li>
               <div className="p-4 ml-8 mt-4">
-                <button className="btn btn-info">Create Account</button>
+                <CreateAccountButton />
               </div>
             </li>
           </ul>
