@@ -1,5 +1,6 @@
 import React from "react";
-import CreateAccountButton from "./CreateAccountButton";
+import TextBox from "./TextBox";
+import CustomButton from "./CustomButton";
 
 const LogIn = () => {
   return (
@@ -12,25 +13,21 @@ const LogIn = () => {
             </li>
             <li>
               <div className="py-2">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  className="input input-bordered w-32 md:w-auto"
-                />
+                <TextBox placeholder={"Username"} />
               </div>
             </li>
             <li>
               <div className="py-2">
-                <input
-                  type="text"
-                  placeholder="Password"
-                  className="input input-bordered w-32 md:w-auto"
-                />
+                <TextBox placeholder={"Password"} />
               </div>
             </li>
             <li>
               <div className="p-4 ml-8 mt-4">
-                <CreateAccountButton />
+                <CustomButton
+                  label="Create Account"
+                  page="/users/CreateAccountPage"
+                  btnType="info"
+                />
               </div>
             </li>
           </ul>
