@@ -1,8 +1,26 @@
-import React from "react";
-import TextBox from "./TextBox";
-import CustomButton from "./CustomButton";
+"use client";
+import React, { useState } from "react";
+import CreateAccountButton from "./CreateAccountButton";
 
 const LogIn = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleUsernameChange = (value) => {
+    setUsername(value);
+  };
+
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+  };
+
+  const handleCreateAccount = (username, password) => {
+    console.log("Username:", username);
+    console.log("Password:", password);
+    //Jordan: The username and password information is stored in these variables,
+    //see if you can get them into the database
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="box-content bg-white sm:w-3/5 h-96 rounded p-4 shadow-lg">
@@ -13,20 +31,28 @@ const LogIn = () => {
             </li>
             <li>
               <div className="py-2">
-                <TextBox placeholder={"Username"} />
+                <input
+                  type="text"
+                  className="input input-bordered w-32 md:w-auto"
+                  onChange={(e) => handleUsernameChange(e.target.value)}
+                  placeholder="Username"
+                />
               </div>
             </li>
             <li>
-              <div className="py-2">
-                <TextBox placeholder={"Password"} />
-              </div>
+              <input
+                type="text"
+                className="input input-bordered w-32 md:w-auto"
+                onChange={(e) => handlePasswordChange(e.target.value)}
+                placeholder="Password"
+              />
             </li>
             <li>
               <div className="p-4 ml-8 mt-4">
-                <CustomButton
-                  label="Create Account"
-                  page="/users/CreateAccountPage"
-                  btnType="info"
+                <CreateAccountButton
+                  onClick={handleCreateAccount}
+                  username={username}
+                  password={password}
                 />
               </div>
             </li>
