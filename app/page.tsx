@@ -1,4 +1,3 @@
-import FriendsPage from "./components/FriendsPage";
 import ProfileDisplay from "./components/ProfileDisplay";
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
