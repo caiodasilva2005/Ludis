@@ -11,20 +11,28 @@ type Filter = {
 };
 
 const SideBar = () => {
-  const [selectedGender, setSelectedGender] = useState<string>("");
-  const [selectedExperienceLevel, setSelectedExperienceLevel] = useState("");
+  const [selectedGender, setSelectedGender] = useState<string>("Male");
+  const [selectedExperienceLevel, setSelectedExperienceLevel] =
+    useState("Beginner");
 
   const [filter, setFilter] = useState({
-    gender: "",
-    experienceLevel: "",
+    gender: "Male",
+    experienceLevel: "Beginner",
   });
+
+  const [genderButtonState, setGenderButtonState] =
+    useState<string>("m-1 w-28 btn");
+  const [expLButtonState, setExpLButtonState] =
+    useState<string>("m-1 w-28 btn");
 
   const updateGender = (gender: string) => {
     setSelectedGender(gender);
+    setGenderButtonState("m-1 w-28 btn");
   };
 
   const updateExperienceLevel = (experienceLevel: string) => {
     setSelectedExperienceLevel(experienceLevel);
+    setExpLButtonState("m-1 w-28 btn");
   };
 
   const handleFilter = () => {
@@ -32,15 +40,13 @@ const SideBar = () => {
       gender: selectedGender,
       experienceLevel: selectedExperienceLevel,
     });
+
+    setGenderButtonState("m-1 w-28 btn bg-green-600");
+    setExpLButtonState("m-1 w-28 btn bg-green-600");
   };
 
-  useEffect(() => {
-    console.log(filter.gender);
-    console.log(filter.experienceLevel);
-  });
-
   return (
-    <div className="h-screen w-48 bg-gray-800 text-white p-4 flex justify-center items-center">
+    <div className="h-screen w-48 bg-gray-800 text-white p-4 flex justify-center">
       <Stack className="mt-4" spacing={1}>
         <div className="font-bold flex justify-center">Username</div>
         <div className="divider divider-info" />
@@ -60,7 +66,7 @@ const SideBar = () => {
 
         <ul className="px-2">
           <details className="dropdown">
-            <summary className="m-1 btn w-28">Gender:</summary>
+            <summary className={genderButtonState}>{selectedGender}</summary>
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
                 <a onClick={() => updateGender("Male")}>Male</a>
@@ -76,7 +82,9 @@ const SideBar = () => {
         </ul>
         <ul className="px-2">
           <details className="dropdown">
-            <summary className="m-1 btn w-28">Experience Level:</summary>
+            <summary className={expLButtonState}>
+              {selectedExperienceLevel}
+            </summary>
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
                 <a onClick={() => updateExperienceLevel("Beginner")}>
@@ -99,25 +107,7 @@ const SideBar = () => {
             </ul>
           </details>
         </ul>
-        <ul className="px-2">
-          <details className="dropdown">
-            <summary className="m-1 btn w-28">Age: {}</summary>
-            <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-              <li>
-                <a>Teen</a>
-              </li>
-              <li>
-                <a>Young Adult</a>
-              </li>
-              <li>
-                <a>Adult</a>
-              </li>
-              <li>
-                <a>Elderly</a>
-              </li>
-            </ul>
-          </details>
-        </ul>
+
         <a role="button" className="btn btn-info" onClick={handleFilter}>
           Run Filter
         </a>
