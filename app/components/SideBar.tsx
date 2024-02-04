@@ -5,19 +5,40 @@ import { Stack } from "@mui/material";
 import CustomButton from "./CustomButton";
 import { useState, useEffect } from "react";
 
+type GenderFilter = {
+  filMale: boolean;
+  filFemale: boolean;
+  filOther: boolean;
+};
+
+type ExperienceFilter = {
+  filBeginner: boolean;
+  filIntermediate: boolean;
+  filAdvanced: boolean;
+};
+
 type Filter = {
-  gender: string;
-  experienceLevel: string;
+  gender: GenderFilter;
+  experienceLevel: ExperienceFilter;
 };
 
 const SideBar = () => {
-  const [selectedGender, setSelectedGender] = useState<string>("Male");
-  const [selectedExperienceLevel, setSelectedExperienceLevel] =
-    useState("Beginner");
+  const [selectedGender, setSelectedGender] = useState<GenderFilter>({
+    filMale: false,
+    filFemale: false,
+    filOther: false,
+  });
 
-  const [filter, setFilter] = useState({
-    gender: "Male",
-    experienceLevel: "Beginner",
+  const [selectedExperienceLevel, setSelectedExperienceLevel] =
+    useState<ExperienceFilter>({
+      filBeginner: false,
+      filIntermediate: false,
+      filAdvanced: false,
+    });
+
+  const [filter, setFilter] = useState<Filter>({
+    gender: selectedGender,
+    experienceLevel: selectedExperienceLevel,
   });
 
   const [genderButtonState, setGenderButtonState] =
@@ -25,12 +46,12 @@ const SideBar = () => {
   const [expLButtonState, setExpLButtonState] =
     useState<string>("m-1 w-28 btn");
 
-  const updateGender = (gender: string) => {
+  const updateGender = (gender: GenderFilter) => {
     setSelectedGender(gender);
     setGenderButtonState("m-1 w-28 btn");
   };
 
-  const updateExperienceLevel = (experienceLevel: string) => {
+  const updateExperienceLevel = (experienceLevel: ExperienceFilter) => {
     setSelectedExperienceLevel(experienceLevel);
     setExpLButtonState("m-1 w-28 btn");
   };
@@ -41,9 +62,25 @@ const SideBar = () => {
       experienceLevel: selectedExperienceLevel,
     });
 
-    setGenderButtonState("m-1 w-28 btn bg-green-600");
-    setExpLButtonState("m-1 w-28 btn bg-green-600");
+    setSelectedGender({
+      filMale: false,
+      filFemale: false,
+      filOther: false,
+    });
+
+    setSelectedExperienceLevel({
+      filBeginner: false,
+      filIntermediate: false,
+      filAdvanced: false,
+    });
+
+    setGenderButtonState("m-1 w-28 btn btn-success");
+    setExpLButtonState("m-1 w-28 btn btn-success");
   };
+
+  useEffect(() => {
+    console.log(filter);
+  });
 
   return (
     <div className="h-screen w-48 bg-gray-800 text-white p-4 flex justify-center">
@@ -66,38 +103,114 @@ const SideBar = () => {
 
         <ul className="px-2">
           <details className="dropdown">
-            <summary className={genderButtonState}>{selectedGender}</summary>
+            <summary className={genderButtonState}>Gender</summary>
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
-                <a onClick={() => updateGender("Male")}>Male</a>
+                <a
+                  className={`${
+                    selectedGender.filMale ? "bg-green-600" : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateGender({
+                      filMale: !selectedGender.filMale,
+                      filFemale: selectedGender.filFemale,
+                      filOther: selectedGender.filOther,
+                    })
+                  }
+                >
+                  Male
+                </a>
               </li>
               <li>
-                <a onClick={() => updateGender("Female")}>Female</a>
+                <a
+                  className={`${
+                    selectedGender.filFemale ? "bg-green-600" : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateGender({
+                      filMale: selectedGender.filMale,
+                      filFemale: !selectedGender.filFemale,
+                      filOther: selectedGender.filOther,
+                    })
+                  }
+                >
+                  Female
+                </a>
               </li>
               <li>
-                <a onClick={() => updateGender("Other")}>Other</a>
+                <a
+                  className={`${
+                    selectedGender.filOther ? "bg-green-600" : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateGender({
+                      filMale: selectedGender.filMale,
+                      filFemale: selectedGender.filFemale,
+                      filOther: !selectedGender.filOther,
+                    })
+                  }
+                >
+                  Other
+                </a>
               </li>
             </ul>
           </details>
         </ul>
         <ul className="px-2">
           <details className="dropdown">
-            <summary className={expLButtonState}>
-              {selectedExperienceLevel}
-            </summary>
+            <summary className={expLButtonState}>Experience Level:</summary>
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
-                <a onClick={() => updateExperienceLevel("Beginner")}>
+                <a
+                  className={`${
+                    selectedExperienceLevel.filBeginner
+                      ? "bg-green-600"
+                      : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateExperienceLevel({
+                      filBeginner: !selectedExperienceLevel.filBeginner,
+                      filIntermediate: selectedExperienceLevel.filIntermediate,
+                      filAdvanced: selectedExperienceLevel.filAdvanced,
+                    })
+                  }
+                >
                   Beginner
                 </a>
               </li>
               <li>
-                <a onClick={() => updateExperienceLevel("Intermediate")}>
+                <a
+                  className={`${
+                    selectedExperienceLevel.filIntermediate
+                      ? "bg-green-600"
+                      : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateExperienceLevel({
+                      filBeginner: selectedExperienceLevel.filBeginner,
+                      filIntermediate: !selectedExperienceLevel.filIntermediate,
+                      filAdvanced: selectedExperienceLevel.filAdvanced,
+                    })
+                  }
+                >
                   Intermediate
                 </a>
               </li>
               <li>
-                <a onClick={() => updateExperienceLevel("Advanced")}>
+                <a
+                  className={`${
+                    selectedExperienceLevel.filAdvanced
+                      ? "bg-green-600"
+                      : "bg-white"
+                  }`}
+                  onClick={() =>
+                    updateExperienceLevel({
+                      filBeginner: selectedExperienceLevel.filBeginner,
+                      filIntermediate: selectedExperienceLevel.filIntermediate,
+                      filAdvanced: !selectedExperienceLevel.filAdvanced,
+                    })
+                  }
+                >
                   Advanced
                 </a>
               </li>
