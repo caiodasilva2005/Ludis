@@ -1,15 +1,21 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { Button } from "react-bootstrap";
 
-const CreateAccountButton = () => {
+interface ButtonProps {
+  page: string;
+  buttonText: string;
+  type: string;
+}
+const CustomButton: React.FC<ButtonProps> = ({ page, buttonText, type }) => {
+  const buttonClass = "btn btn-" + type;
+
   return (
-    <div>
-      <button className="btn btn-info">
-        <Link href="/users/CreateAccountPage">Create Account</Link>
-      </button>
-    </div>
+    <a role="button" className={buttonClass} href={page}>
+      {buttonText}
+    </a>
   );
 };
 
-export default CreateAccountButton;
+export default CustomButton;

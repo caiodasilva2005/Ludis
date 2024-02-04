@@ -1,6 +1,7 @@
 import React from "react";
 
 const CreateAccountPage = () => {
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="box-content bg-white sm:w-3/5 sm:h-4/5 rounded p-4 shadow-lg">
