@@ -5,13 +5,22 @@ import NavBar from "./components/NavBar";
 import ProfileDisplay from "./components/ProfileDisplay";
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
+import AuthForm from "./auth-form";
 
-export default async function Home() {
+export default function Home() {
   return (
-    <main>
-      <div>
-        <SideBar />
+    <div className="row">
+      <div className="col-6">
+        <h1 className="header">Supabase Auth + Storage</h1>
+        <p>
+          Experience our Auth and Storage through a simple profile management
+          example. Create a user profile and upload an avatar image. Fast,
+          simple, secure.
+        </p>
       </div>
-    </main>
+      <div className="col-6 auth-widget">
+        <AuthForm />
+      </div>
+    </div>
   );
 }
