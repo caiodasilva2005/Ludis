@@ -2,41 +2,28 @@
 import React from "react";
 import { useState } from "react";
 import ProfileDisplay from "./ProfileDisplay";
+import { Filter, Profile, profileTable } from "../Types/types";
+import { supabase } from "../utils/supabase";
 
-const ProfileDisplays = () => {
-  const [profiles, setProfiles] = useState([
-    {
-      id: 1,
-      username: "User1",
-      experienceLevel: "Beginner",
-      image: "../next.svg",
-    },
-    {
-      id: 2,
-      username: "User2",
-      experienceLevel: "Intermediate",
-      image: "../next.svg",
-    },
-  ]);
+interface ProfileDisplaysProps {
+  profiles: Profile[];
+  filter: Filter;
+}
 
-  const handleProfileChange = (newProfileData, profileId) => {
-    setProfiles((prevProfiles) =>
-      prevProfiles.map((profile) =>
-        profile.id === profileId ? { ...profile, ...newProfileData } : profile
-      )
-    );
-  };
-
+const ProfileDisplays = (props: ProfileDisplaysProps) => {
   return (
     <div className="overflow-y-auto h-56 w-screen">
-      {profiles.map((profile) => (
-        <ProfileDisplay
-          key={profile.id}
-          username={profile.username}
-          experience={profile.experienceLevel}
-          image={profile.image}
-        />
-      ))}
+      {props.profiles
+        .filter((profile) => profile.gender === "male")
+        .map((profile) => (
+          <ProfileDisplay
+            key={profile.id}
+            id={profile.id}
+            username={profile.username}
+            experience_level={profile.experience_level}
+            gender={profile.gender}
+          />
+        ))}
     </div>
   );
 };

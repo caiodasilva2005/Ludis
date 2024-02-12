@@ -1,28 +1,11 @@
 "use client";
 import React from "react";
-import MoreInfoModal from "./MoreInfoModal";
 import { Stack } from "@mui/material";
 import CustomButton from "./CustomButton";
 import { useState, useEffect } from "react";
+import { GenderFilter, ExperienceLevelFilter, Filter } from "../Types/types";
 
-type GenderFilter = {
-  filMale: boolean;
-  filFemale: boolean;
-  filOther: boolean;
-};
-
-type ExperienceFilter = {
-  filBeginner: boolean;
-  filIntermediate: boolean;
-  filAdvanced: boolean;
-};
-
-type Filter = {
-  gender: GenderFilter;
-  experienceLevel: ExperienceFilter;
-};
-
-const SideBar = () => {
+const SideBar = ({ onFetchProfiles }) => {
   const [selectedGender, setSelectedGender] = useState<GenderFilter>({
     filMale: false,
     filFemale: false,
@@ -30,7 +13,7 @@ const SideBar = () => {
   });
 
   const [selectedExperienceLevel, setSelectedExperienceLevel] =
-    useState<ExperienceFilter>({
+    useState<ExperienceLevelFilter>({
       filBeginner: false,
       filIntermediate: false,
       filAdvanced: false,
@@ -38,7 +21,7 @@ const SideBar = () => {
 
   const [filter, setFilter] = useState<Filter>({
     gender: selectedGender,
-    experienceLevel: selectedExperienceLevel,
+    experience_level: selectedExperienceLevel,
   });
 
   const [genderButtonState, setGenderButtonState] =
@@ -51,7 +34,7 @@ const SideBar = () => {
     setGenderButtonState("m-1 w-28 btn");
   };
 
-  const updateExperienceLevel = (experienceLevel: ExperienceFilter) => {
+  const updateExperienceLevel = (experienceLevel: ExperienceLevelFilter) => {
     setSelectedExperienceLevel(experienceLevel);
     setExpLButtonState("m-1 w-28 btn");
   };
@@ -59,7 +42,7 @@ const SideBar = () => {
   const handleFilter = () => {
     setFilter({
       gender: selectedGender,
-      experienceLevel: selectedExperienceLevel,
+      experience_level: selectedExperienceLevel,
     });
 
     setSelectedGender({
@@ -76,6 +59,8 @@ const SideBar = () => {
 
     setGenderButtonState("m-1 w-28 btn btn-success");
     setExpLButtonState("m-1 w-28 btn btn-success");
+
+    onFetchProfiles();
   };
 
   useEffect(() => {
@@ -107,7 +92,7 @@ const SideBar = () => {
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedGender.filMale ? "bg-green-600" : "bg-white"
                   }`}
                   onClick={() =>
@@ -123,7 +108,7 @@ const SideBar = () => {
               </li>
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedGender.filFemale ? "bg-green-600" : "bg-white"
                   }`}
                   onClick={() =>
@@ -139,7 +124,7 @@ const SideBar = () => {
               </li>
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedGender.filOther ? "bg-green-600" : "bg-white"
                   }`}
                   onClick={() =>
@@ -162,7 +147,7 @@ const SideBar = () => {
             <ul className="p-2 text-black shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedExperienceLevel.filBeginner
                       ? "bg-green-600"
                       : "bg-white"
@@ -180,7 +165,7 @@ const SideBar = () => {
               </li>
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedExperienceLevel.filIntermediate
                       ? "bg-green-600"
                       : "bg-white"
@@ -198,7 +183,7 @@ const SideBar = () => {
               </li>
               <li>
                 <a
-                  className={`${
+                  className={`text-black ${
                     selectedExperienceLevel.filAdvanced
                       ? "bg-green-600"
                       : "bg-white"
@@ -213,9 +198,6 @@ const SideBar = () => {
                 >
                   Advanced
                 </a>
-              </li>
-              <li>
-                <MoreInfoModal />
               </li>
             </ul>
           </details>
