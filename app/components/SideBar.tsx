@@ -5,7 +5,7 @@ import CustomButton from "./CustomButton";
 import { useState, useEffect } from "react";
 import { GenderFilter, ExperienceLevelFilter, Filter } from "../Types/types";
 
-const SideBar = ({ onFetchProfiles }) => {
+const SideBar = ({ onFetchProfiles, onFilterChange }) => {
   const [selectedGender, setSelectedGender] = useState<GenderFilter>({
     filMale: false,
     filFemale: false,
@@ -60,11 +60,12 @@ const SideBar = ({ onFetchProfiles }) => {
     setGenderButtonState("m-1 w-28 btn btn-success");
     setExpLButtonState("m-1 w-28 btn btn-success");
 
+    onFilterChange(updatedFilter);
     onFetchProfiles();
   };
 
   useEffect(() => {
-    console.log(filter);
+    console.log("Filter:", filter);
   });
 
   return (

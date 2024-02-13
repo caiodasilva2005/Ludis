@@ -10,3 +10,4 @@ if (sb_key === undefined) {
 }
 
 export const supabase = createClient(sb_url, sb_key);
+
