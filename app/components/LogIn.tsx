@@ -27,7 +27,7 @@ const LogIn = () => {
         <div className="border-2 border-gray-300 w-108 h-96 rounded shadow-sm flex items-center justify-center">
           <ul>
             <li>
-              <h1 className="font-bold py-4 ml-24 mb-4">LUDIS</h1>
+              <h1 className="font-bold py-4 ml-24 mb-4">LOG IN</h1>
             </li>
             <li>
               <div className="py-2">
