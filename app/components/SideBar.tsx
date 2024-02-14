@@ -5,7 +5,7 @@ import CustomButton from "./CustomButton";
 import { useState, useEffect } from "react";
 import { GenderFilter, ExperienceLevelFilter, Filter } from "../Types/types";
 
-const SideBar = ({ onFetchProfiles }) => {
+const SideBar = ({ onFetchProfiles, onFilterChange }) => {
   const [selectedGender, setSelectedGender] = useState<GenderFilter>({
     filMale: false,
     filFemale: false,
@@ -64,8 +64,8 @@ const SideBar = ({ onFetchProfiles }) => {
   };
 
   useEffect(() => {
-    console.log(filter);
-  });
+    onFilterChange(filter);
+  }, [filter, onFilterChange]);
 
   return (
     <div className="h-screen w-48 bg-gray-800 text-white p-4 flex justify-center">

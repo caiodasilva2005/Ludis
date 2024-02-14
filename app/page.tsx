@@ -1,5 +1,4 @@
 "use client";
-
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
 import { useState } from "react";
@@ -10,29 +9,33 @@ export default function Home() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
 
   const [filter, setFilter] = useState<Filter>({
-    gender: { filMale: true, filFemale: false, filOther: false },
+    gender: { filMale: false, filFemale: false, filOther: false },
     experience_level: {
       filBeginner: false,
-      filIntermediate: true,
+      filIntermediate: false,
       filAdvanced: false,
     },
   });
 
-  async function readProfiles() {
+  const readProfiles = async () => {
     const { data, error } = await supabase.from(profileTable).select();
 
     if (error) {
       alert(`ERROR ${error.code}:\n${error.message}`);
     } else {
       setProfiles(data);
-      console.log(data);
     }
-  }
+  };
+
+  const handleFilter = (fil: Filter) => {
+    setFilter(fil);
+    console.log(fil);
+  };
 
   return (
     <div className="flex">
       <div>
-        <SideBar onFetchProfiles={readProfiles} />
+        <SideBar onFetchProfiles={readProfiles} onFilterChange={handleFilter} />
       </div>
       <div>
         <ProfileDisplays profiles={profiles} filter={filter} />
