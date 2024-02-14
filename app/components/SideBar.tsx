@@ -60,13 +60,12 @@ const SideBar = ({ onFetchProfiles, onFilterChange }) => {
     setGenderButtonState("m-1 w-28 btn btn-success");
     setExpLButtonState("m-1 w-28 btn btn-success");
 
-    onFilterChange(updatedFilter);
     onFetchProfiles();
   };
 
   useEffect(() => {
-    console.log("Filter:", filter);
-  });
+    onFilterChange(filter);
+  }, [filter, onFilterChange]);
 
   return (
     <div className="h-screen w-48 bg-gray-800 text-white p-4 flex justify-center">

@@ -26,7 +26,20 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
         (experience_level.filAdvanced &&
           profile.experience_level === "advanced");
 
-      return genderFilter && experienceLevelFilter;
+      const isGenderActive =
+        gender.filMale || gender.filFemale || gender.filOther;
+      const isExeperienceLevelActive =
+        experience_level.filBeginner ||
+        experience_level.filIntermediate ||
+        experience_level.filAdvanced;
+
+      if (!isExeperienceLevelActive && isGenderActive) {
+        return genderFilter;
+      } else if (!isGenderActive && isExeperienceLevelActive) {
+        return experienceLevelFilter;
+      } else {
+        return genderFilter && experienceLevelFilter;
+      }
     });
   };
 

@@ -1,11 +1,9 @@
 "use client";
-
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
 import { useState } from "react";
 import { Profile, profileTable, Filter } from "./Types/types";
 import { supabase } from "./utils/supabase";
-import { pages } from "next/dist/build/templates/app-page";
 
 export default function Home() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -31,7 +29,7 @@ export default function Home() {
 
   const handleFilter = (fil: Filter) => {
     setFilter(fil);
-    console.log(pages);
+    console.log(fil);
   };
 
   return (
