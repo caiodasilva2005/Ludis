@@ -37,8 +37,10 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
         return genderFilter;
       } else if (!isGenderActive && isExeperienceLevelActive) {
         return experienceLevelFilter;
-      } else {
+      } else if (isGenderActive && isExeperienceLevelActive) {
         return genderFilter && experienceLevelFilter;
+      } else {
+        return true;
       }
     });
   };
@@ -46,11 +48,10 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
   const filteredProfiles = FilterProfiles();
 
   return (
-    <div className="overflow-y-auto h-56 w-screen">
+    <div className="overflow-y-auto h-screen w-screen">
       {filteredProfiles.map((profile) => (
         <ProfileDisplay
-          key={profile.id}
-          id={profile.id}
+          key={profile.username}
           username={profile.username}
           experience_level={profile.experience_level}
           gender={profile.gender}

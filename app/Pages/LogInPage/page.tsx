@@ -1,11 +1,12 @@
+import { UserIdProvider } from "@/app/Contexts/Contexts";
 import LogIn from "@/app/components/LogIn";
 import React from "react";
 
 const LogInPage = () => {
   return (
-    <div>
+    <UserIdProvider>
       <LogIn />
-    </div>
+    </UserIdProvider>
   );
 };
 

@@ -4,20 +4,20 @@ import { Typography } from "@mui/material";
 import { Profile } from "../Types/types";
 
 const ProfileDisplay = (prof: Profile) => {
+  const profile_img = "../..next.svg";
+
   return (
     <div className="box-content relative bg-white shadow-lg mt-1 p-4 sm:w-1/2 h-52 rounded-lg">
       <div className="flex justify-start items-center">
         <div className="border-4 rounded shadow-lg w-48 h-52">
-          <Image
-            alt="Profile pic"
-            src="../../next.svg"
-            width="960"
-            height="520"
-          />
+          <Image alt="Profile pic" src={profile_img} width="960" height="520" />
         </div>
         <div className="flex-col p-4">
           <Typography className="py-2 font-mono text-black">
             Name: {prof.username}
+          </Typography>
+          <Typography className="py-2 font-mono text-black">
+            Gender: {prof.gender}
           </Typography>
           <Typography className="py-2 font-mono text-black">
             Experience: {prof.experience_level}
