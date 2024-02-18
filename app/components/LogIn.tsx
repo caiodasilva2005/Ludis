@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import CustomButton from "./CustomButton";
 import { supabase } from "../utils/supabase";
 import { Profile, profileTable } from "../Types/types";
-import { useUserId } from "../Contexts/Contexts";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setUserId } = useUserId();
 
   const handleUsernameChange = (value: string) => {
     setUsername(value);
@@ -33,15 +31,12 @@ const LogIn = () => {
         .from(profileTable)
         .insert([newProf])
         .select();
+
       if (error) {
         console.error("Error inserting row:", error.message, error.details);
         return;
       }
       console.log("Inserted Row:", data);
-      const profileID = data[0].id;
-      setUserId(profileID);
-
-      console.log(profileID);
     } catch (error) {
       console.error("Error inserting row:", error);
     }

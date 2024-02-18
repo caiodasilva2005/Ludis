@@ -10,7 +10,6 @@ interface ProfileDisplaysProps {
 const ProfileDisplays = (props: ProfileDisplaysProps) => {
   const FilterProfiles = () => {
     const { gender, experience_level } = props.filter;
-    console.log(props.filter);
 
     return props.profiles.filter((profile) => {
       const genderFilter =

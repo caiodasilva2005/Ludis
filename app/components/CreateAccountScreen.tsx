@@ -4,18 +4,16 @@ import { useState } from "react";
 import CustomButton from "./CustomButton";
 import { supabase } from "../utils/supabase";
 import { profileTable } from "../Types/types";
-import { useUserId } from "../Contexts/Contexts";
 
 const CreateAccountScreen = () => {
-  const { userId } = useUserId();
-
   const [gender, setGender] = useState("male");
   const [experience_level, setExperienceLevel] = useState("beginner");
-  const [bio, setBio] = useState("");
   const [file, setFile] = useState("");
+  const [bio, setBio] = useState("");
 
   const updateAccount = async () => {
-    console.log(userId);
+    const userId = 140;
+
     try {
       const { error } = await supabase
         .from(profileTable)

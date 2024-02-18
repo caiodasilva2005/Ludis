@@ -7,6 +7,7 @@ export interface Profile {
   experience_level: string;
   gender: string;
   age?: number;
+  userId?: number;
 }
 
 export interface GenderFilter {
