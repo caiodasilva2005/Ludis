@@ -12,7 +12,7 @@ const CreateAccountScreen = () => {
   const [bio, setBio] = useState("");
 
   const updateAccount = async () => {
-    const userId = 140;
+    const userId = 142;
 
     try {
       const { error } = await supabase

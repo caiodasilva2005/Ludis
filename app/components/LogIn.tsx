@@ -36,9 +36,29 @@ const LogIn = () => {
         console.error("Error inserting row:", error.message, error.details);
         return;
       }
+      const profileId = data[0].id;
+      console.log(profileId);
       console.log("Inserted Row:", data);
     } catch (error) {
       console.error("Error inserting row:", error);
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      const { data, error } = await supabase
+        .from(profileTable)
+        .select()
+        .eq("username", username);
+      if (error) {
+        throw error;
+      }
+      if (data !== null && data[0].password === password) {
+        const profileId = data[0].id;
+        console.log("found:", profileId);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -77,6 +97,14 @@ const LogIn = () => {
                     handleCreateAccount(username, password)
                   }
                   page="../Pages/CreateAccountPage"
+                />
+              </div>
+              <div>
+                <CustomButton
+                  type="info"
+                  buttonText="Sign In"
+                  handleClick={async () => handleSignIn()}
+                  page="../"
                 />
               </div>
             </li>
