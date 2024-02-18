@@ -1,13 +1,13 @@
 export interface Profile {
-  id: number;
-  createdAt?: Date;
   firstName?: string;
   lastName?: string;
   username: string;
+  password?: string;
   image?: string;
   experience_level: string;
   gender: string;
   age?: number;
+  userId?: number;
 }
 
 export interface GenderFilter {

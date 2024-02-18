@@ -1,24 +1,45 @@
 "use client";
 import React, { useState } from "react";
-import CreateAccountButton from "./CreateAccountButton";
+import CustomButton from "./CustomButton";
+import { supabase } from "../utils/supabase";
+import { Profile, profileTable } from "../Types/types";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUsernameChange = (value) => {
+  const handleUsernameChange = (value: string) => {
     setUsername(value);
   };
 
-  const handlePasswordChange = (value) => {
+  const handlePasswordChange = (value: string) => {
     setPassword(value);
   };
 
-  const handleCreateAccount = (username, password) => {
+  const handleCreateAccount = async (username: string, password: string) => {
     console.log("Username:", username);
     console.log("Password:", password);
-    //Jordan: The username and password information is stored in these variables,
-    //see if you can get them into the database
+    const newProf: Profile = {
+      username: username,
+      password: password,
+      gender: "",
+      experience_level: "",
+    };
+
+    try {
+      const { data, error } = await supabase
+        .from(profileTable)
+        .insert([newProf])
+        .select();
+
+      if (error) {
+        console.error("Error inserting row:", error.message, error.details);
+        return;
+      }
+      console.log("Inserted Row:", data);
+    } catch (error) {
+      console.error("Error inserting row:", error);
+    }
   };
 
   return (
@@ -49,10 +70,13 @@ const LogIn = () => {
             </li>
             <li>
               <div className="p-4 ml-8 mt-4">
-                <CreateAccountButton
-                  onClick={handleCreateAccount}
-                  username={username}
-                  password={password}
+                <CustomButton
+                  type="info"
+                  buttonText="Create Account"
+                  handleClick={async () =>
+                    handleCreateAccount(username, password)
+                  }
+                  page="../Pages/CreateAccountPage"
                 />
               </div>
             </li>

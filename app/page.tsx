@@ -4,6 +4,7 @@ import SideBar from "./components/SideBar";
 import { useState } from "react";
 import { Profile, profileTable, Filter } from "./Types/types";
 import { supabase } from "./utils/supabase";
+import NavBar from "./components/NavBar";
 
 export default function Home() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -34,6 +35,9 @@ export default function Home() {
 
   return (
     <div className="flex">
+      <div>
+        <NavBar />
+      </div>
       <div>
         <SideBar onFetchProfiles={readProfiles} onFilterChange={handleFilter} />
       </div>
