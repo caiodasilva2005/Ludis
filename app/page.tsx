@@ -1,21 +1,48 @@
-import ProfileDisplay from "./components/ProfileDisplay";
+"use client";
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
-import AuthForm from "./auth-form";
+import { useState } from "react";
+import { Profile, profileTable, Filter } from "./Types/types";
+import { supabase } from "./utils/supabase";
+import NavBar from "./components/NavBar";
 
 export default function Home() {
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+
+  const [filter, setFilter] = useState<Filter>({
+    gender: { filMale: false, filFemale: false, filOther: false },
+    experience_level: {
+      filBeginner: false,
+      filIntermediate: false,
+      filAdvanced: false,
+    },
+  });
+
+  const readProfiles = async () => {
+    const { data, error } = await supabase.from(profileTable).select();
+
+    if (error) {
+      alert(`ERROR ${error.code}:\n${error.message}`);
+    } else {
+      setProfiles(data);
+    }
+  };
+
+  const handleFilter = (fil: Filter) => {
+    setFilter(fil);
+    console.log(fil);
+  };
+
   return (
-    <div className="row">
-      <div className="col-6">
-        <h1 className="header">Supabase Auth + Storage</h1>
-        <p>
-          Experience our Auth and Storage through a simple profile management
-          example. Create a user profile and upload an avatar image. Fast,
-          simple, secure.
-        </p>
+    <div className="flex">
+      <div>
+        <NavBar />
       </div>
-      <div className="col-6 auth-widget">
-        <AuthForm />
+      <div>
+        <SideBar onFetchProfiles={readProfiles} onFilterChange={handleFilter} />
+      </div>
+      <div>
+        <ProfileDisplays profiles={profiles} filter={filter} />
       </div>
     </div>
   );

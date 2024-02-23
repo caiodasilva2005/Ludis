@@ -1,21 +1,40 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import { Button } from "react-bootstrap";
+import React, { MouseEventHandler } from "react";
 
 interface ButtonProps {
-  page: string;
+  page?: string;
   buttonText: string;
   type: string;
+  handleClick?: MouseEventHandler<HTMLAnchorElement>;
 }
-const CustomButton: React.FC<ButtonProps> = ({ page, buttonText, type }) => {
-  const buttonClass = "btn btn-" + type;
 
-  return (
-    <a role="button" className={buttonClass} href={page}>
-      {buttonText}
-    </a>
-  );
+const CustomButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+  const buttonClass = "btn btn-" + props.type;
+
+  if (props.handleClick && props.page) {
+    return (
+      <a
+        role="button"
+        className={buttonClass}
+        href={props.page}
+        onClick={props.handleClick}
+      >
+        {props.buttonText}
+      </a>
+    );
+  } else if (props.page) {
+    return (
+      <a role="button" className={buttonClass} href={props.page}>
+        {props.buttonText}
+      </a>
+    );
+  } else {
+    return (
+      <a role="button" className={buttonClass} onClick={props.handleClick}>
+        {props.buttonText}
+      </a>
+    );
+  }
 };
 
 export default CustomButton;
