@@ -54,6 +54,7 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
           username={profile.username}
           experience_level={profile.experience_level}
           gender={profile.gender}
+          image={profile.image}
         />
       ))}
     </div>
