@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 
 const CreateAccountScreen = () => {
+  const [profileId, setProfileId] = useState<number>();
+
   const [gender, setGender] = useState("male");
   const [experience_level, setExperienceLevel] = useState("beginner");
   const [file, setFile] = useState<File>();
@@ -15,7 +17,6 @@ const CreateAccountScreen = () => {
   const [bio, setBio] = useState("");
 
   const updateAccount = async () => {
-    const userId = 3;
     try {
       const { error } = await supabase
         .from(profileTable)
@@ -24,7 +25,7 @@ const CreateAccountScreen = () => {
           experience_level: experience_level,
           image: img,
         })
-        .eq("id", userId);
+        .eq("id", profileId);
       if (error) {
         console.log(error.message);
         console.log("Hey");
@@ -67,6 +68,13 @@ const CreateAccountScreen = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const id = Number(sessionStorage.getItem("ProfileID")!);
+    console.log("ID:", id);
+    setProfileId(id);
+    console.log(profileId);
+  }, [profileId]);
 
   return (
     <div className="flex justify-center items-center h-screen">

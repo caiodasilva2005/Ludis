@@ -11,7 +11,7 @@ const PhotoDisplay = ({ profile }) => {
             alt="Profile pic"
             src={profile.image}
             height="520"
-            width="480"
+            width="460"
             objectFit="cover"
             className="rounded"
           />
