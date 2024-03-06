@@ -1,5 +1,5 @@
 export interface Profile {
-  firstName?: string;
+  firstName?: File;
   lastName?: string;
   username: string;
   password?: string;
@@ -7,7 +7,7 @@ export interface Profile {
   experience_level: string;
   gender: string;
   age?: number;
-  userId?: number;
+  bio?: string;
 }
 
 export interface GenderFilter {
@@ -29,3 +29,4 @@ export interface Filter {
 
 export const profileTable = "profiles";
 export const filterTable = "filters";
+export const imageBucket = "avatars";

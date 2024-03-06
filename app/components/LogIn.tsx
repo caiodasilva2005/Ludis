@@ -38,6 +38,7 @@ const LogIn = () => {
       }
       const profileId = data[0].id;
       console.log(profileId);
+      sessionStorage.setItem("ProfileID", profileId);
       console.log("Inserted Row:", data);
     } catch (error) {
       console.error("Error inserting row:", error);
