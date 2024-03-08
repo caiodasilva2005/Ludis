@@ -1,35 +1,87 @@
 import React from "react";
+import { Box, Stack, Grid, Typography } from "@mui/material";
 import Image from "next/image";
-import { Typography } from "@mui/material";
-import { Profile, imageBucket, profileTable } from "../Types/types";
-import PhotoDisplay from "./PhotoDisplay";
+import InfoDisplay from "./InfoDisplay";
 import CustomButton from "./CustomButton";
 
-const ProfileDisplay = (prof: Profile) => {
+const ProfileDisplay = ({ profile }) => {
+  const pushInfo = () => {
+    console.log("Push:", profile);
+  };
+
+  const handleChat = () => {
+    console.log("handle Chat");
+  };
+
   return (
-    <div className="box-content relative bg-white shadow-lg mt-1 p-4 sm:w-1/2 h-52 rounded-lg">
-      <div className="flex border-4 rounded shadow-lg w-48 h-52">
-        <PhotoDisplay profile={prof} />
-        <div className="flex-col p-4">
-          <Typography className="py-2 font-mono text-black">
-            Name: {prof.username}
+    <Box
+      sx={{
+        display: "flex",
+        padding: 4,
+        width: "50vw",
+        height: "50vh",
+        bgcolor: "white",
+        borderRadius: 4,
+        boxShadow: 4,
+      }}
+    >
+      <Grid container spacing={4} alignItems="center">
+        <Grid item xs={5}>
+          <Box
+            sx={{
+              borderRadius: 2,
+              height: 200,
+              width: 150,
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              src={profile.image ? profile.image : "/next.svg"}
+              alt="Profile picture"
+              layout="fill"
+              objectFit="cover"
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography
+            sx={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: 20,
+            }}
+          >
+            {profile.first_name} {profile.last_name}
           </Typography>
-          <Typography className="py-2 font-mono text-black">
-            Gender: {prof.gender}
-          </Typography>
-          <Typography className="py-2 font-mono text-black">
-            Experience: {prof.experience_level}
-          </Typography>
-        </div>
-      </div>
-      <div className="absolute bottom-4 right-4">
+          <Stack spacing={2} justifyContent="center">
+            <InfoDisplay label="Username" info={profile.username} />
+            <InfoDisplay label="Age" info={profile.age} />
+            <InfoDisplay label="Gender" info={profile.gender} />
+            <InfoDisplay label="Experience" info={profile.experience_level} />
+          </Stack>
+        </Grid>
+      </Grid>
+      <Box
+        sx={{
+          width: 100,
+          height: 100,
+        }}
+      >
         <CustomButton
-          buttonText="View Profile"
-          page="../Pages/ViewProfilePage"
-          type="info"
+          buttonProps={{
+            label: "View Profile",
+            onClick: pushInfo,
+          }}
         />
-      </div>
-    </div>
+        <CustomButton
+          buttonProps={{
+            label: "Chat",
+            onClick: handleChat,
+          }}
+        />
+      </Box>
+    </Box>
   );
 };
 

@@ -1,40 +1,22 @@
-"use client";
-import React, { MouseEventHandler } from "react";
+import React from "react";
+import { Button } from "@mui/material";
 
 interface ButtonProps {
+  label: string;
   page?: string;
-  buttonText: string;
-  type: string;
-  handleClick?: MouseEventHandler<HTMLAnchorElement>;
+  onClick?: Function;
 }
 
-const CustomButton: React.FC<ButtonProps> = (props: ButtonProps) => {
-  const buttonClass = "btn btn-" + props.type;
-
-  if (props.handleClick && props.page) {
-    return (
-      <a
-        role="button"
-        className={buttonClass}
-        href={props.page}
-        onClick={props.handleClick}
-      >
-        {props.buttonText}
-      </a>
-    );
-  } else if (props.page) {
-    return (
-      <a role="button" className={buttonClass} href={props.page}>
-        {props.buttonText}
-      </a>
-    );
-  } else {
-    return (
-      <a role="button" className={buttonClass} onClick={props.handleClick}>
-        {props.buttonText}
-      </a>
-    );
-  }
+const CustomButton = ({ buttonProps }) => {
+  return (
+    <Button
+      variant="contained"
+      onClick={buttonProps.onClick}
+      href={buttonProps.page}
+    >
+      {buttonProps.label}
+    </Button>
+  );
 };
 
 export default CustomButton;
