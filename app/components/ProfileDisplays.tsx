@@ -2,9 +2,9 @@ import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
 import { Filter, Profile } from "../Types/types";
 import { Box, Stack } from "@mui/material";
-import { useState, useEffect } from "react";
 
 interface ProfileDisplaysProps {
+  currentUser: Profile;
   profiles: Profile[];
   filter: Filter;
 }
@@ -14,6 +14,14 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
     const { gender, experience_level } = props.filter;
 
     return props.profiles.filter((profile) => {
+      if (profile.id === props.currentUser.id) {
+        return false;
+      }
+
+      if (props.currentUser.age! >= 18 && profile.age! < 18) {
+        return false;
+      }
+
       const genderFilter =
         (gender.filMale && profile.gender === "Male") ||
         (gender.filFemale && profile.gender === "Female") ||

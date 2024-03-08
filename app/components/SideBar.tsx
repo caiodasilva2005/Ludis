@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import FilterGroup from "./FilterGroup";
 import CustomButton from "./CustomButton";
 
-const SideBar = ({ onChange, onRunFilter }) => {
+const SideBar = ({ currentUser, onChange, onRunFilter }) => {
   return (
     <Box
       sx={{
@@ -25,7 +25,7 @@ const SideBar = ({ onChange, onRunFilter }) => {
           color: "white",
         }}
       >
-        Username
+        {currentUser ? currentUser.username : ""}
       </Typography>
       <Stack spacing={2}>
         <FilterGroup

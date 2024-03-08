@@ -19,8 +19,25 @@ const CreateAccountPage = () => {
     if (storedUserId) {
       setUserId(Number(storedUserId));
     }
-    console.log(storedUserId);
   }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (userId !== -1) {
+        const { data, error } = await supabase
+          .from(profileTable)
+          .select()
+          .eq("id", userId)
+          .single();
+        if (error) {
+          console.log(`${error.code}: ${error.message}`);
+          return;
+        }
+        setProfileInfo(data);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
 
   const [dob, setDob] = useState({
     day: "",
@@ -102,7 +119,7 @@ const CreateAccountPage = () => {
     });
   }
 
-  const handleSubmit = async () => {
+  async function Submit() {
     const { error } = await supabase
       .from(profileTable)
       .update(profileInfo)
@@ -111,6 +128,11 @@ const CreateAccountPage = () => {
       console.log(`${error.code}: ${error.message}`);
       return;
     }
+  }
+
+  const handleSubmit = async () => {
+    await Submit();
+    window.location.href = "/";
   };
 
   return (
@@ -164,6 +186,7 @@ const CreateAccountPage = () => {
                 label="Bio"
                 multiline
                 rows={2}
+                defaultValue={profileInfo.bio ? profileInfo.bio : " "}
                 onChange={(e) =>
                   setProfileInfo({
                     ...profileInfo,
@@ -184,6 +207,9 @@ const CreateAccountPage = () => {
                 <TextField
                   id="outlined-firstname"
                   label="First Name"
+                  defaultValue={
+                    profileInfo.first_name ? profileInfo.first_name : " "
+                  }
                   sx={{
                     width: 300,
                   }}
@@ -197,6 +223,9 @@ const CreateAccountPage = () => {
                 <TextField
                   id="outlined-lastname"
                   label="Last Name"
+                  defaultValue={
+                    profileInfo.last_name ? profileInfo.last_name : " "
+                  }
                   sx={{
                     width: 300,
                   }}
@@ -210,6 +239,7 @@ const CreateAccountPage = () => {
               </Box>
               <TextField
                 id="outlined-select-gender"
+                defaultValue={profileInfo.gender ? profileInfo.gender : " "}
                 select
                 label="Gender"
                 onChange={(e) =>
@@ -228,6 +258,11 @@ const CreateAccountPage = () => {
               <TextField
                 id="outlined-select-experience"
                 select
+                defaultValue={
+                  profileInfo.experience_level
+                    ? profileInfo.experience_level
+                    : " "
+                }
                 label="Experience"
                 onChange={(e) =>
                   setProfileInfo({
@@ -316,7 +351,6 @@ const CreateAccountPage = () => {
           buttonProps={{
             label: "Submit",
             onClick: async () => await handleSubmit(),
-            page: "/",
           }}
         />
       </Box>

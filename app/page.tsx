@@ -1,13 +1,15 @@
 "use client";
 import ProfileDisplays from "./components/ProfileDisplays";
 import SideBar from "./components/SideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Profile, profileTable, Filter } from "./Types/types";
 import { supabase } from "./utils/supabase";
 import { Box, Grid } from "@mui/material";
 import NavBar from "./components/NavBar";
 
 export default function Home() {
+  const [userId, setUserId] = useState<number>(-1);
+  const [currentUser, setCurrentUser] = useState<Profile>();
   const [profiles, setProfiles] = useState<Profile[]>([]);
 
   const [filter, setFilter] = useState<Filter>({
@@ -20,6 +22,35 @@ export default function Home() {
   });
 
   const [inputFilter, setInputFilter] = useState<Filter>(filter);
+
+  useEffect(() => {
+    const storedUserId = sessionStorage.getItem("CurrentUser");
+    if (storedUserId) {
+      setUserId(Number(storedUserId));
+    }
+    console.log("ID:", storedUserId);
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (userId !== -1) {
+        const { data, error } = await supabase
+          .from(profileTable)
+          .select()
+          .eq("id", userId)
+          .single();
+
+        if (error) {
+          console.log(`${error.code}: ${error.message}`);
+          return;
+        }
+
+        setCurrentUser(data);
+      }
+    };
+
+    fetchProfile();
+  }, [userId]);
 
   const handleFilterChange = (field: string) => {
     /* Gender Filter */
@@ -88,12 +119,17 @@ export default function Home() {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <SideBar
+            currentUser={currentUser}
             onChange={handleFilterChange}
             onRunFilter={handleRunFilter}
           />
         </Grid>
         <Grid item xs={9}>
-          <ProfileDisplays profiles={profiles} filter={inputFilter} />
+          <ProfileDisplays
+            currentUser={currentUser!}
+            profiles={profiles}
+            filter={inputFilter}
+          />
         </Grid>
       </Grid>
     </Box>
