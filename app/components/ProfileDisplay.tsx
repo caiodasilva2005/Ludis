@@ -9,6 +9,10 @@ const ProfileDisplay = ({ profile }) => {
     console.log("Push:", profile);
   };
 
+  const handleChat = () => {
+    console.log("handle Chat");
+  };
+
   return (
     <Box
       sx={{
@@ -68,6 +72,12 @@ const ProfileDisplay = ({ profile }) => {
           buttonProps={{
             label: "View Profile",
             onClick: pushInfo,
+          }}
+        />
+        <CustomButton
+          buttonProps={{
+            label: "Chat",
+            onClick: handleChat,
           }}
         />
       </Box>
