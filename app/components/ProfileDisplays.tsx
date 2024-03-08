@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
 import { Filter, Profile } from "../Types/types";
+import { Box, Stack } from "@mui/material";
 
 interface ProfileDisplaysProps {
   profiles: Profile[];
@@ -13,17 +14,17 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
 
     return props.profiles.filter((profile) => {
       const genderFilter =
-        (gender.filMale && profile.gender === "male") ||
-        (gender.filFemale && profile.gender === "female") ||
-        (gender.filOther && profile.gender === "other");
+        (gender.filMale && profile.gender === "Male") ||
+        (gender.filFemale && profile.gender === "Female") ||
+        (gender.filOther && profile.gender === "Other");
 
       const experienceLevelFilter =
         (experience_level.filBeginner &&
-          profile.experience_level === "beginner") ||
+          profile.experience_level === "Beginner") ||
         (experience_level.filIntermediate &&
-          profile.experience_level === "intermediate") ||
+          profile.experience_level === "Intermediate") ||
         (experience_level.filAdvanced &&
-          profile.experience_level === "advanced");
+          profile.experience_level === "Advanced");
 
       const isGenderActive =
         gender.filMale || gender.filFemale || gender.filOther;
@@ -38,26 +39,27 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
         return experienceLevelFilter;
       } else if (isGenderActive && isExeperienceLevelActive) {
         return genderFilter && experienceLevelFilter;
-      } else {
-        return true;
       }
+
+      return true;
     });
   };
 
   const filteredProfiles = FilterProfiles();
 
   return (
-    <div className="overflow-y-auto h-screen w-screen">
-      {filteredProfiles.map((profile) => (
-        <ProfileDisplay
-          key={profile.username}
-          username={profile.username}
-          experience_level={profile.experience_level}
-          gender={profile.gender}
-          image={profile.image}
-        />
-      ))}
-    </div>
+    <Box
+      sx={{
+        overflowY: "auto",
+        height: "100vh",
+      }}
+    >
+      <Stack spacing={2}>
+        {filteredProfiles.map((profile) => (
+          <ProfileDisplay key={profile.username} profile={profile} />
+        ))}
+      </Stack>
+    </Box>
   );
 };
 

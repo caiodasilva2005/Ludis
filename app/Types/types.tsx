@@ -1,11 +1,11 @@
 export interface Profile {
-  firstName?: File;
-  lastName?: string;
-  username: string;
+  username?: string;
   password?: string;
+  first_name?: string;
+  last_name?: string;
   image?: string;
-  experience_level: string;
-  gender: string;
+  experience_level?: string;
+  gender?: string;
   age?: number;
   bio?: string;
 }

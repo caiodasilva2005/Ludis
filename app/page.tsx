@@ -4,6 +4,7 @@ import SideBar from "./components/SideBar";
 import { useState } from "react";
 import { Profile, profileTable, Filter } from "./Types/types";
 import { supabase } from "./utils/supabase";
+import { Box, Grid } from "@mui/material";
 import NavBar from "./components/NavBar";
 
 export default function Home() {
@@ -18,32 +19,83 @@ export default function Home() {
     },
   });
 
-  const readProfiles = async () => {
-    const { data, error } = await supabase.from(profileTable).select();
+  const [inputFilter, setInputFilter] = useState<Filter>(filter);
 
-    if (error) {
-      alert(`ERROR ${error.code}:\n${error.message}`);
-    } else {
-      setProfiles(data);
+  const handleFilterChange = (field: string) => {
+    /* Gender Filter */
+    if (field === "Male") {
+      setFilter({
+        ...filter,
+        gender: { ...filter.gender, filMale: !filter.gender.filMale },
+      });
+    } else if (field === "Female") {
+      setFilter({
+        ...filter,
+        gender: { ...filter.gender, filFemale: !filter.gender.filFemale },
+      });
+    } else if (field === "Other") {
+      setFilter({
+        ...filter,
+        gender: { ...filter.gender, filOther: !filter.gender.filOther },
+      });
+    }
+
+    /* Experience Filter*/
+    if (field === "Beginner") {
+      setFilter({
+        ...filter,
+        experience_level: {
+          ...filter.experience_level,
+          filBeginner: !filter.experience_level.filBeginner,
+        },
+      });
+    } else if (field === "Intermediate") {
+      setFilter({
+        ...filter,
+        experience_level: {
+          ...filter.experience_level,
+          filIntermediate: !filter.experience_level.filIntermediate,
+        },
+      });
+    } else if (field === "Advanced") {
+      setFilter({
+        ...filter,
+        experience_level: {
+          ...filter.experience_level,
+          filAdvanced: !filter.experience_level.filAdvanced,
+        },
+      });
     }
   };
 
-  const handleFilter = (fil: Filter) => {
-    setFilter(fil);
-    console.log(fil);
+  async function readProfiles() {
+    const { data, error } = await supabase.from(profileTable).select();
+    if (error) {
+      alert(`ERROR ${error.code}:\n${error.message}`);
+      return;
+    }
+    setProfiles(data);
+  }
+
+  const handleRunFilter = async () => {
+    await readProfiles();
+    setInputFilter(filter);
   };
 
   return (
-    <div className="flex">
-      <div>
-        <NavBar />
-      </div>
-      <div>
-        <SideBar onFetchProfiles={readProfiles} onFilterChange={handleFilter} />
-      </div>
-      <div>
-        <ProfileDisplays profiles={profiles} filter={filter} />
-      </div>
-    </div>
+    <Box>
+      <NavBar />
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <SideBar
+            onChange={handleFilterChange}
+            onRunFilter={handleRunFilter}
+          />
+        </Grid>
+        <Grid item xs={9}>
+          <ProfileDisplays profiles={profiles} filter={inputFilter} />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
