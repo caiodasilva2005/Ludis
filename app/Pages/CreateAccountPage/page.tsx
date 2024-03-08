@@ -19,6 +19,7 @@ const CreateAccountPage = () => {
     if (storedUserId) {
       setUserId(Number(storedUserId));
     }
+    console.log(storedUserId);
   }, []);
 
   const [dob, setDob] = useState({
@@ -102,13 +103,13 @@ const CreateAccountPage = () => {
   }
 
   const handleSubmit = async () => {
-    console.log(userId);
     const { error } = await supabase
       .from(profileTable)
       .update(profileInfo)
       .eq("id", userId);
     if (error) {
       console.log(`${error.code}: ${error.message}`);
+      return;
     }
   };
 
