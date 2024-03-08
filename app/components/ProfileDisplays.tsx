@@ -2,6 +2,7 @@ import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
 import { Filter, Profile } from "../Types/types";
 import { Box, Stack } from "@mui/material";
+import { useState, useEffect } from "react";
 
 interface ProfileDisplaysProps {
   profiles: Profile[];
