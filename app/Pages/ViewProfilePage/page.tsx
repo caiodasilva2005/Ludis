@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const ViewProfilePage = () => {
   const [profileData, setProfileData] = useState<Profile>();
-  const userId = 230;
+  const userId = 231;
 
   useEffect(() => {
     const fetchProfileInfo = async () => {
@@ -32,11 +32,10 @@ const ViewProfilePage = () => {
   return (
     <div className="h-screen w-full grid grid-cols-3 gap-0 flex-auto">
       <div className="m-3 h-full">
-        <div className="m-10 max-h-60 flex-auto place-content-center content-center">
+        <div className="m-16 max-h-44 flex-auto place-content-center content-center">
           {profileData?.image && (
             <Image className="rounded-full"
               src={profileData?.image}
-              //src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
               alt="Profile.pic"
               height="300"
               width="350"
@@ -44,26 +43,60 @@ const ViewProfilePage = () => {
             />
           )}
         </div>
-        <div className="flex justify-center items-center text-center m-5">
+        <div className="flex justify-center items-center text-center m-9">
           <h1 className="text-4xl font-mono">{profileData?.username}</h1>
         </div>
-        <div className="bg-black h-3/5 m-5">
-            <h1>FEET</h1>
+        <div className="grid col-span-1 bg-black h-3/5 max-w-full m-5 rounded-lg">
+          <div>
+            <h1 className="p-4 font-mono">Gender: {profileData?.gender}</h1>
+          </div>
+          <div>
+            <h1 className="p-4 font-mono">Experience: {profileData?.experience_level}</h1>
+          </div>
+          <div>
+            <h1 className="p-4 font-mono">Location: Boston</h1>
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 w-full h-full bg-black col-span-2 flex-auto">
-        <div className="top-0 left-0 h-2/6 col-span-3">
-              <h1>Summary</h1>
+      <div className="grid grid-cols-3 grid-rows-10 w-full bg-black col-span-2 flex-auto rounded-lg max-h-full">
+        <div className="top-0 left-0 h-2/3 col-span-3 row-span-4">
+          <h1 className="p-4 font-mono text-2xl font-bold">About</h1>
+          <p className="p-6 font-mono overflow-y-scroll max-h-80 m-0">{profileData?.bio}</p>
         </div>
-        <div className="h-3/5">
-          <h1>Friends</h1>
+        <div className="h-full col-span-1 row-span-6">
+          <h1 className="p-4 font-mono text-2xl font-bold">Friends</h1>
+          <div className="grid grid-row-10 row-span-1 grid-col-1 col-span-1 overflow-y-scroll max-h-96">
+            <h1 className="p-6 font-mono">Friend 1</h1>
+            <h1 className="p-6 font-mono">Friend 2</h1>
+            <h1 className="p-6 font-mono">Friend 3</h1>
+            <h1 className="p-6 font-mono">Friend 4</h1>
+            <h1 className="p-6 font-mono">Friend 5</h1>
+            <h1 className="p-6 font-mono">Friend 6</h1>
+            <h1 className="p-6 font-mono">Friend 5</h1>
+            <h1 className="p-6 font-mono">Friend 6</h1>
+          </div>
         </div>
-        <div className="h-3/5 col-span-2">
-          <h1>Posts</h1>
-        </div>
+        <div className="col-span-2 row-span-6">
+          <h1 className="p-4 font-mono text-2xl font-bold">Posts</h1>
+          <div className="grid grid-row-5 col-span-2 overflow-y-scroll max-h-96">
+            <h1 className="p-6 font-mono">Post 1</h1>
+            <h1 className="p-6 font-mono">Post 2</h1>
+            <h1 className="p-6 font-mono">Post 3</h1>
+            <h1 className="p-6 font-mono">Post 4</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+            <h1 className="p-6 font-mono">Post 5</h1>
+          </div>
+         </div>
       </div>
     </div>
   );
 };
+// Replace Boston with {profileData?.location}
+// ^^^ requires the addition of location column in the database
+// SIDENOTE: Could also add searchbar filter to filter upon location rather than a selection-based one
 
 export default ViewProfilePage;
