@@ -66,46 +66,46 @@ const ViewProfilePage = () => {
         </div>
         <div className="grid grid-row-4 grid-col-3 gap-5">
           <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono col-span-1">Gender: {profileData?.gender}</h1>
+            <h1 className="p-4 font-mono col-span-1 text-white">Gender: {profileData?.gender}</h1>
           </div>
           <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono">Experience: {profileData?.experience_level}</h1>
+            <h1 className="p-4 font-mono text-white">Experience: {profileData?.experience_level}</h1>
           </div>
           <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono">Age: {profileData?.age}</h1>
+            <h1 className="p-4 font-mono text-white">Age: {profileData?.age}</h1>
           </div>
           <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono">Location: {profileData?.location}</h1>
+            <h1 className="p-4 font-mono text-white">Location: {profileData?.location}</h1>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-3 grid-rows-10 w-full bg-indigo-800 col-span-2 flex-auto rounded-lg max-h-full">
         <div className="top-0 left-0 h-2/3 col-span-3 row-span-4">
           <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">About</h1>
-          <p className="p-6 font-mono overflow-y-auto max-h-80 m-0">{profileData?.bio}</p>
+          <p className="p-6 font-mono overflow-y-auto max-h-80 m-0 text-white">{profileData?.bio}</p>
         </div>
         <div className="h-full col-span-1 row-span-6">
           <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">Friends</h1>
           <div className="grid grid-row-10 row-span-1 grid-col-1 col-span-1 overflow-y-auto max-h-96">
-            <h1 className="p-6 font-mono">Friend 1</h1>
-            <h1 className="p-6 font-mono">Friend 2</h1>
-            <h1 className="p-6 font-mono">Friend 3</h1>
-            <h1 className="p-6 font-mono">Friend 4</h1>
-            <h1 className="p-6 font-mono">Friend 5</h1>
-            <h1 className="p-6 font-mono">Friend 6</h1>
-            <h1 className="p-6 font-mono">Friend 5</h1>
-            <h1 className="p-6 font-mono">Friend 6</h1>
+            <h1 className="p-6 font-mono text-white">Friend 1</h1>
+            <h1 className="p-6 font-mono text-white">Friend 2</h1>
+            <h1 className="p-6 font-mono text-white">Friend 3</h1>
+            <h1 className="p-6 font-mono text-white">Friend 4</h1>
+            <h1 className="p-6 font-mono text-white">Friend 5</h1>
+            <h1 className="p-6 font-mono text-white">Friend 6</h1>
+            <h1 className="p-6 font-mono text-white">Friend 5</h1>
+            <h1 className="p-6 font-mono text-white">Friend 6</h1>
           </div>
         </div>
         <div className="col-span-2 row-span-6">
           <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">Posts</h1>
           <div className="grid grid-row-5 col-span-2 overflow-y-auto max-h-96">
-            <h1 className="p-6 font-mono">{postData?.content}</h1>
-            <h1 className="p-6 font-mono">Post 2</h1>
-            <h1 className="p-6 font-mono">Post 3</h1>
-            <h1 className="p-6 font-mono">Post 4</h1>
-            <h1 className="p-6 font-mono">Post 5</h1>
-            <h1 className="p-6 font-mono">Post 6</h1>
+            <h1 className="p-6 font-mono text-white">{postData?.content}</h1>
+            <h1 className="p-6 font-mono text-white">Post 2</h1>
+            <h1 className="p-6 font-mono text-white">Post 3</h1>
+            <h1 className="p-6 font-mono text-white">Post 4</h1>
+            <h1 className="p-6 font-mono text-white">Post 5</h1>
+            <h1 className="p-6 font-mono text-white">Post 6</h1>
           </div>
          </div>
       </div>
