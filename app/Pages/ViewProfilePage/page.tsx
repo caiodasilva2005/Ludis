@@ -8,6 +8,7 @@ import Image from "next/image";
 const ViewProfilePage = () => {
   const [profileData, setProfileData] = useState<Profile>();
   const[postData, setPostData] = useState<Post>();
+  const [profileId, setProfileId] = useState<number>(-1);
   const userId = 230;
 
   useEffect(() => {
@@ -42,6 +43,14 @@ const ViewProfilePage = () => {
         console.log("Error fetching post info:", error); 
       }
     };
+
+    const storedProfileId = sessionStorage.getItem("ProfileToView");
+    if (storedProfileId) {
+      setProfileId(Number(storedProfileId));
+      console.log("Here");
+    }
+    console.log("In profile view: ", storedProfileId);
+    console.log(profileId);
 
     fetchProfileInfo();
     fetchPostInfo();
