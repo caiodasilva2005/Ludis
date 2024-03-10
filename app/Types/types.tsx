@@ -8,6 +8,7 @@ export interface Profile {
   gender?: string;
   age?: number;
   bio?: string;
+  location?: string;
 }
 
 export interface GenderFilter {
@@ -27,6 +28,12 @@ export interface Filter {
   experience_level: ExperienceLevelFilter;
 }
 
+export interface Post {
+  content?: string;
+  created_at?: Date;
+}
+
 export const profileTable = "profiles";
 export const filterTable = "filters";
 export const imageBucket = "avatars";
+export const postTable = "posts";

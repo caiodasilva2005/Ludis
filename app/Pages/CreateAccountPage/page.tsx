@@ -19,6 +19,8 @@ const CreateAccountPage = () => {
     if (storedUserId) {
       setUserId(Number(storedUserId));
     }
+    console.log(storedUserId);
+    console.log(userId);
   }, []);
 
   const [dob, setDob] = useState({
