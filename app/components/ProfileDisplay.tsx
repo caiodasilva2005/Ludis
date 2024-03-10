@@ -6,7 +6,8 @@ import CustomButton from "./CustomButton";
 
 const ProfileDisplay = ({ profile }) => {
   const pushInfo = () => {
-    console.log("Push:", profile);
+    sessionStorage.setItem("ProfileToView", profile.id);
+    console.log("Push:", profile.id);
   };
 
   const handleChat = () => {
@@ -72,6 +73,7 @@ const ProfileDisplay = ({ profile }) => {
           buttonProps={{
             label: "View Profile",
             onClick: pushInfo,
+            page: "/Pages/ViewProfilePage",
           }}
         />
         <CustomButton
