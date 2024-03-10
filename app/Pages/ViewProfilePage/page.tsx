@@ -12,13 +12,21 @@ const ViewProfilePage = () => {
   const userId = 230;
 
   useEffect(() => {
+    const storedProfileId = sessionStorage.getItem("ProfileToView");
+    if (storedProfileId) {
+      setProfileId(Number(storedProfileId));
+      console.log("Here");
+    }
+    console.log("In profile view: ", storedProfileId);
+    console.log(profileId);
+
     const fetchProfileInfo = async () => {
       console.log("working");
       try {
         const { data, error } = await supabase
           .from(profileTable)
           .select()
-          .eq("id", userId);
+          .eq("id", storedProfileId);
         if (error) {
           throw error;
         }
@@ -34,7 +42,7 @@ const ViewProfilePage = () => {
         const { data, error} = await supabase
           .from(postTable)
           .select()
-          .eq("postId", userId);
+          .eq("postId", storedProfileId);
         if (error) {
           throw error;
         }
@@ -43,14 +51,6 @@ const ViewProfilePage = () => {
         console.log("Error fetching post info:", error); 
       }
     };
-
-    const storedProfileId = sessionStorage.getItem("ProfileToView");
-    if (storedProfileId) {
-      setProfileId(Number(storedProfileId));
-      console.log("Here");
-    }
-    console.log("In profile view: ", storedProfileId);
-    console.log(profileId);
 
     fetchProfileInfo();
     fetchPostInfo();
