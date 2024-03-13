@@ -9,6 +9,7 @@ import { imageBucket } from "@/app/Types/types";
 import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
 import { v4 as uuidv4 } from "uuid";
+import PhotoDisplay from "@/app/components/PhotoDisplay";
 
 const CreateAccountPage = () => {
   const [userId, setUserId] = useState<number>(-1);
@@ -164,22 +165,7 @@ const CreateAccountPage = () => {
         <Grid container>
           <Grid item xs={6}>
             <Stack spacing={4} alignItems="center">
-              <Box
-                sx={{
-                  borderRadius: 2,
-                  height: 200,
-                  width: 300,
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={profileInfo.image ? profileInfo.image! : "/next.svg"}
-                  alt="Profile picture"
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </Box>
+              <PhotoDisplay height={200} width={300} img={profileInfo.image} />
               <UploadFileButton
                 onImgFile={(e) => handleImgFile(e.target.files?.[0])}
               />

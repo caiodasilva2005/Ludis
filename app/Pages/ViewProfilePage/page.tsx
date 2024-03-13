@@ -177,7 +177,7 @@ const ViewProfilePage = () => {
           >
             <Typography
               sx={{
-                fontSize: 12,
+                fontSize: 16,
               }}
             >
               {profileData?.bio}

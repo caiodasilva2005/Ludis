@@ -121,7 +121,7 @@ export default function Home() {
   return (
     <Box>
       <Box>
-        <NavBar />
+        <NavBar currentUser={currentUser} />
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={3}>

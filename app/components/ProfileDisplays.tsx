@@ -64,7 +64,7 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
     <Box
       sx={{
         overflowY: "auto",
-        height: "95vh",
+        height: "90vh",
       }}
     >
       <Stack spacing={2}>
