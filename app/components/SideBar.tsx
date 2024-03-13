@@ -17,16 +17,24 @@ const SideBar = ({ currentUser, onChange, onRunFilter }) => {
         boxShadow: 4,
       }}
     >
-      <Typography
-        variant="body1"
+      <Box
         sx={{
-          fontSize: 20,
-          fontWeight: "bold",
-          color: "white",
+          bgcolor: "white",
+          borderRadius: 2,
+          paddingInline: 2,
         }}
       >
-        {currentUser ? currentUser.username : ""}
-      </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          {currentUser ? currentUser.username : ""}
+        </Typography>
+      </Box>
       <Stack spacing={2}>
         <FilterGroup
           title={"Gender"}

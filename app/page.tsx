@@ -115,7 +115,9 @@ export default function Home() {
 
   return (
     <Box>
-      <NavBar />
+      <Box>
+        <NavBar />
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <SideBar
@@ -124,7 +126,7 @@ export default function Home() {
             onRunFilter={handleRunFilter}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} marginTop={2}>
           <ProfileDisplays
             currentUser={currentUser!}
             profiles={profiles}
