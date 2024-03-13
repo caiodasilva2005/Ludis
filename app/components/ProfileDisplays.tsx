@@ -2,18 +2,30 @@ import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
 import { Filter, Profile } from "../Types/types";
 import { Box, Stack } from "@mui/material";
-import { useState, useEffect } from "react";
 
 interface ProfileDisplaysProps {
+  currentUser: Profile | undefined;
   profiles: Profile[];
   filter: Filter;
 }
 
 const ProfileDisplays = (props: ProfileDisplaysProps) => {
   const FilterProfiles = () => {
+    if (!props.currentUser) {
+      return;
+    }
+
     const { gender, experience_level } = props.filter;
 
     return props.profiles.filter((profile) => {
+      if (profile.id === props.currentUser!.id) {
+        return false;
+      }
+
+      if (props.currentUser!.age! >= 18 && profile.age! < 18) {
+        return false;
+      }
+
       const genderFilter =
         (gender.filMale && profile.gender === "Male") ||
         (gender.filFemale && profile.gender === "Female") ||
@@ -52,13 +64,14 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
     <Box
       sx={{
         overflowY: "auto",
-        height: "100vh",
+        height: "95vh",
       }}
     >
       <Stack spacing={2}>
-        {filteredProfiles.map((profile) => (
-          <ProfileDisplay key={profile.username} profile={profile} />
-        ))}
+        {filteredProfiles &&
+          filteredProfiles.map((profile) => (
+            <ProfileDisplay key={profile.username} profile={profile} />
+          ))}
       </Stack>
     </Box>
   );

@@ -10,7 +10,7 @@ const LogInPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  async function handleSignUp() {
+  async function SignUp() {
     const newProf: Profile = {
       username: username,
       password: password,
@@ -25,12 +25,37 @@ const LogInPage = () => {
       console.log(`${error.code}: ${error.message}`);
       return;
     }
-    const profileId = data[0].id;
-    sessionStorage.setItem("CurrentUser", profileId);
+    sessionStorage.setItem("CurrentUser", data[0].id);
   }
 
-  const handleLogIn = () => {
-    console.log("Log In:", username);
+  const handleSignUp = async () => {
+    await SignUp();
+    window.location.href = "/Pages/CreateAccountPage"; //switch to next page after sign up
+  };
+
+  async function LogIn() {
+    const { data, error } = await supabase
+      .from(profileTable)
+      .select()
+      .eq("username", username);
+    if (error) {
+      console.log(`${error.code}: ${error.message}`);
+      return false;
+    }
+    if (password === data[0].password) {
+      sessionStorage.setItem("CurrentUser", data[0].id);
+      return true;
+    }
+    return false;
+  }
+
+  const handleLogIn = async () => {
+    const res = await LogIn();
+    if (res === true) {
+      window.location.href = "/";
+      return;
+    }
+    console.log("invalid");
   };
 
   return (
@@ -84,14 +109,12 @@ const LogInPage = () => {
             buttonProps={{
               label: "Log In",
               onClick: handleLogIn,
-              page: "/",
             }}
           />
           <CustomButton
             buttonProps={{
               label: "Sign Up",
               onClick: async () => await handleSignUp(),
-              page: "/Pages/CreateAccountPage",
             }}
           />
         </Stack>
