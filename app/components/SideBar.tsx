@@ -13,7 +13,7 @@ const SideBar = ({ currentUser, onChange, onRunFilter }) => {
         alignItems: "center",
         bgcolor: "#4700ba",
         paddingTop: 2,
-        height: "100vh",
+        height: "95vh",
         boxShadow: 4,
       }}
     >

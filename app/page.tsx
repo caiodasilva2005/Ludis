@@ -29,6 +29,12 @@ export default function Home() {
       setUserId(Number(storedUserId));
     }
     console.log("ID:", storedUserId);
+
+    const getProfiles = async () => {
+      await readProfiles();
+    };
+
+    getProfiles();
   }, []);
 
   useEffect(() => {
@@ -109,7 +115,6 @@ export default function Home() {
   }
 
   const handleRunFilter = async () => {
-    await readProfiles();
     setInputFilter(filter);
   };
 
@@ -128,7 +133,7 @@ export default function Home() {
         </Grid>
         <Grid item xs={9} marginTop={2}>
           <ProfileDisplays
-            currentUser={currentUser!}
+            currentUser={currentUser}
             profiles={profiles}
             filter={inputFilter}
           />
