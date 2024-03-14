@@ -78,7 +78,7 @@ const ProfileDisplay = ({ profile }) => {
           buttonProps={{
             label: "Chat",
             onClick: handleChat,
-            page: "/users/ChatPage",
+            page: "/Pages/ChatPage",
           }}
         />
       </Box>
