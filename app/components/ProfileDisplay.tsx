@@ -80,6 +80,7 @@ const ProfileDisplay = ({ profile }) => {
           buttonProps={{
             label: "Chat",
             onClick: handleChat,
+            page: "/users/ChatPage",
           }}
         />
       </Box>
