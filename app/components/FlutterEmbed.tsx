@@ -46,7 +46,7 @@ const FlutterEmbedComponent: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    async () => {
+    const getCurrentProf = async () => {
       const { data, error } = await supabase
         .from(profileTable)
         .select()
@@ -57,6 +57,8 @@ const FlutterEmbedComponent: React.FC = () => {
       }
       setCurrentUser(data[0]);
     };
+
+    getCurrentProf();
   }, [currentUserId]);
 
   useEffect(() => {
