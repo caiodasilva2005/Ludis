@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import FilterGroup from "./FilterGroup";
 import CustomButton from "./CustomButton";
 
-const SideBar = ({ onChange, onRunFilter }) => {
+const SideBar = ({ currentUser, onChange, onRunFilter }) => {
   return (
     <Box
       sx={{
@@ -13,20 +13,28 @@ const SideBar = ({ onChange, onRunFilter }) => {
         alignItems: "center",
         bgcolor: "#4700ba",
         paddingTop: 2,
-        height: "100vh",
+        height: "90vh",
         boxShadow: 4,
       }}
     >
-      <Typography
-        variant="body1"
+      <Box
         sx={{
-          fontSize: 20,
-          fontWeight: "bold",
-          color: "white",
+          bgcolor: "white",
+          borderRadius: 2,
+          paddingInline: 2,
         }}
       >
-        Username
-      </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          {currentUser ? currentUser.username : ""}
+        </Typography>
+      </Box>
       <Stack spacing={2}>
         <FilterGroup
           title={"Gender"}

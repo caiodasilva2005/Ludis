@@ -3,6 +3,7 @@ import { Box, Stack, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import InfoDisplay from "./InfoDisplay";
 import CustomButton from "./CustomButton";
+import PhotoDisplay from "./PhotoDisplay";
 
 const ProfileDisplay = ({ profile }) => {
   const pushInfo = () => {
@@ -28,22 +29,7 @@ const ProfileDisplay = ({ profile }) => {
     >
       <Grid container spacing={4} alignItems="center">
         <Grid item xs={5}>
-          <Box
-            sx={{
-              borderRadius: 2,
-              height: 200,
-              width: 150,
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <Image
-              src={profile.image ? profile.image : "/next.svg"}
-              alt="Profile picture"
-              layout="fill"
-              objectFit="cover"
-            />
-          </Box>
+          <PhotoDisplay height={200} width={150} img={profile.image} />
         </Grid>
         <Grid item xs={4}>
           <Typography
@@ -56,10 +42,22 @@ const ProfileDisplay = ({ profile }) => {
             {profile.first_name} {profile.last_name}
           </Typography>
           <Stack spacing={2} justifyContent="center">
-            <InfoDisplay label="Username" info={profile.username} />
-            <InfoDisplay label="Age" info={profile.age} />
-            <InfoDisplay label="Gender" info={profile.gender} />
-            <InfoDisplay label="Experience" info={profile.experience_level} />
+            <InfoDisplay
+              label="Username"
+              info={profile.username}
+              fontColor="black"
+            />
+            <InfoDisplay label="Age" info={profile.age} fontColor="black" />
+            <InfoDisplay
+              label="Gender"
+              info={profile.gender}
+              fontColor="black"
+            />
+            <InfoDisplay
+              label="Experience"
+              info={profile.experience_level}
+              fontColor="black"
+            />
           </Stack>
         </Grid>
       </Grid>
@@ -80,7 +78,7 @@ const ProfileDisplay = ({ profile }) => {
           buttonProps={{
             label: "Chat",
             onClick: handleChat,
-            page: "/users/ChatPage",
+            page: "/Pages/ChatPage",
           }}
         />
       </Box>

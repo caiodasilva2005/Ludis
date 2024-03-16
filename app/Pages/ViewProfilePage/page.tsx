@@ -3,13 +3,18 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/utils/supabase";
 import { Profile, profileTable, Post, postTable } from "@/app/Types/types";
-import Image from "next/image";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import PhotoDisplay from "@/app/components/PhotoDisplay";
+import InfoDisplay from "@/app/components/InfoDisplay";
 
 const ViewProfilePage = () => {
   const [profileData, setProfileData] = useState<Profile>();
-  const[postData, setPostData] = useState<Post>();
+  const [postData, setPostData] = useState<Post>();
   const [profileId, setProfileId] = useState<number>(-1);
-  const userId = 230;
+
+  //For display purposes, to remove later
+  const posts = ["Post1", "Post2", "Post3"];
+  const friends = ["Friend1", "Friend2", "Friend3"];
 
   useEffect(() => {
     const storedProfileId = sessionStorage.getItem("ProfileToView");
@@ -39,7 +44,7 @@ const ViewProfilePage = () => {
     const fetchPostInfo = async () => {
       console.log("working");
       try {
-        const { data, error} = await supabase
+        const { data, error } = await supabase
           .from(postTable)
           .select()
           .eq("postId", storedProfileId);
@@ -48,7 +53,7 @@ const ViewProfilePage = () => {
         }
         setPostData(data[0]);
       } catch (error) {
-        console.log("Error fetching post info:", error); 
+        console.log("Error fetching post info:", error);
       }
     };
 
@@ -57,68 +62,194 @@ const ViewProfilePage = () => {
   }, []);
 
   return (
-    <div className="h-screen w-full grid grid-cols-3 gap-0 flex-auto">
-      <div className="m-3 h-full">
-        <div className="m-16 max-h-44 flex-auto place-content-center content-center">
-          {profileData?.image && (
-            <Image className="rounded-full"
-              src={profileData?.image}
-              alt="Profile.pic"
-              height="300"
-              width="350"
-              priority={false}
+    <Grid container spacing={2}>
+      <Grid item xs={5} marginTop={2}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <PhotoDisplay height={275} width={200} img={profileData?.image} />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "bold",
+              fontSize: 32,
+              color: "white",
+              marginTop: 2,
+            }}
+          >
+            {profileData?.username}
+          </Typography>
+        </Box>
+        <Stack spacing={2} marginLeft={2}>
+          <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+          >
+            <InfoDisplay
+              label="Gender"
+              info={profileData?.gender}
+              fontColor="white"
             />
-          )}
-        </div>
-        <div className="flex justify-center items-center text-center m-9">
-          <h1 className="text-4xl font-mono font-bold text-white">{profileData?.username}</h1>
-        </div>
-        <div className="grid grid-row-4 grid-col-3 gap-5">
-          <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono col-span-1 text-white">Gender: {profileData?.gender}</h1>
-          </div>
-          <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono text-white">Experience: {profileData?.experience_level}</h1>
-          </div>
-          <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono text-white">Age: {profileData?.age}</h1>
-          </div>
-          <div className="bg-indigo-800 rounded-full">
-            <h1 className="p-4 font-mono text-white">Location: {profileData?.location}</h1>
-          </div>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 grid-rows-10 w-full bg-indigo-800 col-span-2 flex-auto rounded-lg max-h-full">
-        <div className="top-0 left-0 h-2/3 col-span-3 row-span-4">
-          <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">About</h1>
-          <p className="p-6 font-mono overflow-y-auto max-h-80 m-0 text-white">{profileData?.bio}</p>
-        </div>
-        <div className="h-full col-span-1 row-span-6">
-          <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">Friends</h1>
-          <div className="grid grid-row-10 row-span-1 grid-col-1 col-span-1 overflow-y-auto max-h-96">
-            <h1 className="p-6 font-mono text-white">Friend 1</h1>
-            <h1 className="p-6 font-mono text-white">Friend 2</h1>
-            <h1 className="p-6 font-mono text-white">Friend 3</h1>
-            <h1 className="p-6 font-mono text-white">Friend 4</h1>
-            <h1 className="p-6 font-mono text-white">Friend 5</h1>
-            <h1 className="p-6 font-mono text-white">Friend 6</h1>
-            <h1 className="p-6 font-mono text-white">Friend 5</h1>
-            <h1 className="p-6 font-mono text-white">Friend 6</h1>
-          </div>
-        </div>
-        <div className="col-span-2 row-span-6">
-          <h1 className="p-4 font-mono text-2xl font-bold text-indigo-400">Posts</h1>
-          <div className="grid grid-row-5 col-span-2 overflow-y-auto max-h-96">
-            <h1 className="p-6 font-mono text-white">{postData?.content}</h1>
-            <h1 className="p-6 font-mono text-white">Post 2</h1>
-            <h1 className="p-6 font-mono text-white">Post 3</h1>
-            <h1 className="p-6 font-mono text-white">Post 4</h1>
-            <h1 className="p-6 font-mono text-white">Post 5</h1>
-            <h1 className="p-6 font-mono text-white">Post 6</h1>
-          </div>
-         </div>
-      </div>
-    </div>
+          </Box>
+          <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+          >
+            <InfoDisplay
+              label="Experience Level"
+              info={profileData?.experience_level}
+              fontColor="white"
+            />
+          </Box>
+          <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+          >
+            <InfoDisplay
+              label="Age"
+              info={profileData?.age}
+              fontColor="white"
+            />
+          </Box>
+          <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+          >
+            <InfoDisplay
+              label="Location"
+              info={profileData?.location}
+              fontColor="white"
+            />
+          </Box>
+        </Stack>
+      </Grid>
+      <Grid item xs={7}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            padding: 4,
+            bgcolor: "indigo",
+            borderRadius: 4,
+            height: "100vh",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 32,
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            About
+          </Typography>
+          <Box
+            sx={{
+              padding: 4,
+              bgcolor: "white",
+              borderRadius: 2,
+              height: "25vh",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: 16,
+              }}
+            >
+              {profileData?.bio}
+            </Typography>
+          </Box>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Box
+                sx={{
+                  padding: 2,
+                  bgcolor: "white",
+                  borderRadius: 2,
+                  height: "50vh",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "black",
+                  }}
+                >
+                  Friends
+                </Typography>
+                {friends.map((friend) => (
+                  <Typography
+                    key={friend}
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: 16,
+                    }}
+                  >
+                    {friend}
+                  </Typography>
+                ))}
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box
+                sx={{
+                  padding: 2,
+                  bgcolor: "white",
+                  borderRadius: 2,
+                  height: "50vh",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "black",
+                  }}
+                >
+                  Posts
+                </Typography>
+                {posts.map((post) => (
+                  <Typography
+                    key={post}
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: 16,
+                    }}
+                  >
+                    {post}
+                  </Typography>
+                ))}
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 // SIDENOTE: Could also add searchbar filter to filter upon location rather than a selection-based one

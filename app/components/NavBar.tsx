@@ -1,47 +1,55 @@
 import React from "react";
 import Image from "next/image";
+import { Box, Typography } from "@mui/material";
 
-const NavBar = () => {
+const NavBar = ({ currentUser }) => {
+  const handleClick = () => {
+    window.location.href = "/Pages/CreateAccountPage";
+  };
+
   return (
-    <div className="absolute top-0 left-0 navbar bg-slate-600 shadow-lg">
-      <div className="ml-2 flex-1">
-        <a className="btn btn-ghost text-xl">Ludis</a>
-      </div>
-      <div className="flex-none gap-2">
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <Image
-                height="10"
-                width="10"
-                alt="profile pic"
-                src="../../next.svg"
-              />
-            </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <a className="justify-between" href="../Pages/CreateAccountPage">
-                Profile
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        padding: 2,
+        display: "flex",
+        bgcolor: "#6a6a6a",
+        width: "98.5vw",
+        height: 50,
+        boxShadow: 4,
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        sx={{
+          fontWeight: "bold",
+          fontSize: 16,
+        }}
+      >
+        LUDIS
+      </Typography>
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          width: 45,
+          height: 45,
+          cursor: "pointer",
+          borderRadius: "50%",
+          "&:hover": {
+            bgcolor: "white",
+          },
+        }}
+        onClick={handleClick}
+      >
+        <Image
+          src={currentUser ? currentUser.image : "/next.svg"}
+          alt="prof pic"
+          layout="fill"
+          objectFit="cover"
+        />
+      </Box>
+    </Box>
   );
 };
 
