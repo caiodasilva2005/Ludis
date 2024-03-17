@@ -8,12 +8,14 @@ import React, { useState } from "react";
 
 const LogInPage = () => {
   const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   async function SignUp() {
     const newProf: Profile = {
       username: username,
       password: password,
+      email: email,
     };
 
     const { data, error } = await supabase
@@ -42,8 +44,9 @@ const LogInPage = () => {
       console.log(`${error.code}: ${error.message}`);
       return false;
     }
-    if (password === data[0].password) {
+    if (password === data[0].password && email === data[0].email) {
       sessionStorage.setItem("CurrentUser", data[0].id);
+      console.log(data[0]);
       return true;
     }
     return false;
@@ -96,6 +99,12 @@ const LogInPage = () => {
             label="Username"
             defaultValue=""
             onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            id="outlined"
+            label="Email"
+            defaultValue=""
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             id="outlined"
