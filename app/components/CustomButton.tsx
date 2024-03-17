@@ -13,6 +13,7 @@ const CustomButton = ({ buttonProps }) => {
       variant="contained"
       onClick={buttonProps.onClick}
       href={buttonProps.page}
+      sx={{ borderRadius: "20px", bgcolor: "#7227a8" }}
     >
       {buttonProps.label}
     </Button>
