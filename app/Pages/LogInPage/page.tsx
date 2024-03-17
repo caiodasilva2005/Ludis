@@ -107,6 +107,11 @@ const LogInPage = () => {
             label="Email"
             defaultValue=""
             onChange={(e) => setEmail(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+              },
+            }}
           />
           <TextField
             id="outlined"
