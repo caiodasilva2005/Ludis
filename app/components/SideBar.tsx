@@ -11,15 +11,16 @@ const SideBar = ({ currentUser, onChange, onRunFilter }) => {
         flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
-        bgcolor: "#4700ba",
+        bgcolor: "black",
         paddingTop: 2,
-        height: "90vh",
-        boxShadow: 4,
+        height: "85vh",
+        width: 300,
+        borderRadius: "40px",
       }}
     >
       <Box
         sx={{
-          bgcolor: "white",
+          bgcolor: "#7227a8",
           borderRadius: 2,
           paddingInline: 2,
         }}

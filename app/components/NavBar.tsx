@@ -12,12 +12,12 @@ const NavBar = ({ currentUser }) => {
       sx={{
         padding: 2,
         display: "flex",
-        bgcolor: "#6a6a6a",
-        width: "98.5vw",
-        height: 50,
+        bgcolor: "whitesmoke",
+        height: 30,
         boxShadow: 4,
         justifyContent: "space-between",
         alignItems: "center",
+        // borderRadius: "25px",
       }}
     >
       <Typography

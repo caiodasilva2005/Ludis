@@ -124,14 +124,14 @@ export default function Home() {
         <NavBar currentUser={currentUser} />
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{ my: 2 }}>
           <SideBar
             currentUser={currentUser}
             onChange={handleFilterChange}
             onRunFilter={handleRunFilter}
           />
         </Grid>
-        <Grid item xs={9} marginTop={2}>
+        <Grid item xs={9}>
           <ProfileDisplays
             currentUser={currentUser}
             profiles={profiles}
