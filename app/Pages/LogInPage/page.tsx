@@ -1,6 +1,13 @@
 "use client";
 import CustomButton from "@/app/components/CustomButton";
-import { Box, Stack, Typography, TextField } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Typography,
+  TextField,
+  Container,
+  Paper,
+} from "@mui/material";
 import { Profile } from "@/app/Types/types";
 import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
@@ -62,58 +69,63 @@ const LogInPage = () => {
   };
 
   return (
-    <Box
+    <Container
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100vw",
-        height: "100vh",
+        my: 10,
+        width: { xs: 200, sm: 250, md: 500, lg: 600 },
+        height: "75vh",
       }}
     >
-      <Box
+      <Paper
+        elevation={24}
         sx={{
-          bgcolor: "white",
-          width: "80vw",
-          height: "80vh",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          padding: 4,
-          borderRadius: 4,
-          boxShadow: 4,
+          width: 1,
+          height: 1,
+          borderRadius: "25px",
+          textAlign: "center",
         }}
       >
-        <Typography
-          variant="h1"
-          sx={{
-            fontWeight: "bold",
-          }}
-        >
-          LOG IN
+        <Typography fontSize={40} sx={{ mt: 10 }}>
+          Welcome to Ludis!
         </Typography>
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ mt: 8, mx: 5 }}>
           <TextField
             id="outlined"
             label="Username"
             defaultValue=""
             onChange={(e) => setUsername(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+              },
+            }}
           />
           <TextField
             id="outlined"
             label="Email"
             defaultValue=""
             onChange={(e) => setEmail(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+              },
+            }}
           />
           <TextField
             id="outlined"
             label="Password"
             defaultValue=""
             onChange={(e) => setPassword(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+              },
+            }}
           />
         </Stack>
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ mt: 7, mx: 3 }}>
           <CustomButton
             buttonProps={{
               label: "Log In",
@@ -127,8 +139,8 @@ const LogInPage = () => {
             }}
           />
         </Stack>
-      </Box>
-    </Box>
+      </Paper>
+    </Container>
   );
 };
 
