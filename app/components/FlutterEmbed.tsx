@@ -45,12 +45,16 @@ const FlutterEmbedComponent: React.FC = () => {
   useEffect(() => {
     const storedId = sessionStorage.getItem("CurrentUser");
     const viewProfileId = sessionStorage.getItem("ProfileToView");
+    console.log(storedId);
+    console.log(viewProfileId);
+    console.log("running?");
     setCurrentUserId(Number(storedId));
     setViewProfileId(Number(viewProfileId));
   }, []);
 
   useEffect(() => {
     const getCurrentProf = async () => {
+      console.log(currentUserId);
       const { data, error } = await supabase
         .from(profileTable)
         .select()
@@ -66,13 +70,31 @@ const FlutterEmbedComponent: React.FC = () => {
   }, [currentUserId]);
 
   useEffect(() => {
+    const getOtherProf = async () => {
+      console.log(viewProfileId);
+      const { data, error } = await supabase
+        .from(profileTable)
+        .select()
+        .eq("id", viewProfileId);
+      if (error) {
+        console.log(`${error.code}: ${error.message}`);
+        return;
+      }
+      setViewProfile(data[0]);
+    };
+
+    getOtherProf();
+  }, [viewProfileId]);
+
+  useEffect(() => {
     if (iframeRef.current) {
       const storedUsername = currentUser?.username;
       console.log(storedUsername);
       const storedPassword = currentUser?.password;
       console.log(storedPassword);
       const storedEmail = currentUser?.email;
-      const otherUser = "test";
+      const otherUser = viewProfile?.username;
+      console.log(otherUser);
 
       const iframeWindow = iframeRef.current.contentWindow;
       const message = {
@@ -87,7 +109,7 @@ const FlutterEmbedComponent: React.FC = () => {
         iframeWindow.postMessage(message, "*");
       }
     }
-  }, [currentUser]);
+  }, [currentUser, viewProfile]);
 
   return (
     <iframe
@@ -95,7 +117,7 @@ const FlutterEmbedComponent: React.FC = () => {
       src="/web/index.html" // Adjust the path as necessary
       title="Flutter App"
       width="100%"
-      height="700px"
+      height="620px"
       style={{ border: "none" }}
     ></iframe>
   );

@@ -17,6 +17,7 @@ const LogInPage = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorText, setErrorText] = useState<string>("");
 
   async function SignUp() {
     const newProf: Profile = {
@@ -38,6 +39,10 @@ const LogInPage = () => {
   }
 
   const handleSignUp = async () => {
+    if (password.length < 6) {
+      setErrorText("Password must be at least 6 characters long.");
+      return; // Return without attempting navigation
+    }
     await SignUp();
     window.location.href = "/Pages/CreateAccountPage"; //switch to next page after sign up
   };
@@ -117,7 +122,18 @@ const LogInPage = () => {
             id="outlined"
             label="Password"
             defaultValue=""
-            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            error={errorText !== ""}
+            helperText={errorText}
+            onChange={(e) => {
+              const passwordValue = e.target.value;
+              setPassword(passwordValue);
+              if (passwordValue.length > 0 && passwordValue.length < 6) {
+                setErrorText("Password must be at least 6 characters long.");
+              } else {
+                setErrorText(""); // Clear error when user types
+              }
+            }}
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: "20px",
