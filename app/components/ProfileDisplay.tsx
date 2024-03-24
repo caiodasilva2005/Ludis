@@ -18,6 +18,7 @@ const ProfileDisplay = ({ profile }) => {
   };
 
   const handleChat = () => {
+    sessionStorage.setItem("ProfileToView", profile.id);
     console.log("handle Chat");
   };
 
