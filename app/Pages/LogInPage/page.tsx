@@ -76,17 +76,15 @@ const LogInPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        minHeight: "100vh",
+        padding: "20px",
       }}
     >
       <Card
         sx={{
-          width: 0.5,
-          height: 0.65,
           borderRadius: "25px",
           textAlign: "center",
-          overflowY: "auto",
-          padding: "10px",
+          padding: "20px",
         }}
       >
         <CardHeader
