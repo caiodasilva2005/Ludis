@@ -4,13 +4,15 @@ import SideBar from "./components/SideBar";
 import { useEffect, useState } from "react";
 import { Profile, profileTable, Filter } from "./Types/types";
 import { supabase } from "./utils/supabase";
-import { Box, Grid } from "@mui/material";
+import { Box, Drawer, IconButton } from "@mui/material";
 import NavBar from "./components/NavBar";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Home() {
   const [userId, setUserId] = useState<number>(-1);
   const [currentUser, setCurrentUser] = useState<Profile>();
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<Filter>({
     gender: { filMale: false, filFemale: false, filOther: false },
@@ -121,24 +123,35 @@ export default function Home() {
   return (
     <Box>
       <Box>
-        <NavBar currentUser={currentUser} />
+        <Drawer anchor="top" variant="permanent">
+          <NavBar currentUser={currentUser} />
+        </Drawer>
       </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={3} sx={{ my: 2 }}>
+      <Box sx={{ mt: 8 }}>
+        <IconButton
+          size="large"
+          style={{ color: "white" }}
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Drawer
+          anchor="left"
+          open={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        >
           <SideBar
             currentUser={currentUser}
             onChange={handleFilterChange}
             onRunFilter={handleRunFilter}
           />
-        </Grid>
-        <Grid item xs={9}>
-          <ProfileDisplays
-            currentUser={currentUser}
-            profiles={profiles}
-            filter={inputFilter}
-          />
-        </Grid>
-      </Grid>
+        </Drawer>
+        <ProfileDisplays
+          currentUser={currentUser}
+          profiles={profiles}
+          filter={inputFilter}
+        />
+      </Box>
     </Box>
   );
 }

@@ -14,7 +14,7 @@ const FilterGroup = ({ title, fields, onSelect }) => {
       sx={{
         width: "100%",
         padding: 2,
-        bgcolor: "#7227a8",
+        bgcolor: "white",
         borderRadius: 2,
       }}
     >
