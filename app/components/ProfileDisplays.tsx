@@ -71,20 +71,6 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
           ))}
       </Grid>
     </Container>
-
-    // <Box
-    //   sx={{
-    //     overflowY: "auto",
-    //     height: "90vh",
-    //   }}
-    // >
-    //   <Stack spacing={2} display={"flex"} flexDirection={"row"}>
-    //     {filteredProfiles &&
-    //       filteredProfiles.map((profile) => (
-    //         <ProfileDisplay key={profile.username} profile={profile} />
-    //       ))}
-    //   </Stack>
-    // </Box>
   );
 };
 
