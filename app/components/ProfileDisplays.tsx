@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
 import { Filter, Profile } from "../Types/types";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Container, Grid } from "@mui/material";
 
 interface ProfileDisplaysProps {
   currentUser: Profile | undefined;
@@ -61,19 +61,16 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
   const filteredProfiles = FilterProfiles();
 
   return (
-    <Box
-      sx={{
-        overflowY: "auto",
-        height: "90vh",
-      }}
-    >
-      <Stack spacing={2}>
+    <Container sx={{ overflowY: "auto" }}>
+      <Grid container spacing={3}>
         {filteredProfiles &&
           filteredProfiles.map((profile) => (
-            <ProfileDisplay key={profile.username} profile={profile} />
+            <Grid item xs={12} md={6} lg={4}>
+              <ProfileDisplay key={profile.username} profile={profile} />
+            </Grid>
           ))}
-      </Stack>
-    </Box>
+      </Grid>
+    </Container>
   );
 };
 

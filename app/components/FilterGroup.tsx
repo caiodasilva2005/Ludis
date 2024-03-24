@@ -6,23 +6,20 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
+  Container,
 } from "@mui/material";
 
 const FilterGroup = ({ title, fields, onSelect }) => {
   return (
-    <Box
-      sx={{
-        width: "100%",
-        padding: 2,
-        bgcolor: "white",
-        borderRadius: 2,
-      }}
+    <Container
+      sx={{ bgcolor: "#7227a8", borderRadius: "25px", padding: "20px" }}
     >
-      <Stack spacing={1}>
+      <Stack spacing={1} sx={{ textAlign: "center" }}>
         <Typography
           variant="body1"
           sx={{
             fontWeight: "bold",
+            color: "whitesmoke",
           }}
         >
           {title}
@@ -34,12 +31,15 @@ const FilterGroup = ({ title, fields, onSelect }) => {
                 key={field}
                 control={<Switch onClick={() => onSelect(field)} />}
                 label={field}
+                sx={{
+                  color: "whitesmoke",
+                }}
               />
             );
           })}
         </FormGroup>
       </Stack>
-    </Box>
+    </Container>
   );
 };
 
