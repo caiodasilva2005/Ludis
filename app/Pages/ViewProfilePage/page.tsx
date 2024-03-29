@@ -6,6 +6,8 @@ import { Profile, profileTable, Post, postTable } from "@/app/Types/types";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
 import InfoDisplay from "@/app/components/InfoDisplay";
+import CustomButton from "@/app/components/CustomButton";
+
 
 const ViewProfilePage = () => {
   const [profileData, setProfileData] = useState<Profile>();
@@ -68,18 +70,37 @@ const ViewProfilePage = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "flex-start", // Align to the top left
           }}
         >
-          <PhotoDisplay height={275} width={200} img={profileData?.image} />
-        </Box>
-        <Box
-          sx={{
+          <CustomButton
+            buttonProps={{
+              label: "Home",
+              page: "/",
+              alignItems: "flex-start",
+            }}
+          />
+        </Box> 
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center", // Align the content in the center
+            }}
+            >
+            <PhotoDisplay 
+              height={275} 
+              width={275} 
+              img={profileData?.image} 
+            />
+          </Box>
+          <Box
+            sx={{
             display: "flex",
             justifyContent: "center",
-          }}
-        >
-          <Typography
+            }}
+          >
+            <Typography
             variant="body1"
             sx={{
               fontWeight: "bold",
@@ -87,68 +108,94 @@ const ViewProfilePage = () => {
               color: "white",
               marginTop: 2,
             }}
-          >
+            >
             {profileData?.username}
-          </Typography>
-        </Box>
-        <Stack spacing={2} marginLeft={2}>
-          <Box
+            </Typography>
+          </Box>
+          <Stack spacing={2} marginLeft={2}>
+            <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-          >
+            >
             <InfoDisplay
               label="Gender"
               info={profileData?.gender}
               fontColor="white"
             />
-          </Box>
-          <Box
+            </Box>
+            <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-          >
+            >
             <InfoDisplay
               label="Experience Level"
               info={profileData?.experience_level}
               fontColor="white"
             />
-          </Box>
-          <Box
+            </Box>
+            <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-          >
+            >
             <InfoDisplay
               label="Age"
               info={profileData?.age}
               fontColor="white"
             />
-          </Box>
-          <Box
+            </Box>
+            <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-          >
+            >
             <InfoDisplay
-              label="Location"
-              info={profileData?.location}
+              label="Preferred Workout Time"
+              info={`${profileData?.workout_from}-${profileData?.workout_to}`}
               fontColor="white"
             />
-          </Box>
-        </Stack>
-      </Grid>
-      <Grid item xs={7}>
-        <Box
-          sx={{
+            </Box>
+            <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+            >
+            <InfoDisplay
+              label="Current Split"
+              info={profileData?.split}
+              fontColor="white"
+            />
+            </Box>
+            <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#5016b9",
+              borderRadius: 4,
+            }}
+            >
+            <InfoDisplay
+              label="SBD (lbs)"
+              info={`${profileData?.squat}/${profileData?.bench}/${profileData?.deadlift}`}
+              fontColor="white"
+            />
+            </Box>
+          </Stack>
+          </Grid>
+          <Grid item xs={7}>
+          <Box
+            sx={{
             display: "flex",
             flexDirection: "column",
             gap: 2,
@@ -156,102 +203,101 @@ const ViewProfilePage = () => {
             bgcolor: "indigo",
             borderRadius: 4,
             height: "100vh",
-          }}
-        >
-          <Typography
+            }}
+          >
+            <Typography
             sx={{
               fontSize: 32,
               fontWeight: "bold",
               color: "white",
             }}
-          >
+            >
             About
-          </Typography>
-          <Box
+            </Typography>
+            <Box
             sx={{
               padding: 4,
               bgcolor: "white",
               borderRadius: 2,
               height: "25vh",
             }}
-          >
+            >
             <Typography
               sx={{
-                fontSize: 16,
+              fontSize: 16,
               }}
             >
               {profileData?.bio}
             </Typography>
+            </Box>
+            <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Box
+              sx={{
+                padding: 2,
+                bgcolor: "white",
+                borderRadius: 2,
+                height: "50vh",
+              }}
+              >
+              <Typography
+                sx={{
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "black",
+                }}
+              >
+                Friends
+              </Typography>
+              {friends.map((friend) => (
+                <Typography
+                key={friend}
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: 16,
+                }}
+                >
+                {friend}
+                </Typography>
+              ))}
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box
+              sx={{
+                padding: 2,
+                bgcolor: "white",
+                borderRadius: 2,
+                height: "50vh",
+              }}
+              >
+              <Typography
+                sx={{
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "black",
+                }}
+              >
+                Posts
+              </Typography>
+              {posts.map((post) => (
+                <Typography
+                key={post}
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: 16,
+                }}
+                >
+                {post}
+                </Typography>
+              ))}
+              </Box>
+            </Grid>
+            </Grid>
           </Box>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  padding: 2,
-                  bgcolor: "white",
-                  borderRadius: 2,
-                  height: "50vh",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color: "black",
-                  }}
-                >
-                  Friends
-                </Typography>
-                {friends.map((friend) => (
-                  <Typography
-                    key={friend}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    }}
-                  >
-                    {friend}
-                  </Typography>
-                ))}
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  padding: 2,
-                  bgcolor: "white",
-                  borderRadius: 2,
-                  height: "50vh",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color: "black",
-                  }}
-                >
-                  Posts
-                </Typography>
-                {posts.map((post) => (
-                  <Typography
-                    key={post}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    }}
-                  >
-                    {post}
-                  </Typography>
-                ))}
-              </Box>
-            </Grid>
           </Grid>
-        </Box>
-      </Grid>
-    </Grid>
-  );
+        </Grid>
+        );
 };
-// SIDENOTE: Could also add searchbar filter to filter upon location rather than a selection-based one
 
 export default ViewProfilePage;
