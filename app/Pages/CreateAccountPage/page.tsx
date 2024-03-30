@@ -332,6 +332,77 @@ const CreateAccountPage = () => {
                   ))}
                 </TextField>
               </Box>
+              <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                <TextField
+                  id="outlined-split"
+                  label="Split"
+                  defaultValue={
+                    profileInfo.split ? profileInfo.split : " "
+                  }
+                  sx={{
+                    width: 300,
+                  }}
+                  onChange={(e) =>
+                    setProfileInfo({
+                      ...profileInfo,
+                      split: e.target.value,
+                    })
+                  }
+                />
+                <TextField
+                  id="outlined-squat"
+                  label="Squat Weight"
+                  defaultValue={
+                    profileInfo.squat ? profileInfo.squat : " "
+                  }
+                  sx={{
+                    width: 300,
+                  }}
+                  onChange={(e) =>
+                    setProfileInfo({
+                      ...profileInfo,
+                      squat: parseInt(e.target.value),
+                    })
+                  }
+                />
+                <TextField
+                  id="outlined-bench"
+                  label="Bench Weight"
+                  defaultValue={
+                    profileInfo.bench ? profileInfo.bench : " "
+                  }
+                  sx={{
+                    width: 300,
+                  }}
+                  onChange={(e) =>
+                    setProfileInfo({
+                      ...profileInfo,
+                      bench: parseInt(e.target.value),
+                    })
+                  }
+                />
+                <TextField
+                  id="outlined-deadlift"
+                  label="Deadlift Weight"
+                  defaultValue={
+                    profileInfo.deadlift ? profileInfo.deadlift : " "
+                  }
+                  sx={{
+                    width: 300,
+                  }}
+                  onChange={(e) =>
+                    setProfileInfo({
+                      ...profileInfo,
+                      deadlift: parseInt(e.target.value),
+                    })
+                  }
+                />
+              </Box>
             </Stack>
           </Grid>
         </Grid>
