@@ -192,8 +192,8 @@ const ViewProfilePage = () => {
             />
             </Box>
           </Stack>
-          </Grid>
-          <Grid item xs={7}>
+        </Grid>
+        <Grid item xs={7}>
           <Box
             sx={{
             display: "flex",
@@ -202,7 +202,7 @@ const ViewProfilePage = () => {
             padding: 4,
             bgcolor: "indigo",
             borderRadius: 4,
-            height: "100vh",
+            height: "93vh",
             }}
           >
             <Typography
@@ -210,6 +210,9 @@ const ViewProfilePage = () => {
               fontSize: 32,
               fontWeight: "bold",
               color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
             >
             About
@@ -219,7 +222,7 @@ const ViewProfilePage = () => {
               padding: 4,
               bgcolor: "white",
               borderRadius: 2,
-              height: "25vh",
+              height: "100vh",
             }}
             >
             <Typography
@@ -230,8 +233,20 @@ const ViewProfilePage = () => {
               {profileData?.bio}
             </Typography>
             </Box>
-            <Grid container spacing={1}>
+            {/* <Grid container spacing={1}>
             <Grid item xs={6}>
+              <Typography
+              sx={{
+                fontSize: 32,
+                fontWeight: "bold",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              >
+              Ideal Gym Partner
+              </Typography>
               <Box
               sx={{
                 padding: 2,
@@ -240,29 +255,23 @@ const ViewProfilePage = () => {
                 height: "50vh",
               }}
               >
-              <Typography
-                sx={{
-                fontWeight: "bold",
-                fontSize: 20,
-                color: "black",
-                }}
-              >
-                Friends
-              </Typography>
-              {friends.map((friend) => (
-                <Typography
-                key={friend}
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-                >
-                {friend}
-                </Typography>
-              ))}
+
+              
               </Box>
             </Grid>
             <Grid item xs={6}>
+              <Typography
+              sx={{
+                fontSize: 32,
+                fontWeight: "bold",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              >
+              Goals
+              </Typography>
               <Box
               sx={{
                 padding: 2,
@@ -271,29 +280,9 @@ const ViewProfilePage = () => {
                 height: "50vh",
               }}
               >
-              <Typography
-                sx={{
-                fontWeight: "bold",
-                fontSize: 20,
-                color: "black",
-                }}
-              >
-                Posts
-              </Typography>
-              {posts.map((post) => (
-                <Typography
-                key={post}
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-                >
-                {post}
-                </Typography>
-              ))}
               </Box>
             </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
           </Grid>
         </Grid>
