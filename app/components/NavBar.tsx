@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
+import PhotoDisplay from "./PhotoDisplay";
 
 const NavBar = ({ currentUser }) => {
   const handleClick = () => {
@@ -20,20 +21,13 @@ const NavBar = ({ currentUser }) => {
         // borderRadius: "25px",
       }}
     >
-      <Typography
-        sx={{
-          fontWeight: "bold",
-          fontSize: 16,
-        }}
-      >
-        LUDIS
-      </Typography>
+      <PhotoDisplay img="/LudisLogo.png" width={50} height={40} />
       <Box
         sx={{
           position: "relative",
           overflow: "hidden",
-          width: 45,
-          height: 45,
+          width: 50,
+          height: 50,
           cursor: "pointer",
           borderRadius: "50%",
           "&:hover": {
