@@ -10,7 +10,12 @@ export interface Profile {
   gender?: string;
   age?: number;
   bio?: string;
-  location?: string;
+  split?: string;
+  workout_from?: Date;
+  workout_to?: Date;
+  squat?: number;
+  bench?: number;
+  deadlift?: number;
 }
 
 export interface GenderFilter {

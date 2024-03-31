@@ -14,14 +14,25 @@ import { Profile } from "@/app/Types/types";
 import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
 import React, { useState } from "react";
+import PhotoDisplay from "@/app/components/PhotoDisplay";
 
 const LogInPage = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [errorText, setErrorText] = useState<string>("");
+  const [usernameErrortext, setUsernameErrorText] = useState<string>("");
+  const [emailErrorText, setEmailErrorText] = useState<string>("");
+  const [passwordErrorText, setPasswordErrorText] = useState<string>("");
 
   async function SignUp() {
+    const userRes = validateUsername(username);
+    const emailRes = validateEmail(email);
+    const passwordRes = validatePassword(password);
+
+    if (!userRes || !emailRes || !passwordRes) {
+      return false;
+    }
+
     const newProf: Profile = {
       username: username,
       password: password,
@@ -35,27 +46,40 @@ const LogInPage = () => {
 
     if (error) {
       console.log(`${error.code}: ${error.message}`);
-      return;
+      setUsernameErrorText("Invalid Username");
+      setEmailErrorText("Invalid Email");
+      setPasswordErrorText("Invalid Password");
+      return false;
     }
     sessionStorage.setItem("CurrentUser", data[0].id);
+    return true;
   }
 
   const handleSignUp = async () => {
-    if (password.length < 6) {
-      setErrorText("Password must be at least 6 characters long.");
-      return; // Return without attempting navigation
+    const res = await SignUp();
+    if (res) {
+      window.location.href = "/Pages/CreateAccountPage"; //switch to next page after sign up
+      sessionStorage.setItem("FromSignUp", "true");
+      return;
     }
-    await SignUp();
-    window.location.href = "/Pages/CreateAccountPage"; //switch to next page after sign up
   };
 
   async function LogIn() {
+    const userRes = validateUsername(username);
+    const emailRes = validateEmail(email);
+    const passwordRes = validatePassword(password);
+
+    if (!userRes || !emailRes || !passwordRes) {
+      return false;
+    }
+
     const { data, error } = await supabase
       .from(profileTable)
       .select()
       .eq("username", username);
     if (error) {
       console.log(`${error.code}: ${error.message}`);
+      setUsernameErrorText("Invalid Username");
       return false;
     }
     if (password === data[0].password && email === data[0].email) {
@@ -75,6 +99,63 @@ const LogInPage = () => {
     console.log("invalid");
   };
 
+  function validateUsername(username: string) {
+    if (username.length == 0) {
+      setUsernameErrorText("Username is required");
+      return false;
+    }
+
+    if (username.split(" ").length > 1) {
+      setUsernameErrorText("Username cannot have spaces");
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateEmail(email: string) {
+    if (email.length === 0) {
+      setEmailErrorText("Email is required");
+      return false;
+    }
+
+    if (email.split(" ").length > 1) {
+      setEmailErrorText("Email cannot have spaces");
+      return false;
+    }
+
+    if (!email.includes("@")) {
+      setEmailErrorText("Invalid Email");
+      return false;
+    }
+
+    if (email.substring(email.length - 4, email.length) !== ".com") {
+      setEmailErrorText("Invalid Email");
+      return false;
+    }
+
+    return true;
+  }
+
+  function validatePassword(password: string) {
+    if (password.length == 0) {
+      setPasswordErrorText("Password is required");
+      return false;
+    }
+
+    if (password.split(" ").length > 1) {
+      setPasswordErrorText("Password cannot have spaces");
+      return false;
+    }
+
+    if (password.length < 6) {
+      setPasswordErrorText("Password must be at least 6 characters long.");
+      return false;
+    }
+
+    return true;
+  }
+
   return (
     <Container
       sx={{
@@ -92,20 +173,24 @@ const LogInPage = () => {
           padding: "20px",
         }}
       >
-        <CardHeader
-          titleTypographyProps={{ variant: "h3" }}
-          title="Welcome To Ludis!"
-          subheaderTypographyProps={{ variant: "subtitle1" }}
-          subheader="The place to find your gym partner"
-        />
         <CardContent>
+          <PhotoDisplay
+            img="/LudisLogoWithTitle.png"
+            width={225}
+            height={180}
+          />
           <Stack spacing={5}>
             <Stack spacing={2}>
               <TextField
                 id="outlined"
                 label="Username"
                 defaultValue=""
-                onChange={(e) => setUsername(e.target.value)}
+                error={usernameErrortext !== ""}
+                helperText={usernameErrortext}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setUsernameErrorText("");
+                }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "20px",
@@ -116,7 +201,12 @@ const LogInPage = () => {
                 id="outlined"
                 label="Email"
                 defaultValue=""
-                onChange={(e) => setEmail(e.target.value)}
+                error={emailErrorText !== ""}
+                helperText={emailErrorText}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailErrorText("");
+                }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "20px",
@@ -128,18 +218,12 @@ const LogInPage = () => {
                 label="Password"
                 defaultValue=""
                 type="password"
-                error={errorText !== ""}
-                helperText={errorText}
+                error={passwordErrorText !== ""}
+                helperText={passwordErrorText}
                 onChange={(e) => {
                   const passwordValue = e.target.value;
                   setPassword(passwordValue);
-                  if (passwordValue.length > 0 && passwordValue.length < 6) {
-                    setErrorText(
-                      "Password must be at least 6 characters long."
-                    );
-                  } else {
-                    setErrorText(""); // Clear error when user types
-                  }
+                  setPasswordErrorText("");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
