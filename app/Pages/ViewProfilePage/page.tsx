@@ -7,16 +7,12 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
 import InfoDisplay from "@/app/components/InfoDisplay";
 import CustomButton from "@/app/components/CustomButton";
-
+import HomeButton from "@/app/components/HomeButton";
 
 const ViewProfilePage = () => {
   const [profileData, setProfileData] = useState<Profile>();
   const [postData, setPostData] = useState<Post>();
   const [profileId, setProfileId] = useState<number>(-1);
-
-  //For display purposes, to remove later
-  const posts = ["Post1", "Post2", "Post3"];
-  const friends = ["Friend1", "Friend2", "Friend3"];
 
   useEffect(() => {
     const storedProfileId = sessionStorage.getItem("ProfileToView");
@@ -73,34 +69,24 @@ const ViewProfilePage = () => {
             alignItems: "flex-start", // Align to the top left
           }}
         >
-          <CustomButton
-            buttonProps={{
-              label: "Home",
-              page: "/",
-              alignItems: "flex-start",
-            }}
-          />
-        </Box> 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center", // Align the content in the center
-            }}
-            >
-            <PhotoDisplay 
-              height={275} 
-              width={275} 
-              img={profileData?.image} 
-            />
-          </Box>
-          <Box
-            sx={{
+          <HomeButton />
+        </Box>
+        <Box
+          sx={{
             display: "flex",
             justifyContent: "center",
-            }}
-          >
-            <Typography
+            alignItems: "center", // Align the content in the center
+          }}
+        >
+          <PhotoDisplay height={275} width={275} img={profileData?.image} />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
             variant="body1"
             sx={{
               fontWeight: "bold",
@@ -108,94 +94,94 @@ const ViewProfilePage = () => {
               color: "white",
               marginTop: 2,
             }}
-            >
+          >
             {profileData?.username}
-            </Typography>
-          </Box>
-          <Stack spacing={2} marginLeft={2}>
-            <Box
+          </Typography>
+        </Box>
+        <Stack spacing={2} marginLeft={2}>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="Gender"
               info={profileData?.gender}
               fontColor="white"
             />
-            </Box>
-            <Box
+          </Box>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="Experience Level"
               info={profileData?.experience_level}
               fontColor="white"
             />
-            </Box>
-            <Box
+          </Box>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="Age"
               info={profileData?.age}
               fontColor="white"
             />
-            </Box>
-            <Box
+          </Box>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="Preferred Workout Time"
               info={`${profileData?.workout_from}-${profileData?.workout_to}`}
               fontColor="white"
             />
-            </Box>
-            <Box
+          </Box>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="Current Split"
               info={profileData?.split}
               fontColor="white"
             />
-            </Box>
-            <Box
+          </Box>
+          <Box
             sx={{
               padding: 2,
               bgcolor: "#5016b9",
               borderRadius: 4,
             }}
-            >
+          >
             <InfoDisplay
               label="SBD (lbs)"
               info={`${profileData?.squat}/${profileData?.bench}/${profileData?.deadlift}`}
               fontColor="white"
             />
-            </Box>
-          </Stack>
-        </Grid>
-        <Grid item xs={7}>
-          <Box
-            sx={{
+          </Box>
+        </Stack>
+      </Grid>
+      <Grid item xs={7}>
+        <Box
+          sx={{
             display: "flex",
             flexDirection: "column",
             gap: 2,
@@ -203,9 +189,9 @@ const ViewProfilePage = () => {
             bgcolor: "indigo",
             borderRadius: 4,
             height: "93vh",
-            }}
-          >
-            <Typography
+          }}
+        >
+          <Typography
             sx={{
               fontSize: 32,
               fontWeight: "bold",
@@ -214,26 +200,26 @@ const ViewProfilePage = () => {
               alignItems: "center",
               justifyContent: "center",
             }}
-            >
+          >
             About
-            </Typography>
-            <Box
+          </Typography>
+          <Box
             sx={{
               padding: 4,
               bgcolor: "white",
               borderRadius: 2,
               height: "100vh",
             }}
-            >
+          >
             <Typography
               sx={{
-              fontSize: 16,
+                fontSize: 16,
               }}
             >
               {profileData?.bio}
             </Typography>
-            </Box>
-            {/* <Grid container spacing={1}>
+          </Box>
+          {/* <Grid container spacing={1}>
             <Grid item xs={6}>
               <Typography
               sx={{
@@ -283,10 +269,10 @@ const ViewProfilePage = () => {
               </Box>
             </Grid>
             </Grid> */}
-          </Box>
-          </Grid>
-        </Grid>
-        );
+        </Box>
+      </Grid>
+    </Grid>
+  );
 };
 
 export default ViewProfilePage;
