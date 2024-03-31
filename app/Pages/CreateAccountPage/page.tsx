@@ -11,6 +11,7 @@ import { profileTable } from "@/app/Types/types";
 import { v4 as uuidv4 } from "uuid";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
 import { profile } from "console";
+import HomeButton from "@/app/components/HomeButton";
 
 const CreateAccountPage = () => {
   const [userId, setUserId] = useState<number>(-1);
@@ -148,6 +149,7 @@ const CreateAccountPage = () => {
         height: "100vh",
       }}
     >
+      {sessionStorage.getItem("FromSignUp") === "false" && <HomeButton />}
       <Box
         sx={{
           bgcolor: "white",
@@ -329,17 +331,15 @@ const CreateAccountPage = () => {
                 </TextField>
               </Box>
               <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                  }}
-                >
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
                 <TextField
                   id="outlined-split"
                   label="Split"
-                  defaultValue={
-                    profileInfo.split ? profileInfo.split : " "
-                  }
+                  defaultValue={profileInfo.split ? profileInfo.split : " "}
                   sx={{
                     width: 300,
                   }}
@@ -353,9 +353,7 @@ const CreateAccountPage = () => {
                 <TextField
                   id="outlined-squat"
                   label="Squat Weight"
-                  defaultValue={
-                    profileInfo.squat ? profileInfo.squat : " "
-                  }
+                  defaultValue={profileInfo.squat ? profileInfo.squat : " "}
                   sx={{
                     width: 300,
                   }}
@@ -369,9 +367,7 @@ const CreateAccountPage = () => {
                 <TextField
                   id="outlined-bench"
                   label="Bench Weight"
-                  defaultValue={
-                    profileInfo.bench ? profileInfo.bench : " "
-                  }
+                  defaultValue={profileInfo.bench ? profileInfo.bench : " "}
                   sx={{
                     width: 300,
                   }}

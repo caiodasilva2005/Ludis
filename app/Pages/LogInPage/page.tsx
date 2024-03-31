@@ -59,6 +59,7 @@ const LogInPage = () => {
     const res = await SignUp();
     if (res) {
       window.location.href = "/Pages/CreateAccountPage"; //switch to next page after sign up
+      sessionStorage.setItem("FromSignUp", "true");
       return;
     }
   };

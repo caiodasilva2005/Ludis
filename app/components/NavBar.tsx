@@ -6,6 +6,7 @@ import PhotoDisplay from "./PhotoDisplay";
 const NavBar = ({ currentUser }) => {
   const handleClick = () => {
     window.location.href = "/Pages/CreateAccountPage";
+    sessionStorage.setItem("FromSignUp", "false");
   };
 
   return (

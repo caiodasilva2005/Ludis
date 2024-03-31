@@ -7,12 +7,16 @@ const HomeButton = () => {
   return (
     <Box
       sx={{
+        position: "fixed",
+        top: 4,
+        left: 4,
         bgcolor: "white",
         borderRadius: 2,
         padding: 1,
         cursor: "pointer",
       }}
       onClick={(e) => {
+        sessionStorage.setItem("FromSignUp", "false");
         window.location.href = "/";
       }}
     >
