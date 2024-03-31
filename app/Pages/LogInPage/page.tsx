@@ -105,6 +105,11 @@ const LogInPage = () => {
       return false;
     }
 
+    if (username.split(" ").length > 1) {
+      setUsernameErrorText("Username cannot have spaces");
+      return false;
+    }
+
     return true;
   }
 
@@ -114,15 +119,18 @@ const LogInPage = () => {
       return false;
     }
 
+    if (email.split(" ").length > 1) {
+      setEmailErrorText("Email cannot have spaces");
+      return false;
+    }
+
     if (!email.includes("@")) {
       setEmailErrorText("Invalid Email");
-      console.log("what");
       return false;
     }
 
     if (email.substring(email.length - 4, email.length) !== ".com") {
       setEmailErrorText("Invalid Email");
-      console.log(email.substring(email.length - 3, email.length));
       return false;
     }
 
@@ -132,6 +140,11 @@ const LogInPage = () => {
   function validatePassword(password: string) {
     if (password.length == 0) {
       setPasswordErrorText("Password is required");
+      return false;
+    }
+
+    if (password.split(" ").length > 1) {
+      setPasswordErrorText("Password cannot have spaces");
       return false;
     }
 
