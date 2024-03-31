@@ -65,8 +65,8 @@ const ProfileDisplays = (props: ProfileDisplaysProps) => {
       <Grid container spacing={3}>
         {filteredProfiles &&
           filteredProfiles.map((profile) => (
-            <Grid item xs={12} md={6} lg={4}>
-              <ProfileDisplay key={profile.username} profile={profile} />
+            <Grid key={profile.id} item xs={12} md={6} lg={4}>
+              <ProfileDisplay key={profile.id} profile={profile} />
             </Grid>
           ))}
       </Grid>

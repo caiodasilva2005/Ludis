@@ -10,6 +10,7 @@ import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
 import { v4 as uuidv4 } from "uuid";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
+import { profile } from "console";
 
 const CreateAccountPage = () => {
   const [userId, setUserId] = useState<number>(-1);
@@ -21,7 +22,6 @@ const CreateAccountPage = () => {
       setUserId(Number(storedUserId));
     }
     console.log(storedUserId);
-    console.log(userId);
   }, []);
 
   useEffect(() => {
@@ -30,13 +30,13 @@ const CreateAccountPage = () => {
         const { data, error } = await supabase
           .from(profileTable)
           .select()
-          .eq("id", userId)
-          .single();
+          .eq("id", userId);
         if (error) {
           console.log(`${error.code}: ${error.message}`);
           return;
         }
-        setProfileInfo(data);
+        setProfileInfo(data[0]);
+        console.log("Data:", data[0]);
       }
     };
     fetchProfile();
@@ -165,16 +165,20 @@ const CreateAccountPage = () => {
         <Grid container>
           <Grid item xs={6}>
             <Stack spacing={4} alignItems="center">
-              <PhotoDisplay height={200} width={300} img={profileInfo.image} />
+              <PhotoDisplay
+                height={200}
+                width={300}
+                img={profileInfo ? profileInfo.image : "/next.svg"}
+              />
               <UploadFileButton
                 onImgFile={(e) => handleImgFile(e.target.files?.[0])}
               />
               <TextField
                 id="outlined-bio"
-                label="Bio"
+                label={profileInfo ? "" : "Bio"}
                 multiline
                 rows={2}
-                defaultValue={profileInfo.bio ? profileInfo.bio : " "}
+                defaultValue={profileInfo ? profileInfo.bio : " "}
                 onChange={(e) =>
                   setProfileInfo({
                     ...profileInfo,
@@ -194,10 +198,8 @@ const CreateAccountPage = () => {
               >
                 <TextField
                   id="outlined-firstname"
-                  label="First Name"
-                  defaultValue={
-                    profileInfo.first_name ? profileInfo.first_name : " "
-                  }
+                  label={profileInfo ? "" : "First Name"}
+                  defaultValue={profileInfo ? profileInfo.first_name : " "}
                   sx={{
                     width: 300,
                   }}
@@ -210,10 +212,8 @@ const CreateAccountPage = () => {
                 />
                 <TextField
                   id="outlined-lastname"
-                  label="Last Name"
-                  defaultValue={
-                    profileInfo.last_name ? profileInfo.last_name : " "
-                  }
+                  label={profileInfo ? "" : "Last Name"}
+                  defaultValue={profileInfo ? profileInfo.last_name : " "}
                   sx={{
                     width: 300,
                   }}
@@ -227,7 +227,7 @@ const CreateAccountPage = () => {
               </Box>
               <TextField
                 id="outlined-select-gender"
-                defaultValue={profileInfo.gender ? profileInfo.gender : " "}
+                defaultValue={profileInfo ? profileInfo.gender : " "}
                 select
                 label="Gender"
                 onChange={(e) =>
@@ -246,11 +246,7 @@ const CreateAccountPage = () => {
               <TextField
                 id="outlined-select-experience"
                 select
-                defaultValue={
-                  profileInfo.experience_level
-                    ? profileInfo.experience_level
-                    : " "
-                }
+                defaultValue={profileInfo ? profileInfo.experience_level : " "}
                 label="Experience"
                 onChange={(e) =>
                   setProfileInfo({
