@@ -98,7 +98,7 @@ const CreateAccountPage = () => {
 
   function getMonths(): string[] {
     let monthList: string[] = [];
-    for (let i = 12; i >= 1; i--) {
+    for (let i = 1; i <= 12; i++) {
       if (i < 10) monthList.push("0" + i);
       else monthList.push("" + i);
     }
@@ -263,12 +263,13 @@ const CreateAccountPage = () => {
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setNameError("");
                     setProfileInfo({
                       ...profileInfo,
                       first_name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
                 <TextField
                   required
@@ -280,12 +281,13 @@ const CreateAccountPage = () => {
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setNameError("");
                     setProfileInfo({
                       ...profileInfo,
                       last_name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </Box>
               <TextField
@@ -295,13 +297,14 @@ const CreateAccountPage = () => {
                 id="outlined-select-gender"
                 defaultValue={profileInfo ? profileInfo.gender : " "}
                 select
-                label="Gender"
-                onChange={(e) =>
+                label={profileInfo ? profileInfo.gender : "Gender"}
+                onChange={(e) => {
+                  setGenderError("");
                   setProfileInfo({
                     ...profileInfo,
                     gender: e.target.value,
-                  })
-                }
+                  });
+                }}
               >
                 {genderOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -316,13 +319,16 @@ const CreateAccountPage = () => {
                 id="outlined-select-experience"
                 select
                 defaultValue={profileInfo ? profileInfo.experience_level : " "}
-                label="Experience"
-                onChange={(e) =>
+                label={
+                  profileInfo ? profileInfo.experience_level : "Experience"
+                }
+                onChange={(e) => {
+                  setExplevelError("");
                   setProfileInfo({
                     ...profileInfo,
                     experience_level: e.target.value,
-                  })
-                }
+                  });
+                }}
               >
                 {experienceOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -346,12 +352,13 @@ const CreateAccountPage = () => {
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       month: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getMonths().map((option) => (
                     <MenuItem key={option} value={option}>
@@ -369,12 +376,13 @@ const CreateAccountPage = () => {
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       day: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getDays().map((option) => (
                     <MenuItem key={option} value={option}>
@@ -392,12 +400,13 @@ const CreateAccountPage = () => {
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       year: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getYears().map((option) => (
                     <MenuItem key={option} value={option}>
