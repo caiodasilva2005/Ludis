@@ -1,7 +1,6 @@
 "use client";
 import { Box, Grid, Stack, TextField, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import CustomButton from "@/app/components/CustomButton";
 import { Profile } from "@/app/Types/types";
 import UploadFileButton from "@/app/components/UploadFileButton";
@@ -10,12 +9,16 @@ import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
 import { v4 as uuidv4 } from "uuid";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
-import { profile } from "console";
 import HomeButton from "@/app/components/HomeButton";
+import { profile } from "console";
 
 const CreateAccountPage = () => {
   const [userId, setUserId] = useState<number>(-1);
   const [profileInfo, setProfileInfo] = useState<Profile>({});
+  const [nameError, setNameError] = useState<String>("");
+  const [genderError, setGenderError] = useState<String>("");
+  const [explevelError, setExplevelError] = useState<String>("");
+  const [ageError, setAgeError] = useState<String>("");
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem("CurrentUser");
@@ -49,6 +52,38 @@ const CreateAccountPage = () => {
     year: "",
   });
 
+  function validateAge() {
+    if (profileInfo.age === -1) {
+      setAgeError("Enter DOB");
+      return false;
+    }
+    return true;
+  }
+
+  function validateName() {
+    if (!profileInfo.first_name || !profileInfo.last_name) {
+      setNameError("Enter Name");
+      return false;
+    }
+    return true;
+  }
+
+  function validateGender() {
+    if (!profileInfo.gender) {
+      setGenderError("Enter Gender");
+      return false;
+    }
+    return true;
+  }
+
+  function validateExperienceLevel() {
+    if (!profileInfo.experience_level) {
+      setExplevelError("Enter Experience Level");
+      return false;
+    }
+    return true;
+  }
+
   const genderOptions = ["Male", "Female", "Other"];
   const experienceOptions = ["Beginner", "Intermediate", "Advanced"];
 
@@ -63,7 +98,7 @@ const CreateAccountPage = () => {
 
   function getMonths(): string[] {
     let monthList: string[] = [];
-    for (let i = 12; i >= 1; i--) {
+    for (let i = 1; i <= 12; i++) {
       if (i < 10) monthList.push("0" + i);
       else monthList.push("" + i);
     }
@@ -82,6 +117,10 @@ const CreateAccountPage = () => {
   }
 
   function getAge(): number {
+    if (!dob.day || !dob.month || !dob.year) {
+      return -1;
+    }
+
     let today = new Date();
     if (
       today.getDay() - parseInt(dob.day) >= 0 &&
@@ -124,19 +163,35 @@ const CreateAccountPage = () => {
   }
 
   async function Submit() {
+    const ageRes = validateAge();
+    const nameRes = validateName();
+    const genderRes = validateGender();
+    const experienceRes = validateExperienceLevel();
+
+    if (!ageRes || !nameRes || !genderRes || !experienceRes) {
+      console.log("Dob:", ageRes);
+      console.log("Gender:", genderRes);
+      console.log("Name:", nameRes);
+      console.log("Exp:", experienceRes);
+      return false;
+    }
+
     const { error } = await supabase
       .from(profileTable)
       .update(profileInfo)
       .eq("id", userId);
     if (error) {
       console.log(`${error.code}: ${error.message}`);
-      return;
+      return false;
     }
+    return true;
   }
 
   const handleSubmit = async () => {
-    await Submit();
-    window.location.href = "/";
+    const res = await Submit();
+    if (res) {
+      window.location.href = "/";
+    }
   };
 
   return (
@@ -199,45 +254,57 @@ const CreateAccountPage = () => {
                 }}
               >
                 <TextField
+                  required
+                  error={nameError !== ""}
+                  helperText={nameError}
                   id="outlined-firstname"
                   label={profileInfo ? "" : "First Name"}
                   defaultValue={profileInfo ? profileInfo.first_name : " "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setNameError("");
                     setProfileInfo({
                       ...profileInfo,
                       first_name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
                 <TextField
+                  required
+                  error={nameError !== ""}
+                  helperText={nameError}
                   id="outlined-lastname"
                   label={profileInfo ? "" : "Last Name"}
                   defaultValue={profileInfo ? profileInfo.last_name : " "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setNameError("");
                     setProfileInfo({
                       ...profileInfo,
                       last_name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </Box>
               <TextField
+                required
+                error={genderError !== ""}
+                helperText={genderError}
                 id="outlined-select-gender"
                 defaultValue={profileInfo ? profileInfo.gender : " "}
                 select
-                label="Gender"
-                onChange={(e) =>
+                label={profileInfo ? profileInfo.gender : "Gender"}
+                onChange={(e) => {
+                  setGenderError("");
                   setProfileInfo({
                     ...profileInfo,
                     gender: e.target.value,
-                  })
-                }
+                  });
+                }}
               >
                 {genderOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -246,16 +313,22 @@ const CreateAccountPage = () => {
                 ))}
               </TextField>
               <TextField
+                required
+                error={explevelError !== ""}
+                helperText={explevelError}
                 id="outlined-select-experience"
                 select
                 defaultValue={profileInfo ? profileInfo.experience_level : " "}
-                label="Experience"
-                onChange={(e) =>
+                label={
+                  profileInfo ? profileInfo.experience_level : "Experience"
+                }
+                onChange={(e) => {
+                  setExplevelError("");
                   setProfileInfo({
                     ...profileInfo,
                     experience_level: e.target.value,
-                  })
-                }
+                  });
+                }}
               >
                 {experienceOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -270,18 +343,22 @@ const CreateAccountPage = () => {
                 }}
               >
                 <TextField
+                  required
+                  error={ageError !== ""}
+                  helperText={ageError}
                   id="outlined-select-months"
                   select
                   label="mm"
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       month: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getMonths().map((option) => (
                     <MenuItem key={option} value={option}>
@@ -290,18 +367,22 @@ const CreateAccountPage = () => {
                   ))}
                 </TextField>
                 <TextField
+                  required
+                  error={ageError !== ""}
+                  helperText={ageError}
                   id="outlined-select-days"
                   select
                   label="dd"
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       day: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getDays().map((option) => (
                     <MenuItem key={option} value={option}>
@@ -310,18 +391,22 @@ const CreateAccountPage = () => {
                   ))}
                 </TextField>
                 <TextField
+                  required
+                  error={ageError !== ""}
+                  helperText={ageError}
                   id="outlined-select-years"
                   select
                   label="yyyy"
                   sx={{
                     width: 200,
                   }}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setAgeError("");
                     setDob({
                       ...dob,
                       year: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {getYears().map((option) => (
                     <MenuItem key={option} value={option}>

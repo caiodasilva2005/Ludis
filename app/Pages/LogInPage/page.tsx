@@ -82,7 +82,7 @@ const LogInPage = () => {
       setUsernameErrorText("Invalid Username");
       return false;
     }
-    if (password === data[0].password && email === data[0].email) {
+    if (data[0] && password === data[0].password && email === data[0].email) {
       sessionStorage.setItem("CurrentUser", data[0].id);
       console.log(data[0]);
       return true;
