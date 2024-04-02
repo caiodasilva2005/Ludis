@@ -141,7 +141,6 @@ export default function Home() {
           onClose={() => setIsDrawerOpen(false)}
         >
           <SideBar
-            currentUser={currentUser}
             onChange={handleFilterChange}
             onRunFilter={handleRunFilter}
           />
