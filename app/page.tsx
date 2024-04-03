@@ -52,7 +52,6 @@ export default function Home() {
           console.log(`${error.code}: ${error.message}`);
           return;
         }
-
         setCurrentUser(data);
       }
     };
@@ -131,7 +130,17 @@ export default function Home() {
         <IconButton
           size="large"
           style={{ color: "white" }}
-          onClick={() => setIsDrawerOpen(true)}
+          onClick={() => {
+            setFilter({
+              gender: { filMale: false, filFemale: false, filOther: false },
+              experience_level: {
+                filBeginner: false,
+                filIntermediate: false,
+                filAdvanced: false,
+              },
+            });
+            setIsDrawerOpen(true);
+          }}
         >
           <MenuIcon />
         </IconButton>
