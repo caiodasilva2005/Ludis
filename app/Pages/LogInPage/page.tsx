@@ -15,6 +15,7 @@ import { supabase } from "@/app/utils/supabase";
 import { profileTable } from "@/app/Types/types";
 import React, { useState } from "react";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
+import Image from "next/image";
 
 const LogInPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -171,13 +172,15 @@ const LogInPage = () => {
           borderRadius: "25px",
           textAlign: "center",
           padding: "20px",
+          width: "400px",
         }}
       >
         <CardContent>
-          <PhotoDisplay
-            img="/LudisLogoWithTitle.png"
-            width={225}
-            height={180}
+          <Image
+            src="/LudisLogoWithTitle.png"
+            alt="image"
+            width={300}
+            height={250}
           />
           <Stack spacing={5}>
             <Stack spacing={2}>
@@ -250,79 +253,6 @@ const LogInPage = () => {
         </CardContent>
       </Card>
     </Container>
-    // <Container
-    //   sx={{
-    //     display: "flex",
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //     height: "100vh",
-    //   }}
-    // >
-    //   <Paper
-    //     elevation={24}
-    //     sx={{
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       width: 0.5,
-    //       height: 700,
-    //       borderRadius: "25px",
-    //       textAlign: "center",
-    //     }}
-    //   >
-    //     <Typography fontSize={40} sx={{ mt: 10 }}>
-    //       Welcome to Ludis!
-    //     </Typography>
-    //     <Stack spacing={2} sx={{ mt: 8, mx: 5 }}>
-    //       <TextField
-    //         id="outlined"
-    //         label="Username"
-    //         defaultValue=""
-    //         onChange={(e) => setUsername(e.target.value)}
-    //         sx={{
-    //           "& .MuiOutlinedInput-root": {
-    //             borderRadius: "20px",
-    //           },
-    //         }}
-    //       />
-    //       <TextField
-    //         id="outlined"
-    //         label="Email"
-    //         defaultValue=""
-    //         onChange={(e) => setEmail(e.target.value)}
-    //         sx={{
-    //           "& .MuiOutlinedInput-root": {
-    //             borderRadius: "20px",
-    //           },
-    //         }}
-    //       />
-    //       <TextField
-    //         id="outlined"
-    //         label="Password"
-    //         defaultValue=""
-    //         onChange={(e) => setPassword(e.target.value)}
-    //         sx={{
-    //           "& .MuiOutlinedInput-root": {
-    //             borderRadius: "20px",
-    //           },
-    //         }}
-    //       />
-    //     </Stack>
-    //     <Stack spacing={2} sx={{ mt: 7, mx: 3 }}>
-    //       <CustomButton
-    //         buttonProps={{
-    //           label: "Log In",
-    //           onClick: handleLogIn,
-    //         }}
-    //       />
-    //       <CustomButton
-    //         buttonProps={{
-    //           label: "Sign Up",
-    //           onClick: async () => await handleSignUp(),
-    //         }}
-    //       />
-    //     </Stack>
-    //   </Paper>
-    // </Container>
   );
 };
 
