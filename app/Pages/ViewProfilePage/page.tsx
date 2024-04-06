@@ -3,18 +3,25 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/utils/supabase";
 import { Profile, profileTable, Post, postTable } from "@/app/Types/types";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, Drawer } from "@mui/material";
 import PhotoDisplay from "@/app/components/PhotoDisplay";
 import InfoDisplay from "@/app/components/InfoDisplay";
+import NavBar from "@/app/components/NavBar";
 import CustomButton from "@/app/components/CustomButton";
 import HomeButton from "@/app/components/HomeButton";
 
 const ViewProfilePage = () => {
+  const [userId, setUserId] = useState<number>(-1);
+  const [currentUser, setCurrentUser] = useState<Profile>();
   const [profileData, setProfileData] = useState<Profile>();
-  const [postData, setPostData] = useState<Post>();
   const [profileId, setProfileId] = useState<number>(-1);
 
   useEffect(() => {
+    const storedUserId = sessionStorage.getItem("CurrentUser");
+    if (storedUserId) {
+      setUserId(Number(storedUserId));
+    }
+
     const storedProfileId = sessionStorage.getItem("ProfileToView");
     if (storedProfileId) {
       setProfileId(Number(storedProfileId));
@@ -39,239 +46,183 @@ const ViewProfilePage = () => {
       }
     };
 
-    const fetchPostInfo = async () => {
-      console.log("working");
-      try {
+    fetchProfileInfo();
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (userId !== -1) {
         const { data, error } = await supabase
-          .from(postTable)
+          .from(profileTable)
           .select()
-          .eq("postId", storedProfileId);
+          .eq("id", userId)
+          .single();
+
         if (error) {
-          throw error;
+          console.log(`${error.code}: ${error.message}`);
+          return;
         }
-        setPostData(data[0]);
-      } catch (error) {
-        console.log("Error fetching post info:", error);
+        setCurrentUser(data);
       }
     };
 
-    fetchProfileInfo();
-    fetchPostInfo();
-  }, []);
+    fetchProfile();
+  }, [userId]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={5} marginTop={2}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start", // Align to the top left
-          }}
-        >
-          <HomeButton />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center", // Align the content in the center
-          }}
-        >
-          <PhotoDisplay height={275} width={275} img={profileData?.image} />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "bold",
-              fontSize: 32,
-              color: "white",
-              marginTop: 2,
-            }}
-          >
-            {profileData?.username}
-          </Typography>
-        </Box>
-        <Stack spacing={2} marginLeft={2}>
+    <Box
+      sx={{
+        bgcolor: "#28282B",
+        height: "auto",
+        padding: "40px",
+        paddingBottom: "100px",
+      }}
+    >
+      <Box>
+        <Drawer anchor="top" variant="permanent">
+          <NavBar currentUser={currentUser} />
+        </Drawer>
+      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6} sx={{ mt: 10 }}>
           <Box
             sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="Gender"
-              info={profileData?.gender}
-              fontColor="white"
-            />
-          </Box>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="Experience Level"
-              info={profileData?.experience_level}
-              fontColor="white"
-            />
-          </Box>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="Age"
-              info={profileData?.age}
-              fontColor="white"
-            />
-          </Box>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="Preferred Workout Time"
-              info={`${profileData?.workout_from}-${profileData?.workout_to}`}
-              fontColor="white"
-            />
-          </Box>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="Current Split"
-              info={profileData?.split}
-              fontColor="white"
-            />
-          </Box>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#5016b9",
-              borderRadius: 4,
-            }}
-          >
-            <InfoDisplay
-              label="SBD (lbs)"
-              info={`${profileData?.squat}/${profileData?.bench}/${profileData?.deadlift}`}
-              fontColor="white"
-            />
-          </Box>
-        </Stack>
-      </Grid>
-      <Grid item xs={7}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            padding: 4,
-            bgcolor: "indigo",
-            borderRadius: 4,
-            height: "93vh",
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: 32,
-              fontWeight: "bold",
-              color: "white",
               display: "flex",
-              alignItems: "center",
+              justifyContent: "center",
+              alignItems: "center", // Align the content in the center
+            }}
+          >
+            <PhotoDisplay height={400} width={500} img={profileData?.image} />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
               justifyContent: "center",
             }}
           >
-            About
-          </Typography>
-          <Box
-            sx={{
-              padding: 4,
-              bgcolor: "white",
-              borderRadius: 2,
-              height: "100vh",
-            }}
-          >
             <Typography
+              variant="body1"
               sx={{
-                fontSize: 16,
+                fontWeight: "bold",
+                fontSize: 32,
+                color: "white",
+                marginTop: 2,
               }}
             >
-              {profileData?.bio}
+              {profileData?.first_name + " " + profileData?.last_name}
             </Typography>
           </Box>
-          {/* <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Typography
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              padding: 4,
+              borderRadius: 4,
+            }}
+          >
+            <Box
               sx={{
-                fontSize: 32,
-                fontWeight: "bold",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                padding: 4,
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 2,
               }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  color: "white",
+                }}
               >
-              Ideal Gym Partner
+                {profileData?.bio}
               </Typography>
-              <Box
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6} sx={{ mt: { xs: 0, md: 10 } }}>
+          <Stack spacing={2} marginRight={2}>
+            <Box
               sx={{
                 padding: 2,
-                bgcolor: "white",
-                borderRadius: 2,
-                height: "50vh",
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
               }}
-              >
-
-              
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography
-              sx={{
-                fontSize: 32,
-                fontWeight: "bold",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              >
-              Goals
-              </Typography>
-              <Box
+            >
+              <InfoDisplay
+                label="Gender"
+                info={profileData?.gender}
+                fontColor="white"
+              />
+            </Box>
+            <Box
               sx={{
                 padding: 2,
-                bgcolor: "white",
-                borderRadius: 2,
-                height: "50vh",
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
               }}
-              >
-              </Box>
-            </Grid>
-            </Grid> */}
-        </Box>
+            >
+              <InfoDisplay
+                label="Experience Level"
+                info={profileData?.experience_level}
+                fontColor="white"
+              />
+            </Box>
+            <Box
+              sx={{
+                padding: 2,
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
+              }}
+            >
+              <InfoDisplay
+                label="Age"
+                info={profileData?.age}
+                fontColor="white"
+              />
+            </Box>
+            <Box
+              sx={{
+                padding: 2,
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
+              }}
+            >
+              <InfoDisplay
+                label="Preferred Workout Time"
+                info={`${profileData?.workout_from}-${profileData?.workout_to}`}
+                fontColor="white"
+              />
+            </Box>
+            <Box
+              sx={{
+                padding: 2,
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
+              }}
+            >
+              <InfoDisplay
+                label="Current Split"
+                info={profileData?.split}
+                fontColor="white"
+              />
+            </Box>
+            <Box
+              sx={{
+                padding: 2,
+                backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
+                borderRadius: 4,
+              }}
+            >
+              <InfoDisplay
+                label="SBD (lbs)"
+                info={`${profileData?.squat}/${profileData?.bench}/${profileData?.deadlift}`}
+                fontColor="white"
+              />
+            </Box>
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 

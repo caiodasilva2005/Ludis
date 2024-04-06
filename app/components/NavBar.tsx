@@ -19,10 +19,19 @@ const NavBar = ({ currentUser }) => {
         boxShadow: 4,
         justifyContent: "space-between",
         alignItems: "center",
-        // borderRadius: "25px",
       }}
     >
-      <PhotoDisplay img="/LudisLogo.png" width={50} height={40} />
+      <Box
+        sx={{
+          cursor: "pointer",
+        }}
+        onClick={(e) => {
+          sessionStorage.setItem("FromSignUp", "false");
+          window.location.href = "/";
+        }}
+      >
+        <PhotoDisplay img="/LudisLogo.png" width={50} height={40} />
+      </Box>
       <Box
         sx={{
           position: "relative",
