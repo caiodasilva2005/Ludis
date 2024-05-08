@@ -1,50 +1,23 @@
 "use client";
 import { Box, Grid, Stack, TextField, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CustomButton from "@/app/components/CustomButton";
-import { Profile } from "@/app/Types/types";
-import UploadFileButton from "@/app/components/UploadFileButton";
-import { imageBucket } from "@/app/Types/types";
-import { supabase } from "@/app/utils/supabase";
-import { profileTable } from "@/app/Types/types";
+import CustomButton from "@/app/frontend/src/components/CustomButton";
+import { User } from "@/app/shared/src/types/users.types";
+import UploadFileButton from "@/app/frontend/src/components/UploadFileButton";
+import { imageBucket } from "@/app/shared/src/utils/supabase";
+import { supabase } from "@/app/shared/src/utils/supabase";
+import { profileTable } from "@/app/shared/src/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
-import PhotoDisplay from "@/app/components/PhotoDisplay";
-import HomeButton from "@/app/components/HomeButton";
-import { profile } from "console";
+import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
+import HomeButton from "@/app/frontend/src/components/HomeButton";
+import { useCurrentUser } from "../../hooks/users.hooks";
 
 const CreateAccountPage = () => {
-  const [userId, setUserId] = useState<number>(-1);
-  const [profileInfo, setProfileInfo] = useState<Profile>({});
+  const currentUser = useCurrentUser();
   const [nameError, setNameError] = useState<String>("");
   const [genderError, setGenderError] = useState<String>("");
   const [explevelError, setExplevelError] = useState<String>("");
   const [ageError, setAgeError] = useState<String>("");
-
-  useEffect(() => {
-    const storedUserId = sessionStorage.getItem("CurrentUser");
-    if (storedUserId) {
-      setUserId(Number(storedUserId));
-    }
-    console.log(storedUserId);
-  }, []);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (userId !== -1) {
-        const { data, error } = await supabase
-          .from(profileTable)
-          .select()
-          .eq("id", userId);
-        if (error) {
-          console.log(`${error.code}: ${error.message}`);
-          return;
-        }
-        setProfileInfo(data[0]);
-        console.log("Data:", data[0]);
-      }
-    };
-    fetchProfile();
-  }, [userId]);
 
   const [dob, setDob] = useState({
     day: "",
@@ -61,26 +34,14 @@ const CreateAccountPage = () => {
   }
 
   function validateName() {
-    if (!profileInfo.first_name || !profileInfo.last_name) {
-      setNameError("Enter Name");
-      return false;
-    }
     return true;
   }
 
   function validateGender() {
-    if (!profileInfo.gender) {
-      setGenderError("Enter Gender");
-      return false;
-    }
     return true;
   }
 
   function validateExperienceLevel() {
-    if (!profileInfo.experience_level) {
-      setExplevelError("Enter Experience Level");
-      return false;
-    }
     return true;
   }
 
@@ -131,13 +92,6 @@ const CreateAccountPage = () => {
     return today.getFullYear() - parseInt(dob.year) - 1;
   }
 
-  useEffect(() => {
-    setProfileInfo({
-      ...profileInfo,
-      age: getAge(),
-    });
-  }, [dob]); /* Update Age On Load*/
-
   function getImgURL(filename: string) {
     const { data } = supabase.storage
       .from(imageBucket)
@@ -156,10 +110,6 @@ const CreateAccountPage = () => {
       return;
     }
     const imgUrl = getImgURL(filename);
-    setProfileInfo({
-      ...profileInfo,
-      image: imgUrl,
-    });
   }
 
   async function Submit() {
@@ -175,23 +125,11 @@ const CreateAccountPage = () => {
       console.log("Exp:", experienceRes);
       return false;
     }
-
-    const { error } = await supabase
-      .from(profileTable)
-      .update(profileInfo)
-      .eq("id", userId);
-    if (error) {
-      console.log(`${error.code}: ${error.message}`);
-      return false;
-    }
     return true;
   }
 
   const handleSubmit = async () => {
-    const res = await Submit();
-    if (res) {
-      window.location.href = "/";
-    }
+    console.log(currentUser);
   };
 
   return (
@@ -204,7 +142,6 @@ const CreateAccountPage = () => {
         height: "100vh",
       }}
     >
-      {sessionStorage.getItem("FromSignUp") === "false" && <HomeButton />}
       <Box
         sx={{
           bgcolor: "white",
@@ -222,26 +159,16 @@ const CreateAccountPage = () => {
         <Grid container>
           <Grid item xs={6}>
             <Stack spacing={4} alignItems="center">
-              <PhotoDisplay
-                height={200}
-                width={300}
-                img={profileInfo ? profileInfo.image : "/next.svg"}
-              />
+              <PhotoDisplay height={200} width={300} img={"/next.svg"} />
               <UploadFileButton
                 onImgFile={(e) => handleImgFile(e.target.files?.[0])}
               />
               <TextField
                 id="outlined-bio"
-                label={profileInfo ? "" : "Bio"}
+                label={"Bio"}
                 multiline
                 rows={2}
-                defaultValue={profileInfo ? profileInfo.bio : " "}
-                onChange={(e) =>
-                  setProfileInfo({
-                    ...profileInfo,
-                    bio: e.target.value,
-                  })
-                }
+                defaultValue={" "}
               />
             </Stack>
           </Grid>
@@ -258,17 +185,10 @@ const CreateAccountPage = () => {
                   error={nameError !== ""}
                   helperText={nameError}
                   id="outlined-firstname"
-                  label={profileInfo ? "" : "First Name"}
-                  defaultValue={profileInfo ? profileInfo.first_name : " "}
+                  label={"First Name"}
+                  defaultValue={" "}
                   sx={{
                     width: 300,
-                  }}
-                  onChange={(e) => {
-                    setNameError("");
-                    setProfileInfo({
-                      ...profileInfo,
-                      first_name: e.target.value,
-                    });
                   }}
                 />
                 <TextField
@@ -276,17 +196,10 @@ const CreateAccountPage = () => {
                   error={nameError !== ""}
                   helperText={nameError}
                   id="outlined-lastname"
-                  label={profileInfo ? "" : "Last Name"}
-                  defaultValue={profileInfo ? profileInfo.last_name : " "}
+                  label={"Last Name"}
+                  defaultValue={" "}
                   sx={{
                     width: 300,
-                  }}
-                  onChange={(e) => {
-                    setNameError("");
-                    setProfileInfo({
-                      ...profileInfo,
-                      last_name: e.target.value,
-                    });
                   }}
                 />
               </Box>
@@ -295,16 +208,9 @@ const CreateAccountPage = () => {
                 error={genderError !== ""}
                 helperText={genderError}
                 id="outlined-select-gender"
-                defaultValue={profileInfo ? profileInfo.gender : " "}
+                defaultValue={" "}
                 select
-                label={profileInfo ? profileInfo.gender : "Gender"}
-                onChange={(e) => {
-                  setGenderError("");
-                  setProfileInfo({
-                    ...profileInfo,
-                    gender: e.target.value,
-                  });
-                }}
+                label={"Gender"}
               >
                 {genderOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -318,17 +224,8 @@ const CreateAccountPage = () => {
                 helperText={explevelError}
                 id="outlined-select-experience"
                 select
-                defaultValue={profileInfo ? profileInfo.experience_level : " "}
-                label={
-                  profileInfo ? profileInfo.experience_level : "Experience"
-                }
-                onChange={(e) => {
-                  setExplevelError("");
-                  setProfileInfo({
-                    ...profileInfo,
-                    experience_level: e.target.value,
-                  });
-                }}
+                defaultValue={" "}
+                label={"Experience"}
               >
                 {experienceOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -424,60 +321,34 @@ const CreateAccountPage = () => {
                 <TextField
                   id="outlined-split"
                   label="Split"
-                  defaultValue={profileInfo.split ? profileInfo.split : " "}
+                  defaultValue={" "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
-                    setProfileInfo({
-                      ...profileInfo,
-                      split: e.target.value,
-                    })
-                  }
                 />
                 <TextField
                   id="outlined-squat"
                   label="Squat Weight"
-                  defaultValue={profileInfo.squat ? profileInfo.squat : " "}
+                  defaultValue={" "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
-                    setProfileInfo({
-                      ...profileInfo,
-                      squat: parseInt(e.target.value),
-                    })
-                  }
                 />
                 <TextField
                   id="outlined-bench"
                   label="Bench Weight"
-                  defaultValue={profileInfo.bench ? profileInfo.bench : " "}
+                  defaultValue={" "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
-                    setProfileInfo({
-                      ...profileInfo,
-                      bench: parseInt(e.target.value),
-                    })
-                  }
                 />
                 <TextField
                   id="outlined-deadlift"
                   label="Deadlift Weight"
-                  defaultValue={
-                    profileInfo.deadlift ? profileInfo.deadlift : " "
-                  }
+                  defaultValue={" "}
                   sx={{
                     width: 300,
                   }}
-                  onChange={(e) =>
-                    setProfileInfo({
-                      ...profileInfo,
-                      deadlift: parseInt(e.target.value),
-                    })
-                  }
                 />
               </Box>
             </Stack>
@@ -486,7 +357,7 @@ const CreateAccountPage = () => {
         <CustomButton
           buttonProps={{
             label: "Submit",
-            onClick: async () => await handleSubmit(),
+            onClick: handleSubmit,
           }}
         />
       </Box>

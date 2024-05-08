@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
 
 const sb_url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -10,4 +11,5 @@ if (sb_key === undefined) {
 }
 
 export const supabase = createClient(sb_url, sb_key);
-
+export const profileTable = "profiles";
+export const imageBucket = "avatars";

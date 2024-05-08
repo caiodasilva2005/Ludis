@@ -1,14 +1,17 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import { supabase } from "@/app/utils/supabase";
-import { Profile, profileTable, Post, postTable } from "@/app/Types/types";
+import { supabase } from "@/app/shared/src/utils/supabase";
+import {
+  Profile,
+  profileTable,
+  Post,
+  postTable,
+} from "@/app/shared/src/types/users.types";
 import { Box, Grid, Stack, Typography, Drawer } from "@mui/material";
-import PhotoDisplay from "@/app/components/PhotoDisplay";
-import InfoDisplay from "@/app/components/InfoDisplay";
-import NavBar from "@/app/components/NavBar";
-import CustomButton from "@/app/components/CustomButton";
-import HomeButton from "@/app/components/HomeButton";
+import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
+import InfoDisplay from "@/app/frontend/src/components/InfoDisplay";
+import NavBar from "@/app/frontend/src/components/NavBar";
 
 const ViewProfilePage = () => {
   const [userId, setUserId] = useState<number>(-1);

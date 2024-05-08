@@ -3,7 +3,7 @@ import { Box, Stack, Typography, Container } from "@mui/material";
 import FilterGroup from "./FilterGroup";
 import CustomButton from "./CustomButton";
 
-const SideBar = ({ currentUser, onChange, onRunFilter }) => {
+const SideBar = ({ onChange, onRunFilter }) => {
   return (
     <Container
       sx={{

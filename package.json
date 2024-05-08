@@ -2,8 +2,11 @@
   "name": "ludis",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev:frontend": "next dev",
+    "dev:backend": "ts-node-esm app/backend/index.ts",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -17,12 +20,20 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.39.3",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "axios": "^1.6.8",
     "bootstrap": "^5.3.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.2",
+    "express": "^4.19.2",
+    "express-router": "^0.0.1",
+    "express-validator": "^7.0.1",
     "next": "14.1.0",
     "react": "^18",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18",
+    "react-query": "^3.39.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -31,11 +42,13 @@
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.8",
     "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
     "daisyui": "^4.6.0",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }

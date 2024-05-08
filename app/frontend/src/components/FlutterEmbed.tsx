@@ -32,8 +32,8 @@ const FlutterEmbedComponent: React.FC = () => {
 export default FlutterEmbedComponent;*/
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { supabase } from "../utils/supabase";
-import { Profile, profileTable } from "../Types/types";
+import { supabase } from "../../../shared/src/utils/supabase";
+import { Profile, profileTable } from "../../../shared/src/types/users.types";
 
 const FlutterEmbedComponent: React.FC = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);

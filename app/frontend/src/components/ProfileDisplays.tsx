@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileDisplay from "./ProfileDisplay";
-import { Filter, Profile } from "../Types/types";
+import { Filter, Profile } from "../../../shared/src/types/users.types";
 import { Box, Stack, Container, Grid } from "@mui/material";
 
 interface ProfileDisplaysProps {

@@ -1,17 +1,18 @@
 "use client";
-import ProfileDisplays from "./components/ProfileDisplays";
-import SideBar from "./components/SideBar";
+import ProfileDisplays from "./frontend/src/components/ProfileDisplays";
+import SideBar from "./frontend/src/components/SideBar";
 import { useEffect, useState } from "react";
-import { Profile, profileTable, Filter } from "./Types/types";
-import { supabase } from "./utils/supabase";
+import { profileTable, supabase } from "./shared/src/utils/supabase";
 import { Box, Drawer, IconButton } from "@mui/material";
-import NavBar from "./components/NavBar";
+import NavBar from "./frontend/src/components/NavBar";
 import MenuIcon from "@mui/icons-material/Menu";
+import { User } from "./shared/src/types/users.types";
+import { Filter } from "./shared/src/types/filters.types";
 
 export default function Home() {
   const [userId, setUserId] = useState<number>(-1);
-  const [currentUser, setCurrentUser] = useState<Profile>();
-  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>();
+  const [profiles, setProfiles] = useState<User[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<Filter>({
