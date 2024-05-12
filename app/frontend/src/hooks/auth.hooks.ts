@@ -9,7 +9,10 @@ import { useState } from "react";
 const useAuth = () => {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const logInCurrentUser = (user?: User) => {
-    setCurrentUser(user);
+    if (user) {
+      setCurrentUser(user);
+      localStorage.setItem("currentUser", user.userId.toString());
+    }
   };
   return { currentUser, logInCurrentUser };
 };

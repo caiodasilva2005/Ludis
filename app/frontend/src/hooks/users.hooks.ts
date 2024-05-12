@@ -1,6 +1,18 @@
-import { User, UserAccountInfo } from "@/app/shared/src/types/users.types";
+import {
+  User,
+  UserAccountInfo,
+  UserPersonalInfo,
+  UserWithInfo,
+} from "@/app/shared/src/types/users.types";
 import { useQuery, useMutation } from "react-query";
-import { getAllUsers, getSingleUser, signUserUp } from "../apis/users.api";
+import {
+  getAllUsers,
+  getSingleUser,
+  getUserPersonalInfo,
+  setUserPersonalInfo,
+  signUserUp,
+  uploadImage,
+} from "../apis/users.api";
 import { useContext } from "react";
 import { UserContext } from "../providers/AppContextUser";
 
@@ -8,7 +20,8 @@ import { UserContext } from "../providers/AppContextUser";
  * Custom React Hook to supply the current user
  */
 export const useCurrentUser = () => {
-  const { currentUser } = useContext(UserContext);
+  const userId = localStorage.getItem("currentUser");
+  const { data: currentUser } = useSingleUser(parseInt(userId!));
   return currentUser;
 };
 
@@ -55,7 +68,48 @@ export const useSignUserUp = () => {
     ["users", "login"],
     async (userAccountInfo: UserAccountInfo) => {
       const { data } = await signUserUp(userAccountInfo);
+      console.log(data);
       updateCurrentUser(data);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to supply a single user's personal information
+ */
+export const useUserPersonalInfo = (id: number) => {
+  return useQuery<UserPersonalInfo, Error>(
+    ["users", id, "personal-info"],
+    async () => {
+      const { data } = await getUserPersonalInfo(id);
+      console.log("IN HOOK:", data);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to set a single user's personal information
+ */
+export const useSetUserPersonalInfo = (id: number) => {
+  return useMutation<UserWithInfo, Error, UserPersonalInfo>(
+    ["users", id, "personal-info"],
+    async (personalInfo: UserPersonalInfo) => {
+      const { data } = await setUserPersonalInfo(id, personalInfo);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to upload an image
+ */
+export const useUploadImage = () => {
+  return useMutation<string, Error, File>(
+    ["users", "upload-image"],
+    async (imageFile: File) => {
+      const { data } = await uploadImage(imageFile);
       return data;
     }
   );

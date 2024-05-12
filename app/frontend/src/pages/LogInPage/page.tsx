@@ -13,7 +13,11 @@ import {
 import React, { useState } from "react";
 import Image from "next/image";
 import { UserAccountInfo } from "@/app/shared/src/types/users.types";
-import { useSignUserUp, useCurrentUser } from "../../hooks/users.hooks";
+import {
+  useSignUserUp,
+  useCurrentUser,
+  useSingleUser,
+} from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
 import Link from "next/link";
 
@@ -24,7 +28,6 @@ const LogInPage = () => {
     isError: signUserUpIsError,
     error: signUserUpError,
   } = useSignUserUp();
-  const currentUser = useCurrentUser();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -126,7 +129,7 @@ const LogInPage = () => {
                 buttonProps={{
                   label: "Log In",
                   onClick: () => {
-                    console.log(currentUser);
+                    console.log("Logging in");
                   },
                 }}
               />

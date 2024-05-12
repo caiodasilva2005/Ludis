@@ -1,8 +1,15 @@
 "use client";
-import { Box, Grid, Stack, TextField, MenuItem } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  TextField,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomButton from "@/app/frontend/src/components/CustomButton";
-import { User } from "@/app/shared/src/types/users.types";
+import { User, UserPersonalInfo } from "@/app/shared/src/types/users.types";
 import UploadFileButton from "@/app/frontend/src/components/UploadFileButton";
 import { imageBucket } from "@/app/shared/src/utils/supabase";
 import { supabase } from "@/app/shared/src/utils/supabase";
@@ -10,14 +17,29 @@ import { profileTable } from "@/app/shared/src/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
 import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
 import HomeButton from "@/app/frontend/src/components/HomeButton";
-import { useCurrentUser } from "../../hooks/users.hooks";
+import {
+  useCurrentUser,
+  useSetUserPersonalInfo,
+  useUploadImage,
+  useUserPersonalInfo,
+} from "../../hooks/users.hooks";
 
 const CreateAccountPage = () => {
   const currentUser = useCurrentUser();
-  const [nameError, setNameError] = useState<String>("");
-  const [genderError, setGenderError] = useState<String>("");
-  const [explevelError, setExplevelError] = useState<String>("");
+  const { mutateAsync: uploadImage, isLoading: uploadImageIsLoading } =
+    useUploadImage();
+  const { mutateAsync: setUserPersonalInfo } = useSetUserPersonalInfo(
+    currentUser?.userId!
+  );
+  const { data: userPersonalInfo } = useUserPersonalInfo(265);
   const [ageError, setAgeError] = useState<String>("");
+  const [image, setImage] = useState<string>();
+  const [firstName, setFirstName] = useState<string>("Yo");
+  const [lastName, setLastName] = useState<string>("Cool");
+  const [gender, setGender] = useState<string>("Male");
+  const [experienceLevel, setExperienceLevel] = useState<string>("Advanced");
+  const [age, setAge] = useState<number>(7);
+  const [bio, setBio] = useState<string>("What's up");
 
   const [dob, setDob] = useState({
     day: "",
@@ -26,10 +48,6 @@ const CreateAccountPage = () => {
   });
 
   function validateAge() {
-    if (profileInfo.age === -1) {
-      setAgeError("Enter DOB");
-      return false;
-    }
     return true;
   }
 
@@ -92,26 +110,6 @@ const CreateAccountPage = () => {
     return today.getFullYear() - parseInt(dob.year) - 1;
   }
 
-  function getImgURL(filename: string) {
-    const { data } = supabase.storage
-      .from(imageBucket)
-      .getPublicUrl(`${filename}`);
-    return data.publicUrl;
-  }
-
-  async function handleImgFile(imgFile: File) {
-    const filename = `${uuidv4()}-${imgFile.name}`;
-    console.log("Filename:", filename);
-    const { error } = await supabase.storage
-      .from(imageBucket)
-      .upload(filename, imgFile);
-    if (error) {
-      console.log(`${error.name}`);
-      return;
-    }
-    const imgUrl = getImgURL(filename);
-  }
-
   async function Submit() {
     const ageRes = validateAge();
     const nameRes = validateName();
@@ -129,7 +127,17 @@ const CreateAccountPage = () => {
   }
 
   const handleSubmit = async () => {
-    console.log(currentUser);
+    const personalInfo: UserPersonalInfo = {
+      firstName: firstName,
+      lastName: lastName,
+      image: image,
+      gender: gender,
+      experienceLevel: experienceLevel,
+      age: age,
+      bio: bio,
+    };
+    console.log("INFO", userPersonalInfo);
+    await setUserPersonalInfo(personalInfo);
   };
 
   return (
@@ -159,9 +167,20 @@ const CreateAccountPage = () => {
         <Grid container>
           <Grid item xs={6}>
             <Stack spacing={4} alignItems="center">
-              <PhotoDisplay height={200} width={300} img={"/next.svg"} />
+              {uploadImageIsLoading ? (
+                <CircularProgress color="secondary" />
+              ) : (
+                <PhotoDisplay
+                  height={200}
+                  width={300}
+                  img={image ? image : "/next.svg"}
+                />
+              )}
               <UploadFileButton
-                onImgFile={(e) => handleImgFile(e.target.files?.[0])}
+                onImgFile={async (e) => {
+                  const url = await uploadImage(e.target.files?.[0]);
+                  setImage(url);
+                }}
               />
               <TextField
                 id="outlined-bio"
@@ -182,8 +201,6 @@ const CreateAccountPage = () => {
               >
                 <TextField
                   required
-                  error={nameError !== ""}
-                  helperText={nameError}
                   id="outlined-firstname"
                   label={"First Name"}
                   defaultValue={" "}
@@ -193,8 +210,6 @@ const CreateAccountPage = () => {
                 />
                 <TextField
                   required
-                  error={nameError !== ""}
-                  helperText={nameError}
                   id="outlined-lastname"
                   label={"Last Name"}
                   defaultValue={" "}
@@ -205,8 +220,6 @@ const CreateAccountPage = () => {
               </Box>
               <TextField
                 required
-                error={genderError !== ""}
-                helperText={genderError}
                 id="outlined-select-gender"
                 defaultValue={" "}
                 select
@@ -220,8 +233,6 @@ const CreateAccountPage = () => {
               </TextField>
               <TextField
                 required
-                error={explevelError !== ""}
-                helperText={explevelError}
                 id="outlined-select-experience"
                 select
                 defaultValue={" "}

@@ -6,3 +6,9 @@ export const nonEmptyString = (
 ): ValidationChain => {
   return validationObject.isString().not().isEmpty();
 };
+
+export const intMinZero = (
+  validationObject: ValidationChain
+): ValidationChain => {
+  return validationObject.isInt({ min: 0 }).not().isString();
+};

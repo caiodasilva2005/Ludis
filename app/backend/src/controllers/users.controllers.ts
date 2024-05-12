@@ -33,4 +33,61 @@ export default class UsersController {
       next(error);
     }
   }
+
+  static async getUserPersonalInfo(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { userId } = _req.params;
+      console.log("ID IN CONTROLLER:", userId);
+      const userPersonalInfo = await UserService.getUserPersonalInfo(
+        parseInt(userId)
+      );
+
+      res.status(200).json(userPersonalInfo);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async setUserPersonalInfo(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { userId } = _req.params;
+      const { firstName, lastName, image, experienceLevel, gender, age, bio } =
+        _req.body;
+      const updatedUser = await UserService.setUserPersonalInfo(
+        userId,
+        firstName,
+        lastName,
+        image,
+        experienceLevel,
+        gender,
+        age,
+        bio
+      );
+
+      res.status(200).json(updatedUser);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async uploadImage(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const { file } = _req;
+      if (!file) throw Error("Invalid image data");
+
+      const imageURL = await UserService.uploadImage(file);
+
+      res.status(200).json(imageURL);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
 }

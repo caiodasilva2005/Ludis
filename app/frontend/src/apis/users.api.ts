@@ -1,11 +1,22 @@
-import { User, UserAccountInfo } from "@/app/shared/src/types/users.types";
+import {
+  User,
+  UserAccountInfo,
+  UserPersonalInfo,
+  UserWithInfo,
+} from "@/app/shared/src/types/users.types";
 import { apiUrls } from "../utils/urls";
-import { userTransformer } from "./transformers/users.transformers";
+import {
+  userPersonalInfoTransformer,
+  userTransformer,
+  userWithInfoTransformer,
+} from "./transformers/users.transformers";
 import axios from "axios";
 
 export const getAllUsers = () => {
   return axios.get<User[]>(apiUrls.users(), {
-    transformResponse: (data) => JSON.parse(data).map(userTransformer),
+    transformResponse: (data) => {
+      return JSON.parse(data).map(userTransformer);
+    },
   });
 };
 
@@ -27,9 +38,53 @@ export const signUserUp = (userAccountInfo: UserAccountInfo) => {
     },
     {
       transformResponse: (data) => {
-        console.log(data);
         return userTransformer(JSON.parse(data));
       },
     }
   );
+};
+
+export const getUserPersonalInfo = (userId: number) => {
+  return axios.get<UserPersonalInfo>(
+    apiUrls.usersPersonalInfo(userId.toString()),
+    {
+      transformResponse: (data) => {
+        return userPersonalInfoTransformer(JSON.parse(data));
+      },
+    }
+  );
+};
+
+export const setUserPersonalInfo = (
+  userId: number,
+  personalInfo: UserPersonalInfo
+) => {
+  return axios.post<UserWithInfo>(
+    apiUrls.usersPersonalInfo(userId.toString()),
+    {
+      firstName: personalInfo.firstName,
+      lastName: personalInfo.lastName,
+      image: personalInfo.image,
+      experienceLevel: personalInfo.experienceLevel,
+      gender: personalInfo.gender,
+      age: personalInfo.age,
+      bio: personalInfo.bio,
+    },
+    {
+      transformResponse: (data) => {
+        return userWithInfoTransformer(JSON.parse(data));
+      },
+    }
+  );
+};
+
+export const uploadImage = (imageFile: File) => {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+  return axios.post<string>(apiUrls.uploadImage(), formData, {
+    transformResponse: (data) => {
+      console.log(data);
+      return JSON.parse(data);
+    },
+  });
 };
