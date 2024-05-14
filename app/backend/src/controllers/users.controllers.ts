@@ -34,6 +34,17 @@ export default class UsersController {
     }
   }
 
+  static async logUserIn(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const { username, email, password } = _req.body;
+      const user = await UserService.logUserIn(username, email, password);
+
+      res.status(200).json(user);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
   static async getUserPersonalInfo(
     _req: Request,
     res: Response,

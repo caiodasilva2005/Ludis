@@ -6,7 +6,6 @@ import {
 import { User } from "../../../shared/src/types/users.types.ts";
 import { userTransformer } from "../transformers/users.transformer.ts";
 import { v4 as uuidv4 } from "uuid";
-import stream from "stream";
 
 /**
  * gets the current user
@@ -48,4 +47,19 @@ export const uploadFile = async (
     .upload(filename, imageFile.buffer);
   if (!data) throw Error(`Failed to upload ${imageFile.originalname}`);
   return data.path;
+};
+
+/**
+ * Returns a user based on their username
+ * @param username
+ * @returns user object with username
+ */
+export const getUserByUsername = async (username: string): Promise<User> => {
+  const { data: user } = await supabase
+    .from(profileTable)
+    .select()
+    .eq("username", username)
+    .single();
+  if (!user) throw new Error(`Failed to find ${username} in database`);
+  return userTransformer(user);
 };

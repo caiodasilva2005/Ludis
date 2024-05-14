@@ -1,8 +1,4 @@
-import {
-  User,
-  UserPersonalInfo,
-  UserWithInfo,
-} from "@/app/shared/src/types/users.types";
+import { User, UserPersonalInfo } from "@/app/shared/src/types/users.types";
 
 /**
  * Transforms a user to ensure deep field transformation of date objects.
@@ -11,18 +7,6 @@ import {
  * @returns Properly transformed user object.
  */
 export const userTransformer = (user: User) => {
-  return {
-    ...user,
-  };
-};
-
-/**
- * Transforms a user with info object to ensure deep field transformation of date objects.
- *
- * @param user Incoming user object supplied by the HTTP response.
- * @returns Properly transformed user object.
- */
-export const userWithInfoTransformer = (user: UserWithInfo) => {
   return {
     ...user,
   };

@@ -19,6 +19,13 @@ userRouter.post(
   nonEmptyString(body("password")),
   UsersController.signUserUp
 );
+userRouter.post(
+  "/login",
+  nonEmptyString(body("username")),
+  nonEmptyString(body("email")).isEmail(),
+  nonEmptyString(body("password")),
+  UsersController.logUserIn
+);
 userRouter.get("/:userId/personal-info", UsersController.getUserPersonalInfo);
 userRouter.post(
   "/:userId/personal-info",

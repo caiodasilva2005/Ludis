@@ -2,7 +2,6 @@ import {
   DatabaseUser,
   User,
   UserPersonalInfo,
-  UserWithInfo,
 } from "../../../shared/src/types/users.types";
 
 /**
@@ -12,23 +11,6 @@ import {
  * @returns Properly transformed user object.
  */
 export const userTransformer = (user: DatabaseUser): User => {
-  return {
-    userId: user.id,
-    accountInfo: {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-    },
-  };
-};
-
-/**
- * Transforms a user with info object to ensure deep field transformation of date objects.
- *
- * @param user Incoming user object supplied by the HTTP response.
- * @returns Properly transformed user object.
- */
-export const userWithInfoTransformer = (user: DatabaseUser): UserWithInfo => {
   return {
     userId: user.id,
     accountInfo: {

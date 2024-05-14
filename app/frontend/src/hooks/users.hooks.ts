@@ -2,19 +2,21 @@ import {
   User,
   UserAccountInfo,
   UserPersonalInfo,
-  UserWithInfo,
 } from "@/app/shared/src/types/users.types";
 import { useQuery, useMutation } from "react-query";
 import {
   getAllUsers,
   getSingleUser,
   getUserPersonalInfo,
+  logUserIn,
   setUserPersonalInfo,
   signUserUp,
   uploadImage,
 } from "../apis/users.api";
 import { useContext } from "react";
 import { UserContext } from "../providers/AppContextUser";
+import { getAllMatches } from "../utils/users";
+import { Filter } from "@/app/shared/src/types/filters.types";
 
 /**
  * Custom React Hook to supply the current user
@@ -65,10 +67,25 @@ export const useSingleUser = (id: number) => {
 export const useSignUserUp = () => {
   const updateCurrentUser = useSetCurrentUser();
   return useMutation<User, Error, UserAccountInfo>(
-    ["users", "login"],
+    ["users", "signup"],
     async (userAccountInfo: UserAccountInfo) => {
       const { data } = await signUserUp(userAccountInfo);
       console.log(data);
+      updateCurrentUser(data);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to log a user in.
+ */
+export const useLogUserIn = () => {
+  const updateCurrentUser = useSetCurrentUser();
+  return useMutation<User, Error, UserAccountInfo>(
+    ["users", "login"],
+    async (userAccountInfo: UserAccountInfo) => {
+      const { data } = await logUserIn(userAccountInfo);
       updateCurrentUser(data);
       return data;
     }
@@ -83,7 +100,6 @@ export const useUserPersonalInfo = (id: number) => {
     ["users", id, "personal-info"],
     async () => {
       const { data } = await getUserPersonalInfo(id);
-      console.log("IN HOOK:", data);
       return data;
     }
   );
@@ -93,7 +109,7 @@ export const useUserPersonalInfo = (id: number) => {
  * Custom React Hook to set a single user's personal information
  */
 export const useSetUserPersonalInfo = (id: number) => {
-  return useMutation<UserWithInfo, Error, UserPersonalInfo>(
+  return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info"],
     async (personalInfo: UserPersonalInfo) => {
       const { data } = await setUserPersonalInfo(id, personalInfo);

@@ -17,6 +17,7 @@ import {
   useSignUserUp,
   useCurrentUser,
   useSingleUser,
+  useLogUserIn,
 } from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
 import Link from "next/link";
@@ -28,6 +29,12 @@ const LogInPage = () => {
     isError: signUserUpIsError,
     error: signUserUpError,
   } = useSignUserUp();
+  const {
+    mutateAsync: logUserIn,
+    isLoading: logUserInIsLoading,
+    isError: logUserInIsError,
+    error: logUserInError,
+  } = useLogUserIn();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -44,6 +51,16 @@ const LogInPage = () => {
     };
 
     await signUserUp(userAccountInfo);
+  };
+
+  const onLogIn = async () => {
+    const userAccountInfo: UserAccountInfo = {
+      username: username,
+      email: email,
+      password: password,
+    };
+
+    await logUserIn(userAccountInfo);
   };
 
   return (
@@ -125,14 +142,14 @@ const LogInPage = () => {
               />
             </Stack>
             <Stack spacing={2}>
-              <CustomButton
-                buttonProps={{
-                  label: "Log In",
-                  onClick: () => {
-                    console.log("Logging in");
-                  },
-                }}
-              />
+              <Link href={routes.HOME}>
+                <CustomButton
+                  buttonProps={{
+                    label: "Log In",
+                    onClick: onLogIn,
+                  }}
+                />
+              </Link>
               <Link href={routes.CREATE_ACCOUNT}>
                 <CustomButton
                   buttonProps={{

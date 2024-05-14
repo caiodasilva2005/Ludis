@@ -1,7 +1,6 @@
 import {
   User,
   UserPersonalInfo,
-  UserWithInfo,
 } from "../../../shared/src/types/users.types.ts";
 import {
   supabase,
@@ -11,9 +10,8 @@ import {
 import {
   userPersonalInfoTransformer,
   userTransformer,
-  userWithInfoTransformer,
 } from "../transformers/users.transformer.ts";
-import { uploadFile } from "../utils/user.utils.ts";
+import { getUserByUsername, uploadFile } from "../utils/user.utils.ts";
 
 export default class UserService {
   /**
@@ -46,7 +44,7 @@ export default class UserService {
    * @param username
    * @param email
    * @param password
-   * @returns
+   * @returns user that signed up
    */
   static async signUserUp(
     username: string,
@@ -60,6 +58,24 @@ export default class UserService {
       .single();
     if (!user) throw new Error("Failed to sign up user.");
     return userTransformer(user);
+  }
+
+  /**
+   * Log in the user
+   * @param username
+   * @param email
+   * @param password
+   * @returns that logged in
+   */
+  static async logUserIn(
+    username: string,
+    email: string,
+    password: string
+  ): Promise<User> {
+    const user = await getUserByUsername(username);
+    if (password !== user.accountInfo.password) throw Error("Invalid password");
+    if (email !== user.accountInfo.email) throw Error("Invalid email");
+    return user;
   }
 
   /**
@@ -99,7 +115,7 @@ export default class UserService {
     gender: string,
     age: number,
     bio: string
-  ): Promise<UserWithInfo> {
+  ): Promise<User> {
     const { data: updatedUser } = await supabase
       .from(profileTable)
       .update({
@@ -115,7 +131,7 @@ export default class UserService {
       .select()
       .single();
     if (!updatedUser) throw new Error(`failed to update User ${userId}`);
-    return userWithInfoTransformer(updatedUser);
+    return userTransformer(updatedUser);
   }
 
   /**

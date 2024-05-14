@@ -2,13 +2,11 @@ import {
   User,
   UserAccountInfo,
   UserPersonalInfo,
-  UserWithInfo,
 } from "@/app/shared/src/types/users.types";
 import { apiUrls } from "../utils/urls";
 import {
   userPersonalInfoTransformer,
   userTransformer,
-  userWithInfoTransformer,
 } from "./transformers/users.transformers";
 import axios from "axios";
 
@@ -44,6 +42,22 @@ export const signUserUp = (userAccountInfo: UserAccountInfo) => {
   );
 };
 
+export const logUserIn = (userAccountInfo: UserAccountInfo) => {
+  return axios.post<User>(
+    apiUrls.usersLogIn(),
+    {
+      username: userAccountInfo.username,
+      email: userAccountInfo.email,
+      password: userAccountInfo.password,
+    },
+    {
+      transformResponse: (data) => {
+        return userTransformer(JSON.parse(data));
+      },
+    }
+  );
+};
+
 export const getUserPersonalInfo = (userId: number) => {
   return axios.get<UserPersonalInfo>(
     apiUrls.usersPersonalInfo(userId.toString()),
@@ -59,7 +73,7 @@ export const setUserPersonalInfo = (
   userId: number,
   personalInfo: UserPersonalInfo
 ) => {
-  return axios.post<UserWithInfo>(
+  return axios.post<User>(
     apiUrls.usersPersonalInfo(userId.toString()),
     {
       firstName: personalInfo.firstName,
@@ -72,7 +86,7 @@ export const setUserPersonalInfo = (
     },
     {
       transformResponse: (data) => {
-        return userWithInfoTransformer(JSON.parse(data));
+        return userTransformer(JSON.parse(data));
       },
     }
   );

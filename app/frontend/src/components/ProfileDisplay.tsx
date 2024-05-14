@@ -10,22 +10,21 @@ import {
 import InfoDisplay from "./InfoDisplay";
 import PreviewIcon from "@mui/icons-material/Preview";
 import ChatIcon from "@mui/icons-material/Chat";
+import { User } from "@/app/shared/src/types/users.types";
 
-const ProfileDisplay = ({ profile }) => {
+const ProfileDisplay = ({ user }: { user: User }) => {
   const pushInfo = () => {
-    sessionStorage.setItem("ProfileToView", profile.id);
-    console.log("Push:", profile.id);
+    sessionStorage.setItem("ProfileToView", user.userId.toString());
   };
 
   const handleChat = () => {
-    sessionStorage.setItem("ProfileToView", profile.id);
-    console.log("handle Chat");
+    sessionStorage.setItem("ProfileToView", user.userId.toString());
   };
 
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar src={profile.image} />}
+        avatar={<Avatar src={user.personalInfo.image} />}
         action={
           <>
             <IconButton onClick={pushInfo} href="/Pages/ViewProfilePage">
@@ -36,16 +35,24 @@ const ProfileDisplay = ({ profile }) => {
             </IconButton>
           </>
         }
-        title={profile.first_name + " " + profile.last_name}
-        subheader={profile.username}
+        title={`${user.personalInfo.firstName} ${user.personalInfo.lastName}`}
+        subheader={user.accountInfo.username}
       />
       <CardContent>
         <Stack spacing={2}>
-          <InfoDisplay label="Age" info={profile.age} fontColor="black" />
-          <InfoDisplay label="Gender" info={profile.gender} fontColor="black" />
+          <InfoDisplay
+            label="Age"
+            info={user.personalInfo.age}
+            fontColor="black"
+          />
+          <InfoDisplay
+            label="Gender"
+            info={user.personalInfo.gender}
+            fontColor="black"
+          />
           <InfoDisplay
             label="Experience"
-            info={profile.experience_level}
+            info={user.personalInfo.experienceLevel}
             fontColor="black"
           />
         </Stack>

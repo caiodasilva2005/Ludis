@@ -23,6 +23,8 @@ import {
   useUploadImage,
   useUserPersonalInfo,
 } from "../../hooks/users.hooks";
+import { routes } from "../../utils/routes";
+import Link from "next/link";
 
 const CreateAccountPage = () => {
   const currentUser = useCurrentUser();
@@ -365,12 +367,14 @@ const CreateAccountPage = () => {
             </Stack>
           </Grid>
         </Grid>
-        <CustomButton
-          buttonProps={{
-            label: "Submit",
-            onClick: handleSubmit,
-          }}
-        />
+        <Link href={routes.HOME}>
+          <CustomButton
+            buttonProps={{
+              label: "Submit",
+              onClick: handleSubmit,
+            }}
+          />
+        </Link>
       </Box>
     </Box>
   );

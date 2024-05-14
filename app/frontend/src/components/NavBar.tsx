@@ -2,8 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import PhotoDisplay from "./PhotoDisplay";
+import { User } from "@/app/shared/src/types/users.types";
 
-const NavBar = ({ currentUser }) => {
+const NavBar = ({ currentUser }: { currentUser: User }) => {
   const handleClick = () => {
     window.location.href = "/Pages/CreateAccountPage";
     sessionStorage.setItem("FromSignUp", "false");
@@ -47,7 +48,7 @@ const NavBar = ({ currentUser }) => {
         onClick={handleClick}
       >
         <Image
-          src={currentUser ? currentUser.image : "/next.svg"}
+          src={currentUser ? currentUser.personalInfo.image : "/next.svg"}
           alt="prof pic"
           layout="fill"
           objectFit="cover"

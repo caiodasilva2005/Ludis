@@ -3,121 +3,41 @@ import ProfileDisplays from "./frontend/src/components/ProfileDisplays";
 import SideBar from "./frontend/src/components/SideBar";
 import { useEffect, useState } from "react";
 import { profileTable, supabase } from "./shared/src/utils/supabase";
-import { Box, Drawer, IconButton } from "@mui/material";
+import { Box, CircularProgress, Drawer, IconButton } from "@mui/material";
 import NavBar from "./frontend/src/components/NavBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { User } from "./shared/src/types/users.types";
 import { Filter } from "./shared/src/types/filters.types";
+import { useAllUsers, useCurrentUser } from "./frontend/src/hooks/users.hooks";
+import { filterChange } from "./frontend/src/utils/filters";
+import { getAllMatches } from "./frontend/src/utils/users";
 
 export default function Home() {
-  const [userId, setUserId] = useState<number>(-1);
-  const [currentUser, setCurrentUser] = useState<User>();
-  const [profiles, setProfiles] = useState<User[]>([]);
+  const currentUser = useCurrentUser();
+  const { data: users, isLoading: usersIsLoading } = useAllUsers();
+  const [matchedUsers, setMatchedUsers] = useState<User[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<Filter>({
     gender: { filMale: false, filFemale: false, filOther: false },
-    experience_level: {
+    experienceLevel: {
       filBeginner: false,
       filIntermediate: false,
       filAdvanced: false,
     },
   });
 
-  const [inputFilter, setInputFilter] = useState<Filter>(filter);
-
-  useEffect(() => {
-    const storedUserId = sessionStorage.getItem("CurrentUser");
-    if (storedUserId) {
-      setUserId(Number(storedUserId));
-    }
-    console.log("ID:", storedUserId);
-
-    const getProfiles = async () => {
-      await readProfiles();
-    };
-
-    getProfiles();
-  }, []);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (userId !== -1) {
-        const { data, error } = await supabase
-          .from(profileTable)
-          .select()
-          .eq("id", userId)
-          .single();
-
-        if (error) {
-          console.log(`${error.code}: ${error.message}`);
-          return;
-        }
-        setCurrentUser(data);
-      }
-    };
-
-    fetchProfile();
-  }, [userId]);
-
-  const handleFilterChange = (field: string) => {
-    /* Gender Filter */
-    if (field === "Male") {
-      setFilter({
-        ...filter,
-        gender: { ...filter.gender, filMale: !filter.gender.filMale },
-      });
-    } else if (field === "Female") {
-      setFilter({
-        ...filter,
-        gender: { ...filter.gender, filFemale: !filter.gender.filFemale },
-      });
-    } else if (field === "Other") {
-      setFilter({
-        ...filter,
-        gender: { ...filter.gender, filOther: !filter.gender.filOther },
-      });
-    }
-
-    /* Experience Filter*/
-    if (field === "Beginner") {
-      setFilter({
-        ...filter,
-        experience_level: {
-          ...filter.experience_level,
-          filBeginner: !filter.experience_level.filBeginner,
-        },
-      });
-    } else if (field === "Intermediate") {
-      setFilter({
-        ...filter,
-        experience_level: {
-          ...filter.experience_level,
-          filIntermediate: !filter.experience_level.filIntermediate,
-        },
-      });
-    } else if (field === "Advanced") {
-      setFilter({
-        ...filter,
-        experience_level: {
-          ...filter.experience_level,
-          filAdvanced: !filter.experience_level.filAdvanced,
-        },
-      });
-    }
+  const handleFilterChange = (value: string) => {
+    const updatedFilter: Filter = filterChange(value, filter);
+    setFilter(updatedFilter);
   };
 
-  async function readProfiles() {
-    const { data, error } = await supabase.from(profileTable).select();
-    if (error) {
-      alert(`ERROR ${error.code}:\n${error.message}`);
-      return;
-    }
-    setProfiles(data);
-  }
-
   const handleRunFilter = async () => {
-    setInputFilter(filter);
+    if (!currentUser) throw Error(`No current user.`);
+    if (!users) throw Error(`No users not found.`);
+    const filteredUsers = getAllMatches(currentUser, filter, users);
+    console.log(filteredUsers);
+    setMatchedUsers(filteredUsers);
   };
 
   return (
@@ -134,7 +54,7 @@ export default function Home() {
           onClick={() => {
             setFilter({
               gender: { filMale: false, filFemale: false, filOther: false },
-              experience_level: {
+              experienceLevel: {
                 filBeginner: false,
                 filIntermediate: false,
                 filAdvanced: false,
@@ -155,11 +75,11 @@ export default function Home() {
             onRunFilter={handleRunFilter}
           />
         </Drawer>
-        <ProfileDisplays
-          currentUser={currentUser}
-          profiles={profiles}
-          filter={inputFilter}
-        />
+        {usersIsLoading ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <ProfileDisplays users={matchedUsers} />
+        )}
       </Box>
     </Box>
   );

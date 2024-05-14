@@ -12,5 +12,15 @@ export interface ExperienceLevelFilter {
 
 export interface Filter {
   gender: GenderFilter;
-  experience_level: ExperienceLevelFilter;
+  experienceLevel: ExperienceLevelFilter;
+}
+
+export enum filterValues {
+  MALE = "Male",
+  FEMALE = "Female",
+  OTHER = "Other",
+
+  BEGINNER = "Beginner",
+  INTERMEDIATE = "Intermediate",
+  ADVANCED = "Advanced",
 }

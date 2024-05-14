@@ -31,8 +31,5 @@ export interface DatabaseUser {
 export interface User {
   userId: number;
   accountInfo: UserAccountInfo;
-}
-
-export interface UserWithInfo extends User {
   personalInfo: UserPersonalInfo;
 }
