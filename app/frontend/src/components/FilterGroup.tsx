@@ -29,7 +29,9 @@ const FilterGroup = ({ title, fields, onSelect }) => {
             return (
               <FormControlLabel
                 key={field}
-                control={<Switch onClick={() => onSelect(field)} />}
+                control={
+                  <Switch color="default" onClick={() => onSelect(field)} />
+                }
                 label={field}
                 sx={{
                   color: "whitesmoke",

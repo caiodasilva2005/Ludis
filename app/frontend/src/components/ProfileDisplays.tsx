@@ -3,7 +3,7 @@ import ProfileDisplay from "./ProfileDisplay";
 import { User } from "../../../shared/src/types/users.types";
 import { Box, Stack, Container, Grid } from "@mui/material";
 
-const ProfileDisplays = ({ users }: { users: User[] }) => {
+const ProfileDisplays = ({ users }: { users: User[] | undefined }) => {
   return (
     <Container sx={{ overflowY: "auto" }}>
       <Grid container spacing={3}>

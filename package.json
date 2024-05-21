@@ -2,7 +2,7 @@
   "name": "ludis",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev:frontend": "next dev",
     "dev:backend": "ts-node-esm app/backend/index.ts",
@@ -34,6 +34,7 @@
     "react": "^18",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.4",
     "react-query": "^3.39.3",
     "stream": "^0.0.2",
     "uuid": "^9.0.1"

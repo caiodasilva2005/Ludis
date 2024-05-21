@@ -1,10 +1,9 @@
 import React from "react";
-import { Box, Stack, Typography, Container } from "@mui/material";
+import { Stack, Container } from "@mui/material";
 import FilterGroup from "./FilterGroup";
-import CustomButton from "./CustomButton";
 import { filterValues } from "@/app/shared/src/types/filters.types";
 
-const SideBar = ({ onChange, onRunFilter }) => {
+const SideBar = ({ onChange }) => {
   return (
     <Container
       sx={{
@@ -28,12 +27,6 @@ const SideBar = ({ onChange, onRunFilter }) => {
             filterValues.ADVANCED,
           ]}
           onSelect={(field: string) => onChange(field)}
-        />
-        <CustomButton
-          buttonProps={{
-            label: "Search",
-            onClick: onRunFilter,
-          }}
         />
       </Stack>
     </Container>

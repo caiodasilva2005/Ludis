@@ -4,6 +4,7 @@ export interface UserAccountInfo {
   password: string;
 }
 
+/*TO-DO: make gender/explvl types*/
 export interface UserPersonalInfo {
   firstName: string;
   lastName: string;

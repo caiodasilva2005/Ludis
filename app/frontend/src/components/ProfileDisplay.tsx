@@ -11,26 +11,30 @@ import InfoDisplay from "./InfoDisplay";
 import PreviewIcon from "@mui/icons-material/Preview";
 import ChatIcon from "@mui/icons-material/Chat";
 import { User } from "@/app/shared/src/types/users.types";
+import { routes } from "../utils/routes";
+import { setMatchingUser } from "../utils/users";
 
 const ProfileDisplay = ({ user }: { user: User }) => {
-  const pushInfo = () => {
-    sessionStorage.setItem("ProfileToView", user.userId.toString());
-  };
-
-  const handleChat = () => {
-    sessionStorage.setItem("ProfileToView", user.userId.toString());
-  };
-
   return (
     <Card>
       <CardHeader
         avatar={<Avatar src={user.personalInfo.image} />}
         action={
           <>
-            <IconButton onClick={pushInfo} href="/Pages/ViewProfilePage">
+            <IconButton
+              onClick={() => {
+                setMatchingUser(user);
+              }}
+              href={routes.VIEW_PROFILE}
+            >
               <PreviewIcon />
             </IconButton>
-            <IconButton onClick={handleChat} href="/Pages/ChatPage">
+            <IconButton
+              onClick={() => {
+                setMatchingUser(user);
+              }}
+              href={routes.CHAT}
+            >
               <ChatIcon />
             </IconButton>
           </>

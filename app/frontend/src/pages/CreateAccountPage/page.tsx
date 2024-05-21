@@ -25,45 +25,24 @@ import {
 } from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
 import Link from "next/link";
+import { hasInfoSet } from "../../utils/users";
+import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
 
 const CreateAccountPage = () => {
   const currentUser = useCurrentUser();
   const { mutateAsync: uploadImage, isLoading: uploadImageIsLoading } =
     useUploadImage();
+  const { data: personalInfo } = useUserPersonalInfo(currentUser?.userId!);
   const { mutateAsync: setUserPersonalInfo } = useSetUserPersonalInfo(
     currentUser?.userId!
   );
-  const { data: userPersonalInfo } = useUserPersonalInfo(265);
-  const [ageError, setAgeError] = useState<String>("");
-  const [image, setImage] = useState<string>();
-  const [firstName, setFirstName] = useState<string>("Yo");
-  const [lastName, setLastName] = useState<string>("Cool");
-  const [gender, setGender] = useState<string>("Male");
-  const [experienceLevel, setExperienceLevel] = useState<string>("Advanced");
-  const [age, setAge] = useState<number>(7);
-  const [bio, setBio] = useState<string>("What's up");
 
+  /*
   const [dob, setDob] = useState({
     day: "",
     month: "",
     year: "",
   });
-
-  function validateAge() {
-    return true;
-  }
-
-  function validateName() {
-    return true;
-  }
-
-  function validateGender() {
-    return true;
-  }
-
-  function validateExperienceLevel() {
-    return true;
-  }
 
   const genderOptions = ["Male", "Female", "Other"];
   const experienceOptions = ["Beginner", "Intermediate", "Advanced"];
@@ -111,37 +90,19 @@ const CreateAccountPage = () => {
     }
     return today.getFullYear() - parseInt(dob.year) - 1;
   }
+  */
 
-  async function Submit() {
-    const ageRes = validateAge();
-    const nameRes = validateName();
-    const genderRes = validateGender();
-    const experienceRes = validateExperienceLevel();
-
-    if (!ageRes || !nameRes || !genderRes || !experienceRes) {
-      console.log("Dob:", ageRes);
-      console.log("Gender:", genderRes);
-      console.log("Name:", nameRes);
-      console.log("Exp:", experienceRes);
-      return false;
-    }
-    return true;
-  }
-
-  const handleSubmit = async () => {
-    const personalInfo: UserPersonalInfo = {
-      firstName: firstName,
-      lastName: lastName,
-      image: image,
-      gender: gender,
-      experienceLevel: experienceLevel,
-      age: age,
-      bio: bio,
-    };
-    console.log("INFO", userPersonalInfo);
-    await setUserPersonalInfo(personalInfo);
+  const onSubmit = async (formData: UserPersonalInfo) => {
+    console.log("WORKING:", formData);
+    const updatedPersonalInfo = await setUserPersonalInfo(formData);
+    return updatedPersonalInfo;
   };
 
+  return (
+    <PersonalInfoForm submitData={onSubmit} defaultValues={personalInfo} />
+  );
+
+  /*
   return (
     <Box
       sx={{
@@ -152,6 +113,7 @@ const CreateAccountPage = () => {
         height: "100vh",
       }}
     >
+      {isFormFilled && <HomeButton />}
       <Box
         sx={{
           bgcolor: "white",
@@ -194,7 +156,7 @@ const CreateAccountPage = () => {
             </Stack>
           </Grid>
           <Grid item xs={6}>
-            <Stack spacing={2}>
+            <Stack spacing={6}>
               <Box
                 sx={{
                   display: "flex",
@@ -225,7 +187,9 @@ const CreateAccountPage = () => {
                 id="outlined-select-gender"
                 defaultValue={" "}
                 select
+                onChange={(e) => console.log("Hi")}
                 label={"Gender"}
+                value="Male"
               >
                 {genderOptions.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -325,45 +289,6 @@ const CreateAccountPage = () => {
                   ))}
                 </TextField>
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <TextField
-                  id="outlined-split"
-                  label="Split"
-                  defaultValue={" "}
-                  sx={{
-                    width: 300,
-                  }}
-                />
-                <TextField
-                  id="outlined-squat"
-                  label="Squat Weight"
-                  defaultValue={" "}
-                  sx={{
-                    width: 300,
-                  }}
-                />
-                <TextField
-                  id="outlined-bench"
-                  label="Bench Weight"
-                  defaultValue={" "}
-                  sx={{
-                    width: 300,
-                  }}
-                />
-                <TextField
-                  id="outlined-deadlift"
-                  label="Deadlift Weight"
-                  defaultValue={" "}
-                  sx={{
-                    width: 300,
-                  }}
-                />
-              </Box>
             </Stack>
           </Grid>
         </Grid>
@@ -378,6 +303,7 @@ const CreateAccountPage = () => {
       </Box>
     </Box>
   );
+  */
 };
 
 export default CreateAccountPage;

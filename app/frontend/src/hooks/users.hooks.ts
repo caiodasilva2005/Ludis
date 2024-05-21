@@ -106,9 +106,37 @@ export const useUserPersonalInfo = (id: number) => {
 };
 
 /**
+ * Custom React Hook to supply the current user's personal information
+ */
+export const useCurrentUserPersonalInfo = () => {
+  const currentUser = useCurrentUser();
+  if (!currentUser) throw Error(`Current user not found`);
+  return useQuery<UserPersonalInfo, Error>(
+    ["users", currentUser.userId, "personal-info"],
+    async () => {
+      const { data } = await getUserPersonalInfo(currentUser.userId);
+      return data;
+    }
+  );
+};
+
+/**
  * Custom React Hook to set a single user's personal information
  */
 export const useSetUserPersonalInfo = (id: number) => {
+  return useMutation<User, Error, UserPersonalInfo>(
+    ["users", id, "personal-info"],
+    async (personalInfo: UserPersonalInfo) => {
+      const { data } = await setUserPersonalInfo(id, personalInfo);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to set the current user's personal information
+ */
+export const useSetCurrentUserPersonalInfo = (id: number) => {
   return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info"],
     async (personalInfo: UserPersonalInfo) => {
