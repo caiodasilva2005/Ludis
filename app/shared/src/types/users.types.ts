@@ -1,3 +1,5 @@
+import { DateOfBirth } from "./datetime.types";
+
 export interface UserAccountInfo {
   username: string;
   email: string;
@@ -11,8 +13,8 @@ export interface UserPersonalInfo {
   image?: string;
   experienceLevel: string;
   gender: string;
-  age: number;
   bio?: string;
+  dateOfBirth: DateOfBirth;
 }
 
 export interface DatabaseUser {
@@ -25,8 +27,8 @@ export interface DatabaseUser {
   image?: string;
   experienceLevel: string;
   gender: string;
-  age: number;
   bio?: string;
+  dateOfBirth: DateOfBirth;
 }
 
 export interface User {

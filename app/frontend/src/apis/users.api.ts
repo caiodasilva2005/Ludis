@@ -81,7 +81,7 @@ export const setUserPersonalInfo = (
       image: personalInfo.image,
       experienceLevel: personalInfo.experienceLevel,
       gender: personalInfo.gender,
-      age: personalInfo.age,
+      dateOfBirth: JSON.stringify(personalInfo.dateOfBirth),
       bio: personalInfo.bio,
     },
     {

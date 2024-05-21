@@ -70,8 +70,15 @@ export default class UsersController {
   ) {
     try {
       const { userId } = _req.params;
-      const { firstName, lastName, image, experienceLevel, gender, age, bio } =
-        _req.body;
+      const {
+        firstName,
+        lastName,
+        image,
+        experienceLevel,
+        gender,
+        dateOfBirth,
+        bio,
+      } = _req.body;
       const updatedUser = await UserService.setUserPersonalInfo(
         userId,
         firstName,
@@ -79,7 +86,7 @@ export default class UsersController {
         image,
         experienceLevel,
         gender,
-        age,
+        JSON.parse(dateOfBirth),
         bio
       );
 

@@ -14,16 +14,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const UploadFileButton = ({ onImgFile }) => {
+const UploadFileButton = ({ onImgFile, onChange }) => {
   return (
     <Button
       component="label"
-      role={undefined}
       variant="contained"
       tabIndex={-1}
+      sx={{ borderRadius: "20px", bgcolor: "#7227a8" }}
     >
       Upload file
-      <VisuallyHiddenInput type="file" onChange={(e) => onImgFile(e)} />
+      <VisuallyHiddenInput
+        type="file"
+        onChange={async (e) => {
+          const imageUrl = await onImgFile(e.target.files![0]);
+          onChange(imageUrl);
+        }}
+      />
     </Button>
   );
 };

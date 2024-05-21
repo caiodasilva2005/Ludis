@@ -1,3 +1,4 @@
+import { DateOfBirth } from "@/app/shared/src/types/datetime.types.ts";
 import {
   User,
   UserPersonalInfo,
@@ -113,9 +114,10 @@ export default class UserService {
     image: string,
     experienceLevel: string,
     gender: string,
-    age: number,
+    dateOfBirth: DateOfBirth,
     bio: string
   ): Promise<User> {
+    console.log("DOB:", dateOfBirth);
     const { data: updatedUser } = await supabase
       .from(profileTable)
       .update({
@@ -124,7 +126,7 @@ export default class UserService {
         image: image,
         experienceLevel: experienceLevel,
         gender: gender,
-        age: age,
+        dateOfBirth: dateOfBirth,
         bio: bio,
       })
       .eq("id", userId)

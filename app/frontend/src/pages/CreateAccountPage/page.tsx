@@ -27,76 +27,24 @@ import { routes } from "../../utils/routes";
 import Link from "next/link";
 import { hasInfoSet } from "../../utils/users";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
+import ProgressIndicator from "../../components/ProgressIndicator";
 
 const CreateAccountPage = () => {
   const currentUser = useCurrentUser();
   const { mutateAsync: uploadImage, isLoading: uploadImageIsLoading } =
     useUploadImage();
-  const { data: personalInfo } = useUserPersonalInfo(currentUser?.userId!);
+  const { data: personalInfo, isLoading: personalInfoIsLoading } =
+    useUserPersonalInfo(currentUser?.userId!);
   const { mutateAsync: setUserPersonalInfo } = useSetUserPersonalInfo(
     currentUser?.userId!
   );
-
-  /*
-  const [dob, setDob] = useState({
-    day: "",
-    month: "",
-    year: "",
-  });
-
-  const genderOptions = ["Male", "Female", "Other"];
-  const experienceOptions = ["Beginner", "Intermediate", "Advanced"];
-
-  function getDays(): string[] {
-    let dayList: string[] = [];
-    for (let i = 1; i <= 31; i++) {
-      if (i < 10) dayList.push("0" + i);
-      else dayList.push("" + i);
-    }
-    return dayList;
-  }
-
-  function getMonths(): string[] {
-    let monthList: string[] = [];
-    for (let i = 1; i <= 12; i++) {
-      if (i < 10) monthList.push("0" + i);
-      else monthList.push("" + i);
-    }
-    return monthList;
-  }
-
-  function getYears(): string[] {
-    let today = new Date();
-    const yyyy = today.getFullYear();
-
-    let yearsList: string[] = [];
-    for (let i = 0; i < 50; i++) {
-      yearsList.push("" + (yyyy - i));
-    }
-    return yearsList;
-  }
-
-  function getAge(): number {
-    if (!dob.day || !dob.month || !dob.year) {
-      return -1;
-    }
-
-    let today = new Date();
-    if (
-      today.getDay() - parseInt(dob.day) >= 0 &&
-      today.getMonth() - parseInt(dob.month) >= 0
-    ) {
-      return today.getFullYear() - parseInt(dob.year);
-    }
-    return today.getFullYear() - parseInt(dob.year) - 1;
-  }
-  */
-
   const onSubmit = async (formData: UserPersonalInfo) => {
     console.log("WORKING:", formData);
     const updatedPersonalInfo = await setUserPersonalInfo(formData);
     return updatedPersonalInfo;
   };
+
+  if (personalInfoIsLoading) return <ProgressIndicator xpos={50} ypos={50} />;
 
   return (
     <PersonalInfoForm submitData={onSubmit} defaultValues={personalInfo} />

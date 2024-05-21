@@ -13,30 +13,36 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { User } from "@/app/shared/src/types/users.types";
 import { routes } from "../utils/routes";
 import { setMatchingUser } from "../utils/users";
+import Link from "next/link";
+import { getAge } from "../utils/datetime";
 
 const ProfileDisplay = ({ user }: { user: User }) => {
+  console.log("IMAGE:", user.personalInfo.image);
   return (
     <Card>
       <CardHeader
         avatar={<Avatar src={user.personalInfo.image} />}
         action={
           <>
-            <IconButton
-              onClick={() => {
-                setMatchingUser(user);
-              }}
-              href={routes.VIEW_PROFILE}
-            >
-              <PreviewIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setMatchingUser(user);
-              }}
-              href={routes.CHAT}
-            >
-              <ChatIcon />
-            </IconButton>
+            <Link href={routes.VIEW_PROFILE}>
+              <IconButton
+                onClick={() => {
+                  setMatchingUser(user);
+                }}
+                href={routes.VIEW_PROFILE}
+              >
+                <PreviewIcon />
+              </IconButton>
+            </Link>
+            <Link href={routes.CHAT}>
+              <IconButton
+                onClick={() => {
+                  setMatchingUser(user);
+                }}
+              >
+                <ChatIcon />
+              </IconButton>
+            </Link>
           </>
         }
         title={`${user.personalInfo.firstName} ${user.personalInfo.lastName}`}
@@ -46,7 +52,7 @@ const ProfileDisplay = ({ user }: { user: User }) => {
         <Stack spacing={2}>
           <InfoDisplay
             label="Age"
-            info={user.personalInfo.age}
+            info={getAge(user.personalInfo.dateOfBirth)}
             fontColor="black"
           />
           <InfoDisplay

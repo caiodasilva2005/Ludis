@@ -1,5 +1,7 @@
+import { DateOfBirth } from "@/app/shared/src/types/datetime.types";
 import { Filter, filterValues } from "@/app/shared/src/types/filters.types";
 import { User } from "@/app/shared/src/types/users.types";
+import { getAge } from "./datetime";
 
 /**
  * Updates the current filter based on user input
@@ -92,9 +94,11 @@ export const matchesFilter = (user: User, filter: Filter) => {
 };
 
 export const isCompatibleAge = (
-  currentUserAge: number,
-  matchingUserAge: number
+  currentUserDob: DateOfBirth,
+  matchingUserDob: DateOfBirth
 ) => {
+  const currentUserAge = getAge(currentUserDob);
+  const matchingUserAge = getAge(matchingUserDob);
   if (currentUserAge >= 18) {
     return matchingUserAge >= 18;
   } else {

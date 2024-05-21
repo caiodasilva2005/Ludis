@@ -25,11 +25,11 @@ import UploadFileButton from "../../../components/UploadFileButton";
 import { routes } from "../../../utils/routes";
 import Link from "next/link";
 import CustomButton from "../../../components/CustomButton";
+import { getDays, getMonths, getYears } from "../../../utils/datetime";
 
 interface PersonalInfoFormViewProps {
-  setFirstName: (firstName: string) => void;
-  setLastName: (lastName: string) => void;
-  setBio: (bio: string) => void;
+  onImageFile: (imageFile: File) => Promise<string>;
+  uploadImageIsLoading: boolean;
   control: Control<UserPersonalInfo, any>;
   genders: string[];
   experienceLevels: string[];
@@ -38,21 +38,9 @@ interface PersonalInfoFormViewProps {
   hasPersonalInfoSet: boolean;
 }
 
-const fieldOnChange = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  setField: (field: string) => void
-) => {
-  if (event.target.value) {
-    setField(event.target.value);
-  } else {
-    setField("");
-  }
-};
-
 const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
-  setFirstName,
-  setLastName,
-  setBio,
+  onImageFile,
+  uploadImageIsLoading,
   control,
   genders,
   experienceLevels,
@@ -96,67 +84,87 @@ const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
             <Grid item xs={6}>
               <Stack spacing={4} alignItems="center">
                 <Controller
-                  name="bio"
+                  name="image"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <TextField
-                      required
-                      label={"bio"}
-                      id="outlined-bio"
-                      onChange={(e) => {
-                        fieldOnChange(e, setBio);
-                        onChange(e.target.value);
-                      }}
-                      value={value}
-                    />
+                    <Stack spacing={4} alignItems="center">
+                      {uploadImageIsLoading ? (
+                        <CircularProgress color="secondary" />
+                      ) : (
+                        <PhotoDisplay height={200} width={300} img={value} />
+                      )}
+                      <UploadFileButton
+                        onImgFile={onImageFile}
+                        onChange={onChange}
+                      />
+                    </Stack>
                   )}
                 />
+                <FormControl>
+                  <FormLabel>Bio</FormLabel>
+                  <Controller
+                    name="bio"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        rows={2}
+                        id="outlined-bio"
+                        onChange={(e) => {
+                          onChange(e.target.value);
+                        }}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FormControl>
               </Stack>
             </Grid>
             <Grid item xs={6}>
-              <Stack spacing={6}>
+              <Stack spacing={2.5}>
                 <Box
                   sx={{
                     display: "flex",
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <Controller
-                    name="firstName"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        required
-                        label={"First Name"}
-                        id="outlined-first-name"
-                        onChange={(e) => {
-                          fieldOnChange(e, setFirstName);
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="lastName"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        required
-                        label={"Last Name"}
-                        id="outlined-last-name"
-                        onChange={(e) => {
-                          fieldOnChange(e, setLastName);
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
+                  <FormControl fullWidth>
+                    <FormLabel>First Name</FormLabel>
+                    <Controller
+                      name="firstName"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <TextField
+                          required
+                          id="outlined-first-name"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <FormLabel>Last Name</FormLabel>
+                    <Controller
+                      name="lastName"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <TextField
+                          required
+                          id="outlined-last-name"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        />
+                      )}
+                    />
+                  </FormControl>
                 </Box>
                 <FormControl fullWidth>
                   <FormLabel>Gender</FormLabel>
-                  <Controller // TO-DO: Understand form controller
+                  <Controller
                     name="gender"
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -203,6 +211,82 @@ const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
                     )}
                   />
                 </FormControl>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <FormControl fullWidth>
+                    <FormLabel>Month</FormLabel>
+                    <Controller
+                      name="dateOfBirth.month"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Select
+                          required
+                          id="outlined-select-month"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        >
+                          {getMonths().map((month) => (
+                            <MenuItem key={month} value={month}>
+                              {month}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <FormLabel>Day</FormLabel>
+                    <Controller
+                      name="dateOfBirth.day"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Select
+                          required
+                          id="outlined-select-day"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        >
+                          {getDays().map((day) => (
+                            <MenuItem key={day} value={day}>
+                              {day}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <FormLabel>Year</FormLabel>
+                    <Controller
+                      name="dateOfBirth.year"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Select
+                          required
+                          id="outlined-select-year"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        >
+                          {getYears().map((year) => (
+                            <MenuItem key={year} value={year}>
+                              {year}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                </Box>
               </Stack>
             </Grid>
           </Grid>

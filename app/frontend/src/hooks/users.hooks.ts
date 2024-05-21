@@ -127,6 +127,7 @@ export const useSetUserPersonalInfo = (id: number) => {
   return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info"],
     async (personalInfo: UserPersonalInfo) => {
+      console.log("PERSONAL INFO:", personalInfo);
       const { data } = await setUserPersonalInfo(id, personalInfo);
       return data;
     }

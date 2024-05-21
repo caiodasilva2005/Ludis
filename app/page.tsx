@@ -29,6 +29,7 @@ export default function Home() {
   useEffect(() => {
     const matches = getAllMatches(filter, currentUser, users);
     setMatchedUsers(matches);
+    console.log(currentUser);
   }, [currentUser, users, filter]);
 
   const handleFilterChange = (value: string) => {

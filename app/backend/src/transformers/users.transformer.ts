@@ -24,8 +24,8 @@ export const userTransformer = (user: DatabaseUser): User => {
       image: user.image,
       experienceLevel: user.experienceLevel,
       gender: user.gender,
-      age: user.age,
       bio: user.bio,
+      dateOfBirth: user.dateOfBirth,
     },
   };
 };
@@ -45,7 +45,7 @@ export const userPersonalInfoTransformer = (
     image: user.image,
     experienceLevel: user.experienceLevel,
     gender: user.gender,
-    age: user.age,
     bio: user.bio,
+    dateOfBirth: user.dateOfBirth,
   };
 };

@@ -34,7 +34,7 @@ userRouter.post(
   nonEmptyString(body("image")),
   nonEmptyString(body("experienceLevel")),
   nonEmptyString(body("gender")),
-  intMinZero(body("age")),
+  body("dateOfBirth"),
   body("bio"),
   UsersController.setUserPersonalInfo
 );
