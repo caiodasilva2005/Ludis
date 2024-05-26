@@ -20,7 +20,7 @@ interface AccountInfoFormViewProps {
   setOnSumbit: (
     callback: (formData: UserAccountInfo) => Promise<User | undefined>
   ) => void;
-  onSubmit: (accountInfo: UserAccountInfo) => Promise<User | undefined>;
+  onSubmit: (accountInfo: UserAccountInfo) => void;
   onLogIn: (accountInfo: UserAccountInfo) => Promise<User | undefined>;
   onSignUp: (accountInfo: UserAccountInfo) => Promise<User | undefined>;
   handleSubmit: UseFormHandleSubmit<UserAccountInfo>;

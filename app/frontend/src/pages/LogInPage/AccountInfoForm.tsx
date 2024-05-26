@@ -6,14 +6,18 @@ import { useState } from "react";
 interface AccountInfoFormProps {
   submitLogInData: (formData: UserAccountInfo) => Promise<User | undefined>;
   submitSignUpData: (formData: UserAccountInfo) => Promise<User | undefined>;
+  submitData: (FormData: UserAccountInfo) => void;
 }
 
 const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
   submitLogInData,
   submitSignUpData,
+  submitData,
 }) => {
   const [onSubmit, setOnSubmit] =
-    useState<(formData: UserAccountInfo) => Promise<User | undefined>>();
+    useState<(formData: UserAccountInfo) => Promise<User | undefined> | void>(
+      submitData
+    );
   const {
     handleSubmit,
     control,
