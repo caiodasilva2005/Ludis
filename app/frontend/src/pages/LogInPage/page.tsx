@@ -24,27 +24,17 @@ import Link from "next/link";
 import AccountInfoForm from "./AccountInfoForm";
 
 const LogInPage = () => {
-  const {
-    mutateAsync: signUserUp,
-    isLoading: signUserUpIsLoading,
-    isError: signUserUpIsError,
-    error: signUserUpError,
-  } = useSignUserUp();
-  const {
-    mutateAsync: logUserIn,
-    isLoading: logUserInIsLoading,
-    isError: logUserInIsError,
-    error: logUserInError,
-  } = useLogUserIn();
-
-  const onSignUp = async (formData: UserAccountInfo) => {
-    const user = await signUserUp(formData);
-    return user;
-  };
-
+  const { mutateAsync: logUserIn } = useLogUserIn();
+  const { mutateAsync: signUserUp } = useSignUserUp();
   const onLogIn = async (formData: UserAccountInfo) => {
-    const user = await signUserUp(formData);
-    return user;
+    console.log(formData);
+    const updatedPersonalInfo = await logUserIn(formData);
+    return updatedPersonalInfo;
+  };
+  const onSignUp = async (formData: UserAccountInfo) => {
+    console.log(formData);
+    const updatedPersonalInfo = await signUserUp(formData);
+    return updatedPersonalInfo;
   };
 
   return (

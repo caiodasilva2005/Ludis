@@ -60,5 +60,6 @@ export const getUserByUsername = async (username: string): Promise<User> => {
     .select()
     .eq("username", username)
     .single();
+  if (!user) throw Error(`Cannot find ${username}`);
   return userTransformer(user);
 };

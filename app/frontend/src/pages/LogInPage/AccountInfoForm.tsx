@@ -4,20 +4,14 @@ import AccountInfoFormView from "./AccountInfoFormView";
 import { useState } from "react";
 
 interface AccountInfoFormProps {
-  submitLogInData: (formData: UserAccountInfo) => Promise<User | undefined>;
-  submitSignUpData: (formData: UserAccountInfo) => Promise<User | undefined>;
-  submitData: (FormData: UserAccountInfo) => void;
+  submitLogInData: (formData: UserAccountInfo) => Promise<User>;
+  submitSignUpData: (formData: UserAccountInfo) => Promise<User>;
 }
 
 const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
   submitLogInData,
   submitSignUpData,
-  submitData,
 }) => {
-  const [onSubmit, setOnSubmit] =
-    useState<(formData: UserAccountInfo) => Promise<User | undefined> | void>(
-      submitData
-    );
   const {
     handleSubmit,
     control,
@@ -28,10 +22,8 @@ const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
     <AccountInfoFormView
       control={control}
       handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
       onLogIn={submitLogInData}
       onSignUp={submitSignUpData}
-      setOnSumbit={setOnSubmit}
     />
   );
 };

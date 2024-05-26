@@ -17,21 +17,15 @@ import { FormLabel } from "react-bootstrap";
 
 interface AccountInfoFormViewProps {
   control: Control<UserAccountInfo, any>;
-  setOnSumbit: (
-    callback: (formData: UserAccountInfo) => Promise<User | undefined>
-  ) => void;
-  onSubmit: (accountInfo: UserAccountInfo) => void;
-  onLogIn: (accountInfo: UserAccountInfo) => Promise<User | undefined>;
-  onSignUp: (accountInfo: UserAccountInfo) => Promise<User | undefined>;
+  onLogIn: (accountInfo: UserAccountInfo) => void;
+  onSignUp: (accountInfo: UserAccountInfo) => void;
   handleSubmit: UseFormHandleSubmit<UserAccountInfo>;
 }
 
 const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   control,
-  setOnSumbit,
   onLogIn,
   onSignUp,
-  onSubmit,
   handleSubmit,
 }) => {
   return (
@@ -39,7 +33,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
       id={"account-info-form"}
       onSubmit={(e) => {
         e.stopPropagation();
-        handleSubmit(onSubmit)(e);
+        handleSubmit(onLogIn)(e);
       }}
     >
       <Container
@@ -115,16 +109,8 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                 </FormControl>
               </Stack>
               <Stack spacing={2}>
-                <CustomButton
-                  submitForm={true}
-                  label="Log In"
-                  onClick={() => setOnSumbit(onLogIn)}
-                />
-                <CustomButton
-                  submitForm={true}
-                  label="Sign Up"
-                  onClick={() => setOnSumbit(onSignUp)}
-                />
+                <CustomButton submitForm={true} label="Log In" />
+                <CustomButton submitForm={true} label="Sign Up" />
               </Stack>
             </Stack>
           </CardContent>
