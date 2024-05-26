@@ -3,7 +3,7 @@ import {
   profileTable,
   supabase,
 } from "../../../shared/src/utils/supabase.ts";
-import { User } from "../../../shared/src/types/users.types.ts";
+import { DatabaseUser, User } from "../../../shared/src/types/users.types.ts";
 import { userTransformer } from "../transformers/users.transformer.ts";
 import { v4 as uuidv4 } from "uuid";
 
@@ -60,6 +60,5 @@ export const getUserByUsername = async (username: string): Promise<User> => {
     .select()
     .eq("username", username)
     .single();
-  if (!user) throw new Error(`Failed to find ${username} in database`);
   return userTransformer(user);
 };

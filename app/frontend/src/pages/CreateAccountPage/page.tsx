@@ -39,7 +39,6 @@ const CreateAccountPage = () => {
     currentUser?.userId!
   );
   const onSubmit = async (formData: UserPersonalInfo) => {
-    console.log("WORKING:", formData);
     const updatedPersonalInfo = await setUserPersonalInfo(formData);
     return updatedPersonalInfo;
   };

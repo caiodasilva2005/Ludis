@@ -21,6 +21,7 @@ import {
 } from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
 import Link from "next/link";
+import AccountInfoForm from "./AccountInfoForm";
 
 const LogInPage = () => {
   const {
@@ -36,6 +37,21 @@ const LogInPage = () => {
     error: logUserInError,
   } = useLogUserIn();
 
+  const onSignUp = async (formData: UserAccountInfo) => {
+    const user = await signUserUp(formData);
+    return user;
+  };
+
+  const onLogIn = async (formData: UserAccountInfo) => {
+    const user = await signUserUp(formData);
+    return user;
+  };
+
+  return (
+    <AccountInfoForm submitLogInData={onLogIn} submitSignUpData={onSignUp} />
+  );
+
+  /*
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -164,6 +180,7 @@ const LogInPage = () => {
       </Card>
     </Container>
   );
+  */
 };
 
 export default LogInPage;

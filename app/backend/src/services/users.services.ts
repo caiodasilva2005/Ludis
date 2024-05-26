@@ -117,7 +117,6 @@ export default class UserService {
     dateOfBirth: DateOfBirth,
     bio: string
   ): Promise<User> {
-    console.log("DOB:", dateOfBirth);
     const { data: updatedUser } = await supabase
       .from(profileTable)
       .update({

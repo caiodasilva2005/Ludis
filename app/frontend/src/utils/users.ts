@@ -11,7 +11,12 @@ export const getAllMatches = (
   if (!currentUser) return users;
   return users.filter((user: User) => {
     if (user.userId === currentUser.userId) return false;
-    if (!isCompatibleAge(user.personalInfo.age, currentUser.personalInfo.age))
+    if (
+      !isCompatibleAge(
+        user.personalInfo.dateOfBirth,
+        currentUser.personalInfo.dateOfBirth
+      )
+    )
       return false;
     return matchesFilter(user, filter);
   });

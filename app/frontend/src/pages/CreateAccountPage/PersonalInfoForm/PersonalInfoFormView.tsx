@@ -290,13 +290,7 @@ const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
               </Stack>
             </Grid>
           </Grid>
-          <CustomButton
-            buttonProps={{
-              sumbitForm: true,
-              label: "Submit",
-              onClick: handleSubmit,
-            }}
-          />
+          <CustomButton label="Submit" submitForm={true} />
         </Box>
       </Box>
     </form>
