@@ -1,6 +1,6 @@
 const pages = () => "/frontend/src/pages";
 
-const HOME = `/`;
+const HOME = `${pages()}/HomePage`;
 const LOGIN = `${pages()}/LogInPage`;
 const CREATE_ACCOUNT = `${pages()}/CreateAccountPage`;
 const VIEW_PROFILE = `${pages()}/ViewProfilePage`;

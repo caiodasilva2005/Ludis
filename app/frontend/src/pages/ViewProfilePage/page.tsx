@@ -1,21 +1,13 @@
 "use client";
 import React from "react";
-import { useState, useEffect } from "react";
-import { supabase } from "@/app/shared/src/utils/supabase";
-import {
-  Box,
-  Grid,
-  Stack,
-  Typography,
-  Drawer,
-  CircularProgress,
-} from "@mui/material";
+import { Box, Grid, Stack, Typography, Drawer } from "@mui/material";
 import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
 import InfoDisplay from "@/app/frontend/src/components/InfoDisplay";
 import NavBar from "@/app/frontend/src/components/NavBar";
 import { useCurrentUser, useSingleUser } from "../../hooks/users.hooks";
 import { getMatchingUserId } from "../../utils/users";
 import ProgressIndicator from "../../components/ProgressIndicator";
+import { getAge } from "../../utils/datetime";
 
 const ViewProfilePage = () => {
   const currentUser = useCurrentUser();
@@ -135,7 +127,7 @@ const ViewProfilePage = () => {
             >
               <InfoDisplay
                 label="Age"
-                info={user?.personalInfo.age}
+                info={getAge(user?.personalInfo.dateOfBirth)}
                 fontColor="white"
               />
             </Box>
