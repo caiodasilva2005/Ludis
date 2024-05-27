@@ -14,9 +14,12 @@ import Link from "next/link";
 import { routes } from "../../utils/routes";
 import Image from "next/image";
 import { FormLabel } from "react-bootstrap";
+import { UserAction } from "@/app/shared/src/types/actions.type";
 
 interface AccountInfoFormViewProps {
   control: Control<UserAccountInfo, any>;
+  action: UserAction;
+  setAction: (action: UserAction) => void;
   onLogIn: (accountInfo: UserAccountInfo) => void;
   onSignUp: (accountInfo: UserAccountInfo) => void;
   handleSubmit: UseFormHandleSubmit<UserAccountInfo>;
@@ -24,6 +27,8 @@ interface AccountInfoFormViewProps {
 
 const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   control,
+  action,
+  setAction,
   onLogIn,
   onSignUp,
   handleSubmit,
@@ -33,7 +38,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
       id={"account-info-form"}
       onSubmit={(e) => {
         e.stopPropagation();
-        handleSubmit(onLogIn)(e);
+        handleSubmit(action === "log-in" ? onLogIn : onSignUp)(e);
       }}
     >
       <Container
@@ -109,8 +114,16 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                 </FormControl>
               </Stack>
               <Stack spacing={2}>
-                <CustomButton submitForm={true} label="Log In" />
-                <CustomButton submitForm={true} label="Sign Up" />
+                <CustomButton
+                  submitForm={true}
+                  label="Log In"
+                  onClick={() => setAction("log-in")}
+                />
+                <CustomButton
+                  submitForm={true}
+                  label="Sign Up"
+                  onClick={() => setAction("sign-up")}
+                />
               </Stack>
             </Stack>
           </CardContent>
