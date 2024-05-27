@@ -22,18 +22,20 @@ import {
 import { routes } from "../../utils/routes";
 import Link from "next/link";
 import AccountInfoForm from "./AccountInfoForm";
+import { useRouter } from "next/navigation";
 
 const LogInPage = () => {
   const { mutateAsync: logUserIn } = useLogUserIn();
   const { mutateAsync: signUserUp } = useSignUserUp();
+  const router = useRouter();
   const onLogIn = async (formData: UserAccountInfo) => {
-    console.log(formData);
     const updatedPersonalInfo = await logUserIn(formData);
+    router.push(routes.HOME);
     return updatedPersonalInfo;
   };
   const onSignUp = async (formData: UserAccountInfo) => {
-    console.log(formData);
     const updatedPersonalInfo = await signUserUp(formData);
+    router.push(routes.CREATE_ACCOUNT);
     return updatedPersonalInfo;
   };
 

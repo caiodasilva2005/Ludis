@@ -28,9 +28,11 @@ import Link from "next/link";
 import { hasInfoSet } from "../../utils/users";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
 import ProgressIndicator from "../../components/ProgressIndicator";
+import { useRouter } from "next/navigation";
 
 const CreateAccountPage = () => {
   const currentUser = useCurrentUser();
+  const router = useRouter();
   const { mutateAsync: uploadImage, isLoading: uploadImageIsLoading } =
     useUploadImage();
   const { data: personalInfo, isLoading: personalInfoIsLoading } =
@@ -40,6 +42,7 @@ const CreateAccountPage = () => {
   );
   const onSubmit = async (formData: UserPersonalInfo) => {
     const updatedPersonalInfo = await setUserPersonalInfo(formData);
+    router.push(routes.HOME);
     return updatedPersonalInfo;
   };
 

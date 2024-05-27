@@ -46,8 +46,6 @@ const FlutterEmbedComponent: React.FC = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    console.log("RUN");
-    console.log(currentUser, matchingUser);
     if (iframeRef.current) {
       const iframeWindow = iframeRef.current.contentWindow;
       const message = {

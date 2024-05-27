@@ -74,6 +74,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     render={({ field: { onChange, value } }) => (
                       <TextField
                         id="outlined-username"
+                        label="username"
                         onChange={(e) => {
                           onChange(e.target.value);
                         }}
@@ -89,6 +90,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     render={({ field: { onChange, value } }) => (
                       <TextField
                         id="outlined-email"
+                        label="email"
                         onChange={(e) => {
                           onChange(e.target.value);
                         }}
@@ -104,6 +106,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     render={({ field: { onChange, value } }) => (
                       <TextField
                         id="outlined-password"
+                        label="password"
                         onChange={(e) => {
                           onChange(e.target.value);
                         }}
