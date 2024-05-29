@@ -2,7 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { Box } from "@mui/material";
 
-const PhotoDisplay = ({ height, width, img }) => {
+interface PhotoDisplayProps {
+  height: number;
+  width: number;
+  img?: string;
+}
+
+const PhotoDisplay: React.FC<PhotoDisplayProps> = ({ height, width, img }) => {
   return (
     <Box
       sx={{

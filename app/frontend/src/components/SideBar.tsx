@@ -1,9 +1,14 @@
 import React from "react";
 import { Stack, Container } from "@mui/material";
 import FilterGroup from "./FilterGroup";
-import { filterValues } from "@/app/shared/src/types/filters.types";
+import { Filter, filterValues } from "@/app/shared/src/types/filters.types";
 
-const SideBar = ({ onChange, currentFilter }) => {
+interface SidebarProps {
+  onChange: (value: string) => void;
+  filter: Filter;
+}
+
+const SideBar: React.FC<SidebarProps> = ({ onChange, filter }) => {
   return (
     <Container
       sx={{
@@ -18,7 +23,7 @@ const SideBar = ({ onChange, currentFilter }) => {
           title={"Gender"}
           fields={[filterValues.MALE, filterValues.FEMALE, filterValues.OTHER]}
           onSelect={(field: string) => onChange(field)}
-          currentFilter={currentFilter}
+          filter={filter}
         />
         <FilterGroup
           title={"Experience Level"}
@@ -28,7 +33,7 @@ const SideBar = ({ onChange, currentFilter }) => {
             filterValues.ADVANCED,
           ]}
           onSelect={(field: string) => onChange(field)}
-          currentFilter={currentFilter}
+          filter={filter}
         />
       </Stack>
     </Container>

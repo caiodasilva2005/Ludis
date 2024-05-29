@@ -1,7 +1,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const InfoDisplay = ({ label, info, fontColor }) => {
+interface InfoDisplayProps {
+  label: string;
+  info: string;
+  fontColor: string;
+}
+
+const InfoDisplay: React.FC<InfoDisplayProps> = ({
+  label,
+  info,
+  fontColor,
+}) => {
   return (
     <Box
       sx={{

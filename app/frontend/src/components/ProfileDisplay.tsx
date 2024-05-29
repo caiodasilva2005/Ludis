@@ -52,7 +52,7 @@ const ProfileDisplay = ({ user }: { user: User }) => {
         <Stack spacing={2}>
           <InfoDisplay
             label="Age"
-            info={getAge(user.personalInfo.dateOfBirth)}
+            info={getAge(user.personalInfo.dateOfBirth).toString()}
             fontColor="black"
           />
           <InfoDisplay

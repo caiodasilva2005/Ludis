@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Stack,
   Typography,
   FormGroup,
@@ -9,8 +8,21 @@ import {
   Container,
 } from "@mui/material";
 import { isFilterSelected } from "../utils/filters";
+import { Filter } from "@/app/shared/src/types/filters.types";
 
-const FilterGroup = ({ title, fields, currentFilter, onSelect }) => {
+interface FilterGroupProps {
+  title: string;
+  fields: string[];
+  filter: Filter;
+  onSelect: (value: string) => void;
+}
+
+const FilterGroup: React.FC<FilterGroupProps> = ({
+  title,
+  fields,
+  filter,
+  onSelect,
+}) => {
   return (
     <Container
       sx={{ bgcolor: "#7227a8", borderRadius: "25px", padding: "20px" }}
@@ -32,7 +44,7 @@ const FilterGroup = ({ title, fields, currentFilter, onSelect }) => {
                 key={field}
                 control={
                   <Switch
-                    checked={isFilterSelected(field, currentFilter)}
+                    checked={isFilterSelected(field, filter)}
                     onChange={() => onSelect(field)}
                   />
                 }

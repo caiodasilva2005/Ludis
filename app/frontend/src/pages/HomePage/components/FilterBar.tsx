@@ -33,7 +33,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <SideBar currentFilter={filter} onChange={handleFilterChange} />
+        <SideBar filter={filter} onChange={handleFilterChange} />
       </Drawer>
     </>
   );
