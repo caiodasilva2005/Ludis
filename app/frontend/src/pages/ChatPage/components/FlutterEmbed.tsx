@@ -1,35 +1,3 @@
-/*"use client";
-import React, { useRef, useEffect } from "react";
-import { useAuth } from "./AuthContext";
-
-const FlutterEmbedComponent: React.FC = () => {
-  const { username, password } = useAuth();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    if (iframeRef.current) {
-      const iframeWindow = iframeRef.current.contentWindow;
-      const message = { username, password };
-
-      if (iframeWindow) {
-        iframeWindow.postMessage(message, "*");
-      }
-    }
-  }, [username, password]);
-
-  return (
-    <iframe
-      ref={iframeRef}
-      src="/web/index.html" // Adjust the path as necessary
-      title="Flutter App"
-      width="100%"
-      height="500px"
-      style={{ border: "none" }}
-    ></iframe>
-  );
-};
-
-export default FlutterEmbedComponent;*/
 "use client";
 import React, { useRef, useEffect, useState, RefObject } from "react";
 import { supabase } from "../../../../../shared/src/utils/supabase";
