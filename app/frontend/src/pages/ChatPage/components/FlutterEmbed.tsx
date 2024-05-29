@@ -31,36 +31,37 @@ const FlutterEmbedComponent: React.FC = () => {
 
 export default FlutterEmbedComponent;*/
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { supabase } from "../../../shared/src/utils/supabase";
-import { profileTable } from "../../../shared/src/utils/supabase";
+import React, { useRef, useEffect, useState, RefObject } from "react";
+import { supabase } from "../../../../../shared/src/utils/supabase";
+import { profileTable } from "../../../../../shared/src/utils/supabase";
 import { User } from "@/app/shared/src/types/users.types";
-import { useCurrentUser, useSingleUser } from "../hooks/users.hooks";
-import { getMatchingUserId } from "../utils/users";
+import { useCurrentUser, useSingleUser } from "../../../hooks/users.hooks";
+import { getMatchingUserId } from "../../../utils/users";
 
-const FlutterEmbedComponent: React.FC = () => {
-  const currentUser = useCurrentUser();
-  const matchingUserId = getMatchingUserId();
-  const { data: matchingUser, isLoading: matchingUserIsLoading } =
-    useSingleUser(parseInt(matchingUserId!));
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+interface FlutterEmbedComponentProps {
+  currentUser: User;
+  matchingUser: User;
+  iframeRef: RefObject<HTMLIFrameElement>;
+}
 
-  useEffect(() => {
-    if (iframeRef.current) {
-      const iframeWindow = iframeRef.current.contentWindow;
-      const message = {
-        username: currentUser?.accountInfo.username,
-        password: currentUser?.accountInfo.password,
-        email: currentUser?.accountInfo.email,
-        otherUser: matchingUser?.accountInfo.username,
-      };
+const FlutterEmbedComponent: React.FC<FlutterEmbedComponentProps> = ({
+  currentUser,
+  matchingUser,
+  iframeRef,
+}) => {
+  if (iframeRef.current) {
+    const iframeWindow = iframeRef.current.contentWindow;
+    const message = {
+      username: currentUser?.accountInfo.username,
+      password: currentUser?.accountInfo.password,
+      email: currentUser?.accountInfo.email,
+      otherUser: matchingUser?.accountInfo.username,
+    };
 
-      if (iframeWindow) {
-        iframeWindow.postMessage(message, "*");
-      }
+    if (iframeWindow) {
+      iframeWindow.postMessage(message, "*");
     }
-  }, [currentUser, matchingUser]);
-
+  }
   return (
     <iframe
       ref={iframeRef}
