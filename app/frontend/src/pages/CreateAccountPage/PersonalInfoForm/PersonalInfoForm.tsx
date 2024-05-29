@@ -6,7 +6,7 @@ import { filterValues } from "@/app/shared/src/types/filters.types";
 import { hasInfoSet } from "../../../utils/users";
 import { useUploadImage } from "../../../hooks/users.hooks";
 
-interface ReimbursementRequestFormProps {
+interface PersonalInfoFormProps {
   submitData: (formData: UserPersonalInfo) => Promise<User>;
   defaultValues?: UserPersonalInfo;
 }
@@ -18,20 +18,12 @@ const experienceLevels = [
   filterValues.ADVANCED,
 ];
 
-const PersonalInfoForm: React.FC<ReimbursementRequestFormProps> = ({
+const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   submitData,
   defaultValues,
 }) => {
-  const [firstName, setFirstName] = useState<string>(
-    defaultValues?.firstName || ""
-  );
-  const [lastName, setLastName] = useState<string>(
-    defaultValues?.lastName || ""
-  );
   const { mutateAsync: uploadImage, isLoading: uploadImageIsLoading } =
     useUploadImage();
-  const [bio, setBio] = useState<string>(defaultValues?.bio || "");
-  const [image, setImage] = useState<string>(defaultValues?.image || "");
   const hasPersonalInfo = hasInfoSet(defaultValues);
   const {
     handleSubmit,
@@ -54,9 +46,6 @@ const PersonalInfoForm: React.FC<ReimbursementRequestFormProps> = ({
   return (
     <PersonalInfoFormView
       control={control}
-      setLastName={setLastName}
-      setBio={setBio}
-      setImage={setImage}
       onImageFile={uploadImage}
       uploadImageIsLoading={uploadImageIsLoading}
       genders={genders}

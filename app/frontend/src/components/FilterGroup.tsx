@@ -8,8 +8,9 @@ import {
   Switch,
   Container,
 } from "@mui/material";
+import { isFilterSelected } from "../utils/filters";
 
-const FilterGroup = ({ title, fields, onSelect }) => {
+const FilterGroup = ({ title, fields, currentFilter, onSelect }) => {
   return (
     <Container
       sx={{ bgcolor: "#7227a8", borderRadius: "25px", padding: "20px" }}
@@ -25,11 +26,16 @@ const FilterGroup = ({ title, fields, onSelect }) => {
           {title}
         </Typography>
         <FormGroup>
-          {fields.map((field) => {
+          {fields.map((field: string) => {
             return (
               <FormControlLabel
                 key={field}
-                control={<Switch onClick={() => onSelect(field)} />}
+                control={
+                  <Switch
+                    checked={isFilterSelected(field, currentFilter)}
+                    onChange={() => onSelect(field)}
+                  />
+                }
                 label={field}
                 sx={{
                   color: "whitesmoke",

@@ -57,6 +57,27 @@ export const filterChange = (value: string, prevFilter: Filter): Filter => {
   return prevFilter;
 };
 
+export const isFilterSelected = (value: string, filter: Filter) => {
+  /* Gender Filter */
+  if (value === filterValues.MALE) {
+    return filter.gender.filMale;
+  } else if (value === filterValues.FEMALE) {
+    return filter.gender.filFemale;
+  } else if (value === filterValues.OTHER) {
+    return filter.gender.filOther;
+  }
+
+  /* Experience Filter*/
+  if (value === filterValues.BEGINNER) {
+    return filter.experienceLevel.filBeginner;
+  } else if (value === filterValues.INTERMEDIATE) {
+    return filter.experienceLevel.filIntermediate;
+  } else if (value === filterValues.ADVANCED) {
+    return filter.experienceLevel.filAdvanced;
+  }
+  return false;
+};
+
 export const matchesFilter = (user: User, filter: Filter) => {
   const { gender: genderFilter, experienceLevel: experienceLevelFilter } =
     filter;

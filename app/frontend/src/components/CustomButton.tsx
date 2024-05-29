@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 interface ButtonProps {
   label: string;
   page?: string;
-  onClick?: Function;
+  onClick?: () => void;
   submitForm?: boolean;
 }
 

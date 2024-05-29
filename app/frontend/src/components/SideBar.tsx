@@ -3,7 +3,7 @@ import { Stack, Container } from "@mui/material";
 import FilterGroup from "./FilterGroup";
 import { filterValues } from "@/app/shared/src/types/filters.types";
 
-const SideBar = ({ onChange }) => {
+const SideBar = ({ onChange, currentFilter }) => {
   return (
     <Container
       sx={{
@@ -18,6 +18,7 @@ const SideBar = ({ onChange }) => {
           title={"Gender"}
           fields={[filterValues.MALE, filterValues.FEMALE, filterValues.OTHER]}
           onSelect={(field: string) => onChange(field)}
+          currentFilter={currentFilter}
         />
         <FilterGroup
           title={"Experience Level"}
@@ -27,6 +28,7 @@ const SideBar = ({ onChange }) => {
             filterValues.ADVANCED,
           ]}
           onSelect={(field: string) => onChange(field)}
+          currentFilter={currentFilter}
         />
       </Stack>
     </Container>

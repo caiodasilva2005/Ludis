@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { useAllUsers, useCurrentUser } from "../../hooks/users.hooks";
 import { getAllMatches } from "../../utils/users";
 import { filterChange } from "../../utils/filters";
-import { Box, Drawer, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Box, Drawer } from "@mui/material";
 import NavBar from "../../components/NavBar";
 import { Filter } from "@/app/shared/src/types/filters.types";
 import { User } from "@/app/shared/src/types/users.types";
-import SideBar from "../../components/SideBar";
-import ProgressIndicator from "../../components/ProgressIndicator";
-import ProfileDisplays from "../../components/ProfileDisplays";
+import ProfileDisplays from "./components/ProfileDisplays";
+import FilterBar from "./components/FilterBar";
 
 export default function Home() {
   const [filter, setFilter] = useState<Filter>({
@@ -38,33 +36,15 @@ export default function Home() {
 
   return (
     <Box>
-      <Box>
-        <Drawer anchor="top" variant="permanent">
-          <NavBar currentUser={currentUser} />
-        </Drawer>
-      </Box>
+      <NavBar currentUser={currentUser} />
       <Box sx={{ mt: 8 }}>
-        <IconButton
-          size="large"
-          style={{ color: "white" }}
-          onClick={() => {
-            setIsDrawerOpen(true);
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Drawer
-          anchor="left"
-          open={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-        >
-          <SideBar onChange={handleFilterChange} />
-        </Drawer>
-        {usersIsLoading ? (
-          <ProgressIndicator xpos={50} ypos={50} />
-        ) : (
-          <ProfileDisplays users={matchedUsers} />
-        )}
+        <FilterBar
+          setDrawerOpen={setIsDrawerOpen}
+          drawerOpen={isDrawerOpen}
+          handleFilterChange={handleFilterChange}
+          filter={filter}
+        />
+        <ProfileDisplays users={matchedUsers} usersIsLoading={usersIsLoading} />
       </Box>
     </Box>
   );

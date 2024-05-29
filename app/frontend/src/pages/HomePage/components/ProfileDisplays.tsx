@@ -1,9 +1,20 @@
 import React from "react";
-import ProfileDisplay from "./ProfileDisplay";
-import { User } from "../../../shared/src/types/users.types";
+import ProfileDisplay from "../../../components/ProfileDisplay";
+import { User } from "../../../../../shared/src/types/users.types";
 import { Box, Stack, Container, Grid } from "@mui/material";
+import ProgressIndicator from "../../../components/ProgressIndicator";
 
-const ProfileDisplays = ({ users }: { users: User[] | undefined }) => {
+interface ProfileDisplaysProps {
+  users?: User[];
+  usersIsLoading: boolean;
+}
+
+const ProfileDisplays: React.FC<ProfileDisplaysProps> = ({
+  users,
+  usersIsLoading,
+}) => {
+  if (usersIsLoading || !users)
+    return <ProgressIndicator xpos={50} ypos={50} />;
   return (
     <Container sx={{ overflowY: "auto" }}>
       <Grid container spacing={3}>
