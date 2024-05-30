@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAllUsers, useCurrentUser } from "../../hooks/users.hooks";
 import { getAllMatches } from "../../utils/users";
 import { filterChange } from "../../utils/filters";
-import { Box, Drawer } from "@mui/material";
+import { Box } from "@mui/material";
 import NavBar from "../../components/NavBar";
 import { Filter } from "@/app/shared/src/types/filters.types";
 import { User } from "@/app/shared/src/types/users.types";

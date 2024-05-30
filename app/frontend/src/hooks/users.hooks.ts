@@ -3,7 +3,7 @@ import {
   UserAccountInfo,
   UserPersonalInfo,
 } from "@/app/shared/src/types/users.types";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   getAllUsers,
   getSingleUser,
@@ -136,10 +136,12 @@ export const useSetUserPersonalInfo = (id: number) => {
  * Custom React Hook to set the current user's personal information
  */
 export const useSetCurrentUserPersonalInfo = (id: number) => {
+  const queryClient = useQueryClient();
   return useMutation<User, Error, UserPersonalInfo>(
-    ["users", id, "personal-info"],
+    ["users", id, "personal-info", "set"],
     async (personalInfo: UserPersonalInfo) => {
       const { data } = await setUserPersonalInfo(id, personalInfo);
+      queryClient.invalidateQueries(["users", id, "personal-info"]);
       return data;
     }
   );

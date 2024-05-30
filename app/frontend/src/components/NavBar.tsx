@@ -4,10 +4,15 @@ import { Box, Drawer, Typography } from "@mui/material";
 import PhotoDisplay from "./PhotoDisplay";
 import { User } from "@/app/shared/src/types/users.types";
 import { routes } from "../utils/routes";
-import Link from "next/link";
 import HomeButton from "./HomeButton";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import Link from "next/link";
 
-const NavBar = ({ currentUser }: { currentUser: User | undefined }) => {
+interface NavBarProps {
+  currentUser?: User;
+}
+
+const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
   return (
     <Drawer anchor="top" variant="permanent">
       <Box

@@ -14,7 +14,15 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const UploadFileButton = ({ onImgFile, onChange }) => {
+interface UploadFileButtonProps {
+  onImgFile: (imageFile: File) => Promise<string>;
+  onChange: (imageUrl: string) => void;
+}
+
+const UploadFileButton: React.FC<UploadFileButtonProps> = ({
+  onImgFile,
+  onChange,
+}) => {
   return (
     <Button
       component="label"
