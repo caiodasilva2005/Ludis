@@ -1,4 +1,4 @@
-import { User, UserAccountInfo } from "@/app/shared/src/types/users.types";
+import { UserAccountInfo } from "@/app/shared/src/types/users.types";
 import {
   Card,
   CardContent,
@@ -8,12 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
-import PhotoDisplay from "../../components/PhotoDisplay";
 import CustomButton from "../../components/CustomButton";
-import Link from "next/link";
-import { routes } from "../../utils/routes";
 import Image from "next/image";
-import { FormLabel } from "react-bootstrap";
 import { UserAction } from "@/app/shared/src/types/actions.type";
 
 interface AccountInfoFormViewProps {

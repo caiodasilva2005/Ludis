@@ -1,10 +1,6 @@
 "use client";
-import React, { useRef, useEffect, useState, RefObject } from "react";
-import { supabase } from "../../../../../shared/src/utils/supabase";
-import { profileTable } from "../../../../../shared/src/utils/supabase";
+import React, { RefObject } from "react";
 import { User } from "@/app/shared/src/types/users.types";
-import { useCurrentUser, useSingleUser } from "../../../hooks/users.hooks";
-import { getMatchingUserId } from "../../../utils/users";
 
 interface FlutterEmbedComponentProps {
   currentUser: User;
