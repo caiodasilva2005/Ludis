@@ -2,6 +2,13 @@ import { Filter } from "@/app/shared/src/types/filters.types";
 import { User, UserPersonalInfo } from "@/app/shared/src/types/users.types";
 import { isCompatibleAge, matchesFilter } from "./filters";
 
+/**
+ * Gets all matches for the current user based on filters
+ * @param filter
+ * @param currentUser
+ * @param users all users
+ * @returns all users the match age and filters
+ */
 export const getAllMatches = (
   filter: Filter,
   currentUser?: User,
@@ -22,6 +29,11 @@ export const getAllMatches = (
   });
 };
 
+/**
+ * Checks if user has personal info set
+ * @param personalInfo personal info of user
+ * @returns true if persoanl info is set
+ */
 export const hasInfoSet = (personalInfo?: UserPersonalInfo) => {
   if (!personalInfo) return false;
   return personalInfo.firstName &&
@@ -32,11 +44,19 @@ export const hasInfoSet = (personalInfo?: UserPersonalInfo) => {
     : false;
 };
 
-export const setMatchingUser = (user: User) => {
-  sessionStorage.setItem("matchingUser", user.userId.toString());
+/**
+ * Stores matching user id in local storage
+ * @param user matching user
+ */
+export const setMatchingUserId = (user: User) => {
+  localStorage.setItem("matchingUser", user.userId.toString());
 };
 
+/**
+ * Retrieves matching user id from local storage
+ * @returns matching user id
+ */
 export const getMatchingUserId = () => {
-  const matchingUserId = sessionStorage.getItem("matchingUser");
+  const matchingUserId = localStorage.getItem("matchingUser");
   return matchingUserId;
 };

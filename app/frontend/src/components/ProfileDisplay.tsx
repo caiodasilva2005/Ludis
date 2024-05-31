@@ -12,7 +12,7 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import ChatIcon from "@mui/icons-material/Chat";
 import { User } from "@/app/shared/src/types/users.types";
 import { routes } from "../utils/routes";
-import { setMatchingUser } from "../utils/users";
+import { setMatchingUserId } from "../utils/users";
 import Link from "next/link";
 import { getAge } from "../utils/datetime";
 
@@ -27,7 +27,7 @@ const ProfileDisplay = ({ user }: { user: User }) => {
             <Link href={routes.VIEW_PROFILE}>
               <IconButton
                 onClick={() => {
-                  setMatchingUser(user);
+                  setMatchingUserId(user);
                 }}
                 href={routes.VIEW_PROFILE}
               >
@@ -37,7 +37,7 @@ const ProfileDisplay = ({ user }: { user: User }) => {
             <Link href={routes.CHAT}>
               <IconButton
                 onClick={() => {
-                  setMatchingUser(user);
+                  setMatchingUserId(user);
                 }}
               >
                 <ChatIcon />

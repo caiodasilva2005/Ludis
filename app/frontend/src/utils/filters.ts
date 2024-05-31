@@ -57,6 +57,12 @@ export const filterChange = (value: string, prevFilter: Filter): Filter => {
   return prevFilter;
 };
 
+/**
+ * Checks if the current filter for the field is selected
+ * @param value filter value
+ * @param filter current active filter
+ * @returns true if field is selected on current filter
+ */
 export const isFilterSelected = (value: string, filter: Filter) => {
   /* Gender Filter */
   if (value === filterValues.MALE) {
@@ -78,6 +84,12 @@ export const isFilterSelected = (value: string, filter: Filter) => {
   return false;
 };
 
+/**
+ * Checks if user matches the current filter
+ * @param user
+ * @param filter
+ * @returns true if the user matches the current filter
+ */
 export const matchesFilter = (user: User, filter: Filter) => {
   const { gender: genderFilter, experienceLevel: experienceLevelFilter } =
     filter;
@@ -114,6 +126,12 @@ export const matchesFilter = (user: User, filter: Filter) => {
   return true;
 };
 
+/**
+ * Checks if ages are compatible for two matching users
+ * @param currentUserDob date of birth of current user
+ * @param matchingUserDob date of birth of matching user
+ * @returns true if their ages are appropriate for matching
+ */
 export const isCompatibleAge = (
   currentUserDob: DateOfBirth,
   matchingUserDob: DateOfBirth

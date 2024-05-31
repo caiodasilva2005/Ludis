@@ -1,6 +1,6 @@
 "use client";
 import { User } from "@/app/shared/src/types/users.types";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext } from "react";
 import useAuth from "../hooks/auth.hooks";
 
 type UserContextType = {

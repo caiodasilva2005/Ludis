@@ -1,3 +1,7 @@
+/**
+ * This file centralizes frontend routes
+ */
+
 const pages = () => "/frontend/src/pages";
 
 const HOME = `${pages()}/HomePage`;

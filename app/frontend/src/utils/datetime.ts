@@ -17,6 +17,10 @@ export const getAge = (dateOfBirth?: DateOfBirth) => {
   return age;
 };
 
+/**
+ * Gets months for Date Of Birth dropdown
+ * @returns list of numbers from 1-12 representing all months
+ */
 export const getMonths = () => {
   let monthList: number[] = [];
   for (let i = 1; i <= 12; i++) {
@@ -25,6 +29,10 @@ export const getMonths = () => {
   return monthList;
 };
 
+/**
+ * Gets days for Date Of Birth dropdown
+ * @returns list of numbers from 1-31 representing all days
+ */
 export const getDays = () => {
   let dayList: number[] = [];
   for (let i = 1; i <= 31; i++) {
@@ -33,6 +41,10 @@ export const getDays = () => {
   return dayList;
 };
 
+/**
+ * Gets years for Date Of Birth dropdown
+ * @returns list of years from the current year to 50 years in the past
+ */
 export const getYears = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
