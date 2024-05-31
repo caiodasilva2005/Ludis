@@ -15,8 +15,6 @@ import {
 } from "../apis/users.api";
 import { useContext } from "react";
 import { UserContext } from "../providers/AppContextUser";
-import { getAllMatches } from "../utils/users";
-import { Filter } from "@/app/shared/src/types/filters.types";
 
 /**
  * Custom React Hook to supply the current user

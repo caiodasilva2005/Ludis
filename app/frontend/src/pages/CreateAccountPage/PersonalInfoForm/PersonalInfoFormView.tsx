@@ -11,19 +11,10 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormHandleSubmit,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
+import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
 import HomeButton from "../../../components/HomeButton";
 import PhotoDisplay from "../../../components/PhotoDisplay";
 import UploadFileButton from "../../../components/UploadFileButton";
-import { routes } from "../../../utils/routes";
-import Link from "next/link";
 import CustomButton from "../../../components/CustomButton";
 import { getDays, getMonths, getYears } from "../../../utils/datetime";
 
