@@ -15,7 +15,7 @@ const ViewProfilePage = () => {
   const { data: user, isLoading: userIsLoading } = useSingleUser(
     parseInt(userId!)
   );
-  if (userIsLoading) return <ProgressIndicator xpos={50} ypos={50} />;
+  if (userIsLoading || !user) return <ProgressIndicator xpos={50} ypos={50} />;
   return (
     <Box
       sx={{
@@ -127,7 +127,7 @@ const ViewProfilePage = () => {
             >
               <InfoDisplay
                 label="Age"
-                info={getAge(user?.personalInfo.dateOfBirth)}
+                info={`${getAge(user?.personalInfo.dateOfBirth)}`}
                 fontColor="white"
               />
             </Box>
