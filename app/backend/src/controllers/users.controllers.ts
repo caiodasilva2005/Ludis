@@ -1,3 +1,6 @@
+/**
+ *  This file centralizes the Express Controller for endpoints
+ */
 import { NextFunction, Request, Response } from "express";
 import UserService from "../services/users.services.ts";
 

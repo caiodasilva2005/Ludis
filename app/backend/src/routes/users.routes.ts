@@ -1,6 +1,9 @@
+/**
+ * This file centralizes the express endpoints
+ */
 import express from "express";
 import UsersController from "../controllers/users.controllers.ts";
-import { intMinZero, nonEmptyString } from "../utils/validation.utils.ts";
+import { nonEmptyString } from "../utils/validation.utils.ts";
 import { body } from "express-validator";
 import multer, { memoryStorage } from "multer";
 

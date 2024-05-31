@@ -8,7 +8,6 @@ interface ButtonProps {
   submitForm?: boolean;
 }
 
-/*TO-DO: Upate compoents to React.FC */
 const CustomButton: React.FC<ButtonProps> = ({
   label,
   page,

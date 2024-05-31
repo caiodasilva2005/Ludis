@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileDisplay from "../../../components/ProfileDisplay";
 import { User } from "../../../../../shared/src/types/users.types";
-import { Box, Stack, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import ProgressIndicator from "../../../components/ProgressIndicator";
 
 interface ProfileDisplaysProps {

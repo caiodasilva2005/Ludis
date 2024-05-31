@@ -1,3 +1,6 @@
+/**
+ * This file centralizes all user services
+ */
 import { DateOfBirth } from "@/app/shared/src/types/datetime.types.ts";
 import {
   User,
