@@ -31,18 +31,6 @@ const options: Option[] = [
   },
 ];
 
-const handleAction = (
-  setAnchorEl: (anchorEl: HTMLElement | undefined) => void,
-  option: Option,
-  router: AppRouterInstance
-) => {
-  if (!!option.action) {
-    option.action();
-  }
-  setAnchorEl(undefined);
-  router.push(option.page);
-};
-
 interface NavBarProps {
   currentUser?: User;
   anchorEl: HTMLElement | undefined;
@@ -56,6 +44,14 @@ const NavBar: React.FC<NavBarProps> = ({
   setAnchorEl,
   router,
 }) => {
+  const handleAction = (option: Option) => {
+    if (!!option.action) {
+      option.action();
+    }
+    setAnchorEl(undefined);
+    router.push(option.page);
+  };
+
   return (
     <Drawer anchor="top" variant="permanent">
       <Box
@@ -97,7 +93,7 @@ const NavBar: React.FC<NavBarProps> = ({
               <MenuItem
                 key={option.name}
                 onClick={() => {
-                  handleAction(setAnchorEl, option, router);
+                  handleAction(option);
                 }}
               >
                 <Typography textAlign="center">{option.name}</Typography>
