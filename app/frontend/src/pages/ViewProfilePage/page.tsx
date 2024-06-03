@@ -10,7 +10,6 @@ import ProgressIndicator from "../../components/ProgressIndicator";
 import { getAge } from "../../utils/datetime";
 
 const ViewProfilePage = () => {
-  const currentUser = useCurrentUser();
   const userId = getMatchingUserId();
   const { data: user, isLoading: userIsLoading } = useSingleUser(
     parseInt(userId!)
@@ -25,11 +24,6 @@ const ViewProfilePage = () => {
         paddingBottom: "100px",
       }}
     >
-      <Box>
-        <Drawer anchor="top" variant="permanent">
-          <NavBar currentUser={currentUser} />
-        </Drawer>
-      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6} sx={{ mt: 10 }}>
           <Box

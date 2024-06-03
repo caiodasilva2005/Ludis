@@ -17,7 +17,6 @@ import Link from "next/link";
 import { getAge } from "../utils/datetime";
 
 const ProfileDisplay = ({ user }: { user: User }) => {
-  console.log("IMAGE:", user.personalInfo.image);
   return (
     <Card>
       <CardHeader
