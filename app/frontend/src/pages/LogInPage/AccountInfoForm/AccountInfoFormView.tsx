@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../../components/CustomButton";
 import Image from "next/image";
 import { UserAction } from "@/app/shared/src/types/actions.type";
 

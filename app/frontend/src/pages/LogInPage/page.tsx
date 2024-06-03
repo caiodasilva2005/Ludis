@@ -3,7 +3,7 @@ import React from "react";
 import { UserAccountInfo } from "@/app/shared/src/types/users.types";
 import { useSignUserUp, useLogUserIn } from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
-import AccountInfoForm from "./AccountInfoForm";
+import AccountInfoForm from "./AccountInfoForm/AccountInfoForm";
 import { useRouter } from "next/navigation";
 import ProgressIndicator from "../../components/ProgressIndicator";
 
