@@ -1,18 +1,61 @@
 import React from "react";
-import Image from "next/image";
-import { Box, Drawer, Typography } from "@mui/material";
-import PhotoDisplay from "./PhotoDisplay";
+import {
+  Avatar,
+  Box,
+  Drawer,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { User } from "@/app/shared/src/types/users.types";
 import { routes } from "../utils/routes";
 import HomeButton from "./HomeButton";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import Link from "next/link";
+import { logUserOut } from "../utils/auth.utils";
+
+interface Option {
+  name: string;
+  page: string;
+  action?: () => void;
+}
+const options: Option[] = [
+  {
+    name: "Update Info",
+    page: routes.CREATE_ACCOUNT,
+  },
+  {
+    name: "Log Out",
+    page: routes.LOGIN,
+    action: logUserOut,
+  },
+];
+
+const handleAction = (
+  setAnchorEl: (anchorEl: HTMLElement | undefined) => void,
+  option: Option,
+  router: AppRouterInstance
+) => {
+  if (!!option.action) {
+    option.action();
+  }
+  setAnchorEl(undefined);
+  router.push(option.page);
+};
 
 interface NavBarProps {
   currentUser?: User;
+  anchorEl: HTMLElement | undefined;
+  setAnchorEl: (anchorEl: HTMLElement | undefined) => void;
+  router: AppRouterInstance;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
+const NavBar: React.FC<NavBarProps> = ({
+  currentUser,
+  anchorEl,
+  setAnchorEl,
+  router,
+}) => {
   return (
     <Drawer anchor="top" variant="permanent">
       <Box
@@ -27,32 +70,41 @@ const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
         }}
       >
         <HomeButton />
-        <Link href={routes.CREATE_ACCOUNT}>
-          <Box
-            sx={{
-              position: "relative",
-              overflow: "hidden",
-              width: 50,
-              height: 50,
-              cursor: "pointer",
-              borderRadius: "50%",
-              "&:hover": {
-                bgcolor: "white",
-              },
-            }}
-          >
-            <Image
-              src={
-                currentUser && currentUser.personalInfo.image
-                  ? currentUser.personalInfo.image
-                  : "/next.svg"
-              }
-              alt="prof pic"
-              layout="fill"
-              objectFit="cover"
+        <Box>
+          <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <Avatar
+              alt="Prof Pic"
+              src={currentUser && currentUser.personalInfo.image}
             />
-          </Box>
-        </Link>
+          </IconButton>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={!!anchorEl}
+            onClose={() => setAnchorEl(undefined)}
+          >
+            {options.map((option) => (
+              <MenuItem
+                key={option.name}
+                onClick={() => {
+                  handleAction(setAnchorEl, option, router);
+                }}
+              >
+                <Typography textAlign="center">{option.name}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
       </Box>
     </Drawer>
   );

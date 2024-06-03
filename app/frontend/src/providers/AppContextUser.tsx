@@ -1,11 +1,11 @@
 "use client";
 import { User } from "@/app/shared/src/types/users.types";
 import { createContext } from "react";
-import useAuth from "../hooks/auth.hooks";
+import { useAuth } from "../hooks/auth.hooks";
 
 type UserContextType = {
   currentUser: User | undefined;
-  setCurrentUser: (user: User) => void;
+  setCurrentUser: (user: User | undefined) => void;
 };
 
 export const UserContext = createContext<UserContextType>({

@@ -9,8 +9,10 @@ import { Filter } from "@/app/shared/src/types/filters.types";
 import { User } from "@/app/shared/src/types/users.types";
 import ProfileDisplays from "./components/ProfileDisplays";
 import FilterBar from "./components/FilterBar";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [filter, setFilter] = useState<Filter>({
     gender: { filMale: false, filFemale: false, filOther: false },
     experienceLevel: {
@@ -20,6 +22,7 @@ export default function Home() {
     },
   });
   const [matchedUsers, setMatchedUsers] = useState<User[] | undefined>();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
   const currentUser = useCurrentUser();
   const { data: users, isLoading: usersIsLoading } = useAllUsers();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -36,7 +39,12 @@ export default function Home() {
 
   return (
     <Box>
-      <NavBar currentUser={currentUser} />
+      <NavBar
+        currentUser={currentUser}
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        router={router}
+      />
       <Box sx={{ mt: 8 }}>
         <FilterBar
           setDrawerOpen={setIsDrawerOpen}
