@@ -93,7 +93,6 @@ export default class UserService {
       .select()
       .eq("id", userId)
       .single();
-    console.log("USER:", user);
     if (!user) throw new Error(`User ${userId} does not exist in the database`);
     return userPersonalInfoTransformer(user);
   }
@@ -136,6 +135,71 @@ export default class UserService {
       .single();
     if (!updatedUser) throw new Error(`failed to update User ${userId}`);
     return userTransformer(updatedUser);
+  }
+
+  /**
+   * gets all friends of a user
+   * @param userId
+   * @returns an array of friend user ids
+   */
+  static async getAllFriends(userId: number): Promise<number[]> {
+    const { data: user } = await supabase
+      .from(profileTable)
+      .select()
+      .eq("id", userId)
+      .single();
+    if (!user) throw new Error(`User ${userId} does not exist in the database`);
+    return userTransformer(user).friendUserIds;
+  }
+
+  /**
+   * adds friend id to user's friends
+   * @param userId
+   * @param friendUserId
+   * @returns updated user's friend ids
+   */
+  static async addFriend(
+    userId: number,
+    friendUserId: number
+  ): Promise<number[]> {
+    let friendUserIds = new Set<number>(await this.getAllFriends(userId));
+    if (friendUserIds) {
+      friendUserIds.add(friendUserId);
+    } else {
+      friendUserIds = new Set<number>([friendUserId]);
+    }
+    const { data: updatedUser } = await supabase
+      .from(profileTable)
+      .update({
+        friendUserIds: Array.from(friendUserIds),
+      })
+      .eq("id", userId)
+      .select()
+      .single();
+    return userTransformer(updatedUser).friendUserIds;
+  }
+
+  /**
+   * removes friend id to user's friends
+   * @param userId
+   * @param friendUserId
+   * @returns updated user's friend ids
+   */
+  static async removeFriend(
+    userId: number,
+    friendUserId: number
+  ): Promise<number[]> {
+    let friendUserIds = new Set<number>(await this.getAllFriends(userId));
+    friendUserIds.delete(friendUserId);
+    const { data: updatedUser } = await supabase
+      .from(profileTable)
+      .update({
+        friendUserIds: Array.from(friendUserIds),
+      })
+      .eq("id", userId)
+      .select()
+      .single();
+    return userTransformer(updatedUser).friendUserIds;
   }
 
   /**

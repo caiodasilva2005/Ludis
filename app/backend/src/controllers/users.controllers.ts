@@ -55,7 +55,6 @@ export default class UsersController {
   ) {
     try {
       const { userId } = _req.params;
-      console.log("ID IN CONTROLLER:", userId);
       const userPersonalInfo = await UserService.getUserPersonalInfo(
         parseInt(userId)
       );
@@ -94,6 +93,47 @@ export default class UsersController {
       );
 
       res.status(200).json(updatedUser);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async getAllFriends(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = _req.params;
+      const friendUserIds = await UserService.getAllFriends(parseInt(userId));
+
+      res.status(200).json(friendUserIds);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async addFriend(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = _req.params;
+      const { friendUserId } = _req.body;
+      const friendUserIds = await UserService.addFriend(
+        parseInt(userId),
+        friendUserId
+      );
+
+      res.status(200).json(friendUserIds);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async removeFriend(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = _req.params;
+      const { friendUserId } = _req.body;
+      const friendUserIds = await UserService.removeFriend(
+        parseInt(userId),
+        friendUserId
+      );
+
+      res.status(200).json(friendUserIds);
     } catch (error: unknown) {
       next(error);
     }

@@ -5,10 +5,13 @@ import {
 } from "@/app/shared/src/types/users.types";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
+  addFriend,
+  getAllFriends,
   getAllUsers,
   getSingleUser,
   getUserPersonalInfo,
   logUserIn,
+  removeFriend,
   setUserPersonalInfo,
   signUserUp,
   uploadImage,
@@ -121,6 +124,21 @@ export const useCurrentUserPersonalInfo = () => {
  * Custom React Hook to set a single user's personal information
  */
 export const useSetUserPersonalInfo = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<User, Error, UserPersonalInfo>(
+    ["users", id, "personal-info"],
+    async (personalInfo: UserPersonalInfo) => {
+      const { data } = await setUserPersonalInfo(id, personalInfo);
+      queryClient.invalidateQueries(["users", id, "personal-info"]);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to set the current user's personal information
+ */
+export const useSetCurrentUserPersonalInfo = (id: number) => {
   return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info"],
     async (personalInfo: UserPersonalInfo) => {
@@ -131,15 +149,40 @@ export const useSetUserPersonalInfo = (id: number) => {
 };
 
 /**
- * Custom React Hook to set the current user's personal information
+ * Custom React Hook to get all of a user's friends
  */
-export const useSetCurrentUserPersonalInfo = (id: number) => {
+export const useFriends = (id: number) => {
+  return useQuery<number[], Error>(["users", id, "friends"], async () => {
+    const { data } = await getAllFriends(id);
+    return data;
+  });
+};
+
+/**
+ * Custom React Hook to add a friend to a user's list of friends
+ */
+export const useAddFriend = (id: number) => {
   const queryClient = useQueryClient();
-  return useMutation<User, Error, UserPersonalInfo>(
-    ["users", id, "personal-info", "set"],
-    async (personalInfo: UserPersonalInfo) => {
-      const { data } = await setUserPersonalInfo(id, personalInfo);
-      queryClient.invalidateQueries(["users", id, "personal-info"]);
+  return useMutation<number[], Error, number>(
+    ["users", id, "friends", "add"],
+    async (friendId: number) => {
+      const { data } = await addFriend(id, friendId);
+      queryClient.invalidateQueries(["users", id, "friends"]);
+      return data;
+    }
+  );
+};
+
+/**
+ * Custom React Hook to remove a friend to a user's list of friends
+ */
+export const useRemoveFriend = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<number[], Error, number>(
+    ["users", id, "friends", "remove"],
+    async (friendId: number) => {
+      const { data } = await removeFriend(id, friendId);
+      queryClient.invalidateQueries(["users", id, "friends"]);
       return data;
     }
   );

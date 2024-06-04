@@ -1,6 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAllUsers, useCurrentUser } from "../../hooks/users.hooks";
+import {
+  useAddFriend,
+  useAllUsers,
+  useCurrentUser,
+  useFriends,
+  useRemoveFriend,
+} from "../../hooks/users.hooks";
 import { getAllMatches } from "../../utils/users";
 import { filterChange } from "../../utils/filters";
 import { Box } from "@mui/material";
@@ -25,6 +31,11 @@ export default function Home() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
   const currentUser = useCurrentUser();
   const { data: users, isLoading: usersIsLoading } = useAllUsers();
+  const { data: friendUserIds, isLoading: friendsIsLoading } = useFriends(
+    currentUser?.userId!
+  );
+  const { mutateAsync: addFriend } = useAddFriend(currentUser?.userId!);
+  const { mutateAsync: removeFriend } = useRemoveFriend(currentUser?.userId!);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,6 +48,17 @@ export default function Home() {
     setFilter(updatedFilter);
   };
 
+  const handleAddFriend = async (friendId: number) => {
+    const updatedFriends = await addFriend(friendId);
+    return updatedFriends;
+  };
+
+  const handleRemoveFriend = async (friendId: number) => {
+    console.log("REMOVE");
+    const updatedFriends = await removeFriend(friendId);
+    return updatedFriends;
+  };
+
   return (
     <Box>
       <NavBar
@@ -45,14 +67,21 @@ export default function Home() {
         setAnchorEl={setAnchorEl}
         router={router}
       />
+      <FilterBar
+        setDrawerOpen={setIsDrawerOpen}
+        drawerOpen={isDrawerOpen}
+        handleFilterChange={handleFilterChange}
+        filter={filter}
+      />
       <Box sx={{ mt: 8 }}>
-        <FilterBar
-          setDrawerOpen={setIsDrawerOpen}
-          drawerOpen={isDrawerOpen}
-          handleFilterChange={handleFilterChange}
-          filter={filter}
+        <ProfileDisplays
+          users={matchedUsers}
+          usersIsLoading={usersIsLoading}
+          friendUserIds={friendUserIds}
+          friendsIsLoading={friendsIsLoading}
+          handleAddFriend={handleAddFriend}
+          handleRemoveFriend={handleRemoveFriend}
         />
-        <ProfileDisplays users={matchedUsers} usersIsLoading={usersIsLoading} />
       </Box>
     </Box>
   );

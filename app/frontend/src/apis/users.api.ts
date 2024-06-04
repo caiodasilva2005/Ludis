@@ -126,6 +126,55 @@ export const setUserPersonalInfo = (
 };
 
 /**
+ * gets all friends from database column 'friendUserIds'
+ * @param userId
+ * @returns all friend user ids
+ */
+export const getAllFriends = (userId: number) => {
+  return axios.get<number[]>(apiUrls.usersFriends(userId.toString()), {
+    transformResponse: (data) => {
+      return data;
+    },
+  });
+};
+
+/**
+ * adds friend to user's friendUserIds
+ * @param userId
+ * @param friendId
+ * @returns updated friend user ids
+ */
+export const addFriend = (userId: number, friendId: number) => {
+  return axios.post<number[]>(
+    apiUrls.usersAddFriends(userId.toString()),
+    { friendUserId: friendId },
+    {
+      transformResponse: (data) => {
+        return data;
+      },
+    }
+  );
+};
+
+/**
+ * removes friend to user's friendUserIds
+ * @param userId
+ * @param friendId
+ * @returns updated friend user ids
+ */
+export const removeFriend = (userId: number, friendId: number) => {
+  return axios.post<number[]>(
+    apiUrls.usersRemoveFriends(userId.toString()),
+    { friendUserId: friendId },
+    {
+      transformResponse: (data) => {
+        return data;
+      },
+    }
+  );
+};
+
+/**
  * Uploads an image to the database storage bucket
  * @param imageFile
  * @returns public url for image
