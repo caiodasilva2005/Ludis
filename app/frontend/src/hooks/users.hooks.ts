@@ -121,10 +121,12 @@ export const useCurrentUserPersonalInfo = () => {
  * Custom React Hook to set a single user's personal information
  */
 export const useSetUserPersonalInfo = (id: number) => {
+  const queryClient = useQueryClient();
   return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info"],
     async (personalInfo: UserPersonalInfo) => {
       const { data } = await setUserPersonalInfo(id, personalInfo);
+      queryClient.invalidateQueries(["users", id, "personal-info"]);
       return data;
     }
   );
@@ -134,12 +136,10 @@ export const useSetUserPersonalInfo = (id: number) => {
  * Custom React Hook to set the current user's personal information
  */
 export const useSetCurrentUserPersonalInfo = (id: number) => {
-  const queryClient = useQueryClient();
   return useMutation<User, Error, UserPersonalInfo>(
     ["users", id, "personal-info", "set"],
     async (personalInfo: UserPersonalInfo) => {
       const { data } = await setUserPersonalInfo(id, personalInfo);
-      queryClient.invalidateQueries(["users", id, "personal-info"]);
       return data;
     }
   );
