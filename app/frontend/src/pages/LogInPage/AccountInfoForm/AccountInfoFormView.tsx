@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UserAccountInfo } from "@/app/shared/src/types/users.types";
 import {
   Card,
@@ -6,6 +7,7 @@ import {
   FormControl,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
@@ -29,6 +31,19 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   onSignUp,
   handleSubmit,
 }) => {
+  const [passwordError, setPasswordError] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
+  const handlePasswordChange = (value: string) => {
+    if (value.length < 6) {
+      setPasswordError("Password must be at least 6 characters long.");
+      setIsPasswordValid(false);
+    } else {
+      setPasswordError("");
+      setIsPasswordValid(true);
+    }
+  };
+
   return (
     <form
       id={"account-info-form"}
@@ -100,14 +115,23 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     name="password"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-password"
-                        label="password"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
+                      <>
+                        <TextField
+                          id="outlined-password"
+                          label="password"
+                          type="password"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                            handlePasswordChange(e.target.value);
+                          }}
+                          value={value}
+                        />
+                        {passwordError && (
+                          <Typography color="error" variant="body2">
+                            {passwordError}
+                          </Typography>
+                        )}
+                      </>
                     )}
                   />
                 </FormControl>
@@ -117,11 +141,13 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                   submitForm={true}
                   label="Log In"
                   onClick={() => setAction("log-in")}
+                  disabled={!isPasswordValid}
                 />
                 <CustomButton
                   submitForm={true}
                   label="Sign Up"
                   onClick={() => setAction("sign-up")}
+                  disabled={!isPasswordValid}
                 />
               </Stack>
             </Stack>
