@@ -12,9 +12,11 @@ const ChatPage = () => {
   const { data: matchingUser, isLoading: matchingUserIsLoading } =
     useSingleUser(parseInt(matchingUserId!));
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  console.log(iframeRef);
 
   if (matchingUserIsLoading || !currentUser || !matchingUser)
     return <ProgressIndicator xpos={50} ypos={50} />;
+  console.log("running"); // Move the console.log inside the JSX block
   return (
     <>
       <HomeButton />
