@@ -16,7 +16,6 @@ const ChatPage = () => {
 
   if (matchingUserIsLoading || !currentUser || !matchingUser)
     return <ProgressIndicator xpos={50} ypos={50} />;
-  console.log("running"); // Move the console.log inside the JSX block
   return (
     <>
       <HomeButton />

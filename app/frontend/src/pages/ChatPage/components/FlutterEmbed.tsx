@@ -33,7 +33,6 @@ const FlutterEmbedComponent: React.FC<FlutterEmbedComponentProps> = ({
       };
 
       if (iframeWindow) {
-        console.log(message);
         iframeWindow.postMessage(message, "*");
       }
     }

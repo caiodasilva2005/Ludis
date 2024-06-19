@@ -1,6 +1,13 @@
 "use client";
 import React from "react";
-import { Box, Grid, Stack, Typography, Drawer } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  Typography,
+  Drawer,
+  IconButton,
+} from "@mui/material";
 import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
 import InfoDisplay from "@/app/frontend/src/components/InfoDisplay";
 import NavBar from "@/app/frontend/src/components/NavBar";
@@ -8,6 +15,10 @@ import { useCurrentUser, useSingleUser } from "../../hooks/users.hooks";
 import { getMatchingUserId } from "../../utils/users";
 import ProgressIndicator from "../../components/ProgressIndicator";
 import { getAge } from "../../utils/datetime";
+import ChatIcon from "@mui/icons-material/Chat";
+import Link from "next/link";
+import { routes } from "../../utils/routes";
+import { setMatchingUserId } from "../../utils/users";
 
 const ViewProfilePage = () => {
   const userId = getMatchingUserId();
@@ -56,6 +67,15 @@ const ViewProfilePage = () => {
             >
               {`${user?.personalInfo.firstName} ${user?.personalInfo.lastName}`}
             </Typography>
+            <Link href={routes.CHAT}>
+              <IconButton
+                onClick={() => {
+                  setMatchingUserId(user);
+                }}
+              >
+                <ChatIcon sx={{ color: "white" }} />
+              </IconButton>
+            </Link>
           </Box>
           <Box
             sx={{
