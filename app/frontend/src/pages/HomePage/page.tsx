@@ -26,6 +26,7 @@ export default function Home() {
       filIntermediate: false,
       filAdvanced: false,
     },
+    onlyFriends: false,
   });
   const [matchedUsers, setMatchedUsers] = useState<User[] | undefined>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
@@ -40,11 +41,20 @@ export default function Home() {
 
   useEffect(() => {
     const matches = getAllMatches(filter, currentUser, users);
+    console.log("FRIENDS:", currentUser?.friendUserIds);
     setMatchedUsers(matches);
   }, [currentUser, users, filter]);
 
   const handleFilterChange = (value: string) => {
     const updatedFilter: Filter = filterChange(value, filter);
+    setFilter(updatedFilter);
+  };
+
+  const handleFriendsOnly = () => {
+    const updatedFilter: Filter = {
+      ...filter,
+      onlyFriends: !filter.onlyFriends,
+    };
     setFilter(updatedFilter);
   };
 
@@ -71,6 +81,7 @@ export default function Home() {
         setDrawerOpen={setIsDrawerOpen}
         drawerOpen={isDrawerOpen}
         handleFilterChange={handleFilterChange}
+        handleFriendsOnly={handleFriendsOnly}
         filter={filter}
       />
       <Box sx={{ mt: 8 }}>

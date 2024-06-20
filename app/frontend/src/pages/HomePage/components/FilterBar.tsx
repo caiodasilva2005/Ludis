@@ -9,6 +9,7 @@ interface FilterBarProps {
   drawerOpen: boolean;
   setDrawerOpen: (drawerOpen: boolean) => void;
   handleFilterChange: (value: string) => void;
+  handleFriendsOnly: () => void;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
@@ -16,6 +17,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   handleFilterChange,
   drawerOpen,
   setDrawerOpen,
+  handleFriendsOnly,
 }) => {
   return (
     <>
@@ -25,6 +27,9 @@ const FilterBar: React.FC<FilterBarProps> = ({
         onClick={() => {
           setDrawerOpen(true);
         }}
+        sx={{
+          position: "fixed",
+        }}
       >
         <MenuIcon />
       </IconButton>
@@ -33,7 +38,11 @@ const FilterBar: React.FC<FilterBarProps> = ({
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <SideBar filter={filter} onChange={handleFilterChange} />
+        <SideBar
+          filter={filter}
+          onFilterChange={handleFilterChange}
+          onFriendsOnlyChange={handleFriendsOnly}
+        />
       </Drawer>
     </>
   );

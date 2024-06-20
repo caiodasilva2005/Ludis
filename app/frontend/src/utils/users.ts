@@ -25,7 +25,7 @@ export const getAllMatches = (
       )
     )
       return false;
-    return matchesFilter(user, filter);
+    return matchesFilter(currentUser, user, filter);
   });
 };
 
@@ -60,5 +60,3 @@ export const getMatchingUserId = () => {
   const matchingUserId = localStorage.getItem("matchingUser");
   return matchingUserId;
 };
-
-

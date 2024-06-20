@@ -40,19 +40,19 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
         <FormGroup>
           {fields.map((field: string) => {
             return (
-              <FormControlLabel
-                key={field}
-                control={
-                  <Switch
-                    checked={isFilterSelected(field, filter)}
-                    onChange={() => onSelect(field)}
-                  />
-                }
-                label={field}
-                sx={{
-                  color: "whitesmoke",
-                }}
-              />
+                <FormControlLabel
+                  key={field}
+                  control={
+                    <Switch
+                      checked={isFilterSelected(field, filter)}
+                      onChange={() => onSelect(field)}
+                    />
+                  }
+                  label={field}
+                  sx={{
+                    color: "whitesmoke",
+                  }}
+                />
             );
           })}
         </FormGroup>

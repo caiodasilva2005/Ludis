@@ -86,15 +86,20 @@ export const isFilterSelected = (value: string, filter: Filter) => {
 
 /**
  * Checks if user matches the current filter
- * @param user
+ * @param currentUser
+ * @param matchingUser
  * @param filter
  * @returns true if the user matches the current filter
  */
-export const matchesFilter = (user: User, filter: Filter) => {
+export const matchesFilter = (
+  currentUser: User,
+  matchingUser: User,
+  filter: Filter
+) => {
   const { gender: genderFilter, experienceLevel: experienceLevelFilter } =
     filter;
   const { gender: userGender, experienceLevel: userExperienceLevel } =
-    user.personalInfo;
+    matchingUser.personalInfo;
   const filGender =
     (genderFilter.filMale && userGender === filterValues.MALE) ||
     (genderFilter.filFemale && userGender === filterValues.FEMALE) ||
@@ -115,15 +120,21 @@ export const matchesFilter = (user: User, filter: Filter) => {
     experienceLevelFilter.filIntermediate ||
     experienceLevelFilter.filAdvanced;
 
+  let activeFilters = true;
+
   if (!isExeperienceLevelActive && isGenderActive) {
-    return filGender;
+    activeFilters = filGender;
   } else if (!isGenderActive && isExeperienceLevelActive) {
-    return filExperienceLevel;
+    activeFilters = filExperienceLevel;
   } else if (isGenderActive && isExeperienceLevelActive) {
-    return filGender && filExperienceLevel;
+    activeFilters = filGender && filExperienceLevel;
+  }
+  if (filter.onlyFriends) {
+    activeFilters =
+      activeFilters && currentUser.friendUserIds.includes(matchingUser.userId);
   }
 
-  return true;
+  return activeFilters;
 };
 
 /**
