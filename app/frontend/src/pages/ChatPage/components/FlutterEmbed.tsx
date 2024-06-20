@@ -17,7 +17,7 @@ const FlutterEmbedComponent: React.FC<FlutterEmbedComponentProps> = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setTriggerRebuild(true);
-    }, 1500);
+    }, 2000);
 
     return () => clearTimeout(timeoutId); // Cleanup timer on unmount
   }, []);
