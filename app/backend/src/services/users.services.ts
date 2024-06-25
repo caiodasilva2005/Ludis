@@ -15,7 +15,11 @@ import {
   userPersonalInfoTransformer,
   userTransformer,
 } from "../transformers/users.transformer.ts";
-import { getUserByUsername, uploadFile } from "../utils/user.utils.ts";
+import {
+  getUserByEmail,
+  getUserByUsername,
+  uploadFile,
+} from "../utils/user.utils.ts";
 
 export default class UserService {
   /**
@@ -80,6 +84,27 @@ export default class UserService {
     if (password !== user.accountInfo.password) throw Error("Invalid password");
     if (email !== user.accountInfo.email) throw Error("Invalid email");
     return user;
+  }
+
+  static async logGoogleUserIn(
+    email: string,
+    firstName: string,
+    lastName: string,
+    image: string
+  ): Promise<User> {
+    const user = await getUserByEmail(email);
+    if (user) return user;
+    const { data: newUser } = await supabase
+      .from(profileTable)
+      .insert({
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        image: image,
+      })
+      .select()
+      .single();
+    return userTransformer(newUser);
   }
 
   /**

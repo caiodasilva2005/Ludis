@@ -1,3 +1,4 @@
+import { JwtPayload } from "jwt-decode";
 import { DateOfBirth } from "./datetime.types";
 
 export interface UserAccountInfo {
@@ -29,6 +30,13 @@ export interface DatabaseUser {
   gender: string;
   bio?: string;
   dateOfBirth: DateOfBirth;
+}
+
+export interface GoogleUser extends JwtPayload {
+  email: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
 }
 
 export interface User {

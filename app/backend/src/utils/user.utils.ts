@@ -63,3 +63,15 @@ export const getUserByUsername = async (username: string): Promise<User> => {
   if (!user) throw Error(`Cannot find ${username}`);
   return userTransformer(user);
 };
+
+export const getUserByEmail = async (
+  email: string
+): Promise<User | undefined> => {
+  const { data: user } = await supabase
+    .from(profileTable)
+    .select()
+    .eq("email", email)
+    .single();
+  if (!user) return;
+  return userTransformer(user);
+};

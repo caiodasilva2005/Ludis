@@ -1,8 +1,8 @@
 "use client";
-import { User } from "@/app/shared/src/types/users.types";
+import { GoogleUser, User } from "@/app/shared/src/types/users.types";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { getGoogleClient } from "../apis/auth.api";
+import { useMutation, useQuery } from "react-query";
+import { CredentialResponse, TokenResponse } from "@react-oauth/google";
 
 /**
  * Custom react hook to log in and log out a current user
@@ -17,12 +17,4 @@ export const useAuth = () => {
     }
   };
   return { currentUser, logInCurrentUser };
-};
-
-export const useGoogleClient = (access_token: string) => {
-  return useQuery(["auth"], async () => {
-    const { data } = await getGoogleClient(access_token);
-    console.log("GOOGLE:", data);
-    return data;
-  });
 };

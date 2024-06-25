@@ -48,6 +48,27 @@ export default class UsersController {
     }
   }
 
+  static async logGoogleUserIn(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { email, firstName, lastName, image } = _req.body;
+      console.log(email, firstName, lastName, image);
+      const user = await UserService.logGoogleUserIn(
+        email,
+        firstName,
+        lastName,
+        image
+      );
+
+      res.status(200).json(user);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
   static async getUserPersonalInfo(
     _req: Request,
     res: Response,

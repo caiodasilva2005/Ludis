@@ -3,15 +3,20 @@ import { useForm } from "react-hook-form";
 import AccountInfoFormView from "./AccountInfoFormView";
 import { useState } from "react";
 import { UserAction } from "@/app/shared/src/types/actions.type";
+import { CredentialResponse } from "@react-oauth/google";
 
 interface AccountInfoFormProps {
   submitLogInData: (formData: UserAccountInfo) => Promise<User>;
   submitSignUpData: (formData: UserAccountInfo) => Promise<User>;
+  submitGoogleLogInData: (
+    googleAccountinfo: CredentialResponse
+  ) => Promise<User>;
 }
 
 const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
   submitLogInData,
   submitSignUpData,
+  submitGoogleLogInData,
 }) => {
   const {
     handleSubmit,
@@ -28,6 +33,7 @@ const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
       onSignUp={submitSignUpData}
       action={action}
       setAction={setAction}
+      onGoogleLogIn={submitGoogleLogInData}
     />
   );
 };

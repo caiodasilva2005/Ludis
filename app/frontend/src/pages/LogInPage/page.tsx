@@ -1,12 +1,21 @@
 "use client";
 import React from "react";
-import { UserAccountInfo } from "@/app/shared/src/types/users.types";
-import { useSignUserUp, useLogUserIn } from "../../hooks/users.hooks";
+import {
+  GoogleUser,
+  UserAccountInfo,
+} from "@/app/shared/src/types/users.types";
+import {
+  useSignUserUp,
+  useLogUserIn,
+  useGoogleLogIn,
+} from "../../hooks/users.hooks";
 import { routes } from "../../utils/routes";
 import AccountInfoForm from "./AccountInfoForm/AccountInfoForm";
 import { useRouter } from "next/navigation";
 import ProgressIndicator from "../../components/ProgressIndicator";
-import { useGoogleClient } from "../../hooks/auth.hooks";
+import { CredentialResponse } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { hasInfoSet } from "../../utils/users";
 
 const LogInPage = () => {
   const {
@@ -19,34 +28,50 @@ const LogInPage = () => {
     isLoading: signUserUpIsLoading,
     isSuccess: signUserUpSuccess,
   } = useSignUserUp();
+  const {
+    mutateAsync: logGoogleUserIn,
+    isLoading: logGoogleUserInIsLoading,
+    isSuccess: logGoogleUserInSuccess,
+  } = useGoogleLogIn();
+
   const router = useRouter();
   const onLogIn = async (formData: UserAccountInfo) => {
-    const updatedPersonalInfo = await logUserIn(formData);
+    const user = await logUserIn(formData);
     router.push(routes.HOME);
-    return updatedPersonalInfo;
+    return user;
   };
   const onSignUp = async (formData: UserAccountInfo) => {
-    const updatedPersonalInfo = await signUserUp(formData);
+    const user = await signUserUp(formData);
     router.push(routes.CREATE_ACCOUNT);
-    return updatedPersonalInfo;
+    return user;
   };
-
-  const { data: res, isSuccess } = useGoogleClient(
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkNTgwZjBhZjdhY2U2OThhMGNlZTdmMjMwYmNhNTk0ZGM2ZGJiNTUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxOTk0MTc1MDM3NzUtcnJvNmxwNW83aWkydWtsbXU0c2cyZHIwcTV0bjFhMzMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxOTk0MTc1MDM3NzUtcnJvNmxwNW83aWkydWtsbXU0c2cyZHIwcTV0bjFhMzMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTMxNjg4MTg4MDQ2OTUzODA5OTQiLCJlbWFpbCI6ImRhc2lsdmEuY2FpQG5vcnRoZWFzdGVybi5lZHUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmJmIjoxNzE4OTk0NjgwLCJuYW1lIjoiQ2FpbyBEYVNpbHZhIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pyZ2FHbVNoaHBpR1UzV1BUR2N6a0lodFR3UmVpTVFLeTVxSlMyXzBBS1NCT1pRblU9czk2LWMiLCJnaXZlbl9uYW1lIjoiQ2FpbyIsImZhbWlseV9uYW1lIjoiRGFTaWx2YSIsImlhdCI6MTcxODk5NDk4MCwiZXhwIjoxNzE4OTk4NTgwLCJqdGkiOiJmYWU0ZjQyYWU2YjljY2Y1YzUyMTA4ZjE0OTU3MzE2NzQyMzc3MGI3In0.VZNDicaO0A51zNQSs06fYR5ZHUKrJyVJ6XAHagh043d3KXHLdDYYnGKuv9v3tuL3EA0det9tBG4oMH9v-jwoluKTHpaPp46eyA8xxlnCc_lBwcXxoklHXyVb4os_D3oLHzM0EH5-cNhjBNvQvVRBuX31Psi3QdO0iwoy-Gu6rXFxcRddL1FmseP5pxsm7vEBAFKnr7Q_9BZTS1zL2AEyJDbHsM0UVjrwpLQq7emFRwWaQLO-bmmelB0-XwqoKOkeS4vYcrrffgVWLlatcuWUu4dhNIPHcAP1IWrfdUB-z_nrCIedQYzW0cdW-Vcd7_Le4veYmIo9VxSLGFQMhsNxag"
-  );
+  const onGoogleLogIn = async (googleAccountData: CredentialResponse) => {
+    const googleUser = jwtDecode(googleAccountData.credential!) as GoogleUser;
+    const user = await logGoogleUserIn(googleUser);
+    if (hasInfoSet(user.personalInfo)) {
+      router.push(routes.HOME);
+    } else {
+      router.push(routes.CREATE_ACCOUNT);
+    }
+    return user;
+  };
 
   if (
     logUserInIsLoading ||
     signUserUpIsLoading ||
     logUserInSuccess ||
-    signUserUpSuccess
+    signUserUpSuccess ||
+    logGoogleUserInIsLoading ||
+    logGoogleUserInSuccess
   )
     return <ProgressIndicator xpos={50} ypos={50} />;
 
-  if (isSuccess) console.log(res);
-
   return (
-    <AccountInfoForm submitLogInData={onLogIn} submitSignUpData={onSignUp} />
+    <AccountInfoForm
+      submitLogInData={onLogIn}
+      submitSignUpData={onSignUp}
+      submitGoogleLogInData={onGoogleLogIn}
+    />
   );
 };
 
