@@ -4,6 +4,7 @@
 
 const pages = () => "/frontend/src/pages";
 
+/** Page Routes **/
 const HOME = `${pages()}/HomePage`;
 const LOGIN = `${pages()}/LogInPage`;
 const CREATE_ACCOUNT = `${pages()}/CreateAccountPage`;

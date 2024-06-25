@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import AppQuery from "./frontend/src/providers/AppQuery";
 import AppContextUser from "./frontend/src/providers/AppContextUser";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body>
-        <AppContextUser>
-          <AppQuery>{children}</AppQuery>
-        </AppContextUser>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
+          <AppContextUser>
+            <AppQuery>{children}</AppQuery>
+          </AppContextUser>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );
