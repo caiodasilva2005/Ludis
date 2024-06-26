@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body>
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
           <AppContextUser>
             <AppQuery>{children}</AppQuery>
           </AppContextUser>
