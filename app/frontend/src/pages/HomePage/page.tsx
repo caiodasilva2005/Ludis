@@ -40,10 +40,9 @@ export default function Home() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const matches = getAllMatches(filter, currentUser, users);
-    console.log("FRIENDS:", currentUser?.friendUserIds);
+    const matches = getAllMatches(filter, friendUserIds, currentUser, users);
     setMatchedUsers(matches);
-  }, [currentUser, users, filter]);
+  }, [currentUser, users, filter, friendUserIds]);
 
   const handleFilterChange = (value: string) => {
     const updatedFilter: Filter = filterChange(value, filter);
@@ -64,7 +63,6 @@ export default function Home() {
   };
 
   const handleRemoveFriend = async (friendId: number) => {
-    console.log("REMOVE");
     const updatedFriends = await removeFriend(friendId);
     return updatedFriends;
   };

@@ -86,15 +86,15 @@ export const isFilterSelected = (value: string, filter: Filter) => {
 
 /**
  * Checks if user matches the current filter
- * @param currentUser
  * @param matchingUser
  * @param filter
+ * @param friendUserIds ids of all friends
  * @returns true if the user matches the current filter
  */
 export const matchesFilter = (
-  currentUser: User,
   matchingUser: User,
-  filter: Filter
+  filter: Filter,
+  friendUserIds?: number[]
 ) => {
   const { gender: genderFilter, experienceLevel: experienceLevelFilter } =
     filter;
@@ -130,9 +130,9 @@ export const matchesFilter = (
     activeFilters = filGender && filExperienceLevel;
   }
   if (filter.onlyFriends) {
-    if (!currentUser.friendUserIds) return false;
+    if (!friendUserIds) return false;
     activeFilters =
-      activeFilters && currentUser.friendUserIds.includes(matchingUser.userId);
+      activeFilters && friendUserIds.includes(matchingUser.userId);
   }
 
   return activeFilters;

@@ -168,6 +168,7 @@ export const useSetCurrentUserPersonalInfo = (id: number) => {
 export const useFriends = (id: number) => {
   return useQuery<number[], Error>(["users", id, "friends"], async () => {
     const { data } = await getAllFriends(id);
+    console.log(data);
     return data;
   });
 };

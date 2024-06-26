@@ -23,6 +23,7 @@ const ProfileDisplays: React.FC<ProfileDisplaysProps> = ({
 }) => {
   if (usersIsLoading || friendsIsLoading || !users)
     return <ProgressIndicator xpos={50} ypos={50} />;
+  console.log("DISPLAYS", friendUserIds);
   return (
     <Container sx={{ overflowY: "auto" }}>
       <Grid container spacing={3}>
