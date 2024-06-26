@@ -26,10 +26,10 @@ const FlutterEmbedComponent: React.FC<FlutterEmbedComponentProps> = ({
     if (triggerRebuild && iframeRef.current) {
       const iframeWindow = iframeRef.current.contentWindow;
       const message = {
-        username: currentUser?.accountInfo.username,
+        username: currentUser?.personalInfo.displayName,
         password: currentUser?.accountInfo.password,
         email: currentUser?.accountInfo.email,
-        otherUser: matchingUser?.accountInfo.username,
+        otherUser: matchingUser?.personalInfo.displayName,
       };
 
       if (iframeWindow) {

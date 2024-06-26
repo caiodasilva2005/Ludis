@@ -15,7 +15,11 @@ import {
   userPersonalInfoTransformer,
   userTransformer,
 } from "../transformers/users.transformer.ts";
-import { getUserByUsername, uploadFile } from "../utils/user.utils.ts";
+import {
+  getUserByEmail,
+  getUserByUsername,
+  uploadFile,
+} from "../utils/user.utils.ts";
 
 export default class UserService {
   /**
@@ -50,14 +54,10 @@ export default class UserService {
    * @param password
    * @returns user that signed up
    */
-  static async signUserUp(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<User> {
+  static async signUserUp(email: string, password: string): Promise<User> {
     const { data: user } = await supabase
       .from(profileTable)
-      .insert({ username: username, email: email, password: password })
+      .insert({ email: email, password: password })
       .select()
       .single();
     if (!user) throw new Error("Failed to sign up user.");
@@ -71,15 +71,32 @@ export default class UserService {
    * @param password
    * @returns that logged in
    */
-  static async logUserIn(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<User> {
-    const user = await getUserByUsername(username);
+  static async logUserIn(email: string, password: string): Promise<User> {
+    const user = await getUserByEmail(email);
+    if (!user) throw Error(`This email (${email}) is not registered`);
     if (password !== user.accountInfo.password) throw Error("Invalid password");
-    if (email !== user.accountInfo.email) throw Error("Invalid email");
     return user;
+  }
+
+  static async logGoogleUserIn(
+    email: string,
+    firstName: string,
+    lastName: string,
+    image: string
+  ): Promise<User> {
+    const user = await getUserByEmail(email);
+    if (user) return user;
+    const { data: newUser } = await supabase
+      .from(profileTable)
+      .insert({
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        image: image,
+      })
+      .select()
+      .single();
+    return userTransformer(newUser);
   }
 
   /**
@@ -112,6 +129,7 @@ export default class UserService {
    */
   static async setUserPersonalInfo(
     userId: string,
+    displayName: string,
     firstName: string,
     lastName: string,
     image: string,
@@ -123,6 +141,7 @@ export default class UserService {
     const { data: updatedUser } = await supabase
       .from(profileTable)
       .update({
+        username: displayName,
         firstName: firstName,
         lastName: lastName,
         image: image,

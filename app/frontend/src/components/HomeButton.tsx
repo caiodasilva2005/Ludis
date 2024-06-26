@@ -5,14 +5,21 @@ import PhotoDisplay from "./PhotoDisplay";
 import Link from "next/link";
 import { routes } from "../utils/routes";
 
-const HomeButton = () => {
+interface HomeButtonProps {
+  right?: boolean;
+  xpos?: number;
+}
+
+const HomeButton: React.FC<HomeButtonProps> = ({ right, xpos }) => {
+  const position = xpos ?? 4;
   return (
     <Link href={routes.HOME}>
       <Box
         sx={{
           position: "fixed",
           top: 4,
-          left: 4,
+          left: right ? undefined : position,
+          right: right ? position : undefined,
           bgcolor: "white",
           borderRadius: 2,
           padding: 1,

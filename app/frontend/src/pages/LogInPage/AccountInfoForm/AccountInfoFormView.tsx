@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Container,
+  Divider,
   FormControl,
   Stack,
   TextField,
@@ -13,6 +14,7 @@ import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
 import Image from "next/image";
 import { UserAction } from "@/app/shared/src/types/actions.type";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import validator from "email-validator"; // Import the email-validator library
 
 interface AccountInfoFormViewProps {
@@ -22,6 +24,7 @@ interface AccountInfoFormViewProps {
   onLogIn: (accountInfo: UserAccountInfo) => void;
   onSignUp: (accountInfo: UserAccountInfo) => void;
   handleSubmit: UseFormHandleSubmit<UserAccountInfo>;
+  onGoogleLogIn: (googleAccountInfo: CredentialResponse) => void;
 }
 
 const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
@@ -31,6 +34,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   onLogIn,
   onSignUp,
   handleSubmit,
+  onGoogleLogIn,
 }) => {
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -92,22 +96,6 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
             />
             <Stack spacing={3}>
               <Stack spacing={2}>
-                <FormControl>
-                  <Controller
-                    name="username"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-username"
-                        label="username"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                </FormControl>
                 <FormControl>
                   <Controller
                     name="email"
@@ -172,6 +160,12 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                   disabled={!isPasswordValid || !isEmailValid}
                 />
               </Stack>
+              <Divider>Google Login</Divider>
+              <GoogleLogin
+                onSuccess={(res) => onGoogleLogIn(res)}
+                useOneTap
+                auto_select
+              />
             </Stack>
           </CardContent>
         </Card>

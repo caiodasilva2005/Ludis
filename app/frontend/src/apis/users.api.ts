@@ -2,6 +2,7 @@
  * This file defines all user api calls
  */
 import {
+  GoogleUser,
   User,
   UserAccountInfo,
   UserPersonalInfo,
@@ -47,7 +48,6 @@ export const signUserUp = (userAccountInfo: UserAccountInfo) => {
   return axios.post<User>(
     apiUrls.usersSignUp(),
     {
-      username: userAccountInfo.username,
       email: userAccountInfo.email,
       password: userAccountInfo.password,
     },
@@ -68,9 +68,25 @@ export const logUserIn = (userAccountInfo: UserAccountInfo) => {
   return axios.post<User>(
     apiUrls.usersLogIn(),
     {
-      username: userAccountInfo.username,
       email: userAccountInfo.email,
       password: userAccountInfo.password,
+    },
+    {
+      transformResponse: (data) => {
+        return userTransformer(JSON.parse(data));
+      },
+    }
+  );
+};
+
+export const logGoogleUserIn = (googleUser: GoogleUser) => {
+  return axios.post<User>(
+    apiUrls.usersGoogleLogIn(),
+    {
+      email: googleUser.email,
+      firstName: googleUser.given_name,
+      lastName: googleUser.family_name,
+      image: googleUser.picture,
     },
     {
       transformResponse: (data) => {
@@ -109,6 +125,7 @@ export const setUserPersonalInfo = (
   return axios.post<User>(
     apiUrls.usersPersonalInfo(userId.toString()),
     {
+      displayName: personalInfo.displayName,
       firstName: personalInfo.firstName,
       lastName: personalInfo.lastName,
       image: personalInfo.image,

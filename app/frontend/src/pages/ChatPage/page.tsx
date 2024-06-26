@@ -18,7 +18,7 @@ const ChatPage = () => {
     return <ProgressIndicator xpos={50} ypos={50} />;
   return (
     <>
-      <HomeButton />
+      <HomeButton xpos={6} />
       <FlutterEmbedComponent
         currentUser={currentUser}
         matchingUser={matchingUser}

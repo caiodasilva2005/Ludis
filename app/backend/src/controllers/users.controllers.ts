@@ -28,8 +28,8 @@ export default class UsersController {
 
   static async signUserUp(_req: Request, res: Response, next: NextFunction) {
     try {
-      const { username, email, password } = _req.body;
-      const user = await UserService.signUserUp(username, email, password);
+      const { email, password } = _req.body;
+      const user = await UserService.signUserUp(email, password);
 
       res.status(200).json(user);
     } catch (error: unknown) {
@@ -39,8 +39,29 @@ export default class UsersController {
 
   static async logUserIn(_req: Request, res: Response, next: NextFunction) {
     try {
-      const { username, email, password } = _req.body;
-      const user = await UserService.logUserIn(username, email, password);
+      const { email, password } = _req.body;
+      const user = await UserService.logUserIn(email, password);
+
+      res.status(200).json(user);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  static async logGoogleUserIn(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { email, firstName, lastName, image } = _req.body;
+      console.log(email, firstName, lastName, image);
+      const user = await UserService.logGoogleUserIn(
+        email,
+        firstName,
+        lastName,
+        image
+      );
 
       res.status(200).json(user);
     } catch (error: unknown) {
@@ -55,7 +76,6 @@ export default class UsersController {
   ) {
     try {
       const { userId } = _req.params;
-      console.log("ID IN CONTROLLER:", userId);
       const userPersonalInfo = await UserService.getUserPersonalInfo(
         parseInt(userId)
       );
@@ -74,6 +94,7 @@ export default class UsersController {
     try {
       const { userId } = _req.params;
       const {
+        displayName,
         firstName,
         lastName,
         image,
@@ -82,8 +103,10 @@ export default class UsersController {
         dateOfBirth,
         bio,
       } = _req.body;
+      console.log("DISPLAY NAME:", displayName);
       const updatedUser = await UserService.setUserPersonalInfo(
         userId,
+        displayName,
         firstName,
         lastName,
         image,

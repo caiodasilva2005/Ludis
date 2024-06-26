@@ -9,6 +9,7 @@ const users = () => `${API_URL}/users`;
 const usersById = (id: string) => `${users()}/${id}`;
 const usersSignUp = () => `${users()}/signup`;
 const usersLogIn = () => `${users()}/login`;
+const usersGoogleLogIn = () => `${usersLogIn()}/google`;
 const usersPersonalInfo = (id: string) => `${usersById(id)}/personal-info`;
 const uploadImage = () => `${users()}/upload-image`;
 
@@ -17,6 +18,7 @@ export const apiUrls = {
   usersById,
   usersSignUp,
   usersLogIn,
+  usersGoogleLogIn,
   usersPersonalInfo,
   uploadImage,
 };

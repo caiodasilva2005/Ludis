@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
   Stack,
   Typography,
   Drawer,
+  Button,
   IconButton,
 } from "@mui/material";
 import PhotoDisplay from "@/app/frontend/src/components/PhotoDisplay";
@@ -19,12 +20,14 @@ import ChatIcon from "@mui/icons-material/Chat";
 import Link from "next/link";
 import { routes } from "../../utils/routes";
 import { setMatchingUserId } from "../../utils/users";
+import HomeButton from "../../components/HomeButton";
 
 const ViewProfilePage = () => {
   const userId = getMatchingUserId();
   const { data: user, isLoading: userIsLoading } = useSingleUser(
     parseInt(userId!)
   );
+
   if (userIsLoading || !user) return <ProgressIndicator xpos={50} ypos={50} />;
   return (
     <Box
@@ -148,6 +151,7 @@ const ViewProfilePage = () => {
           </Stack>
         </Grid>
       </Grid>
+      <HomeButton />
     </Box>
   );
 };

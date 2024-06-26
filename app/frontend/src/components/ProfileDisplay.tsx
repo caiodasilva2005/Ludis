@@ -45,7 +45,7 @@ const ProfileDisplay = ({ user }: { user: User }) => {
           </>
         }
         title={`${user.personalInfo.firstName} ${user.personalInfo.lastName}`}
-        subheader={user.accountInfo.username}
+        subheader={user.personalInfo.displayName}
       />
       <CardContent>
         <Stack spacing={2}>
