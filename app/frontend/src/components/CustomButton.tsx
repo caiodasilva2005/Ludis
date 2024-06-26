@@ -6,6 +6,7 @@ interface ButtonProps {
   page?: string;
   onClick?: () => void;
   submitForm?: boolean;
+  disabled?: boolean; // Added disabled prop
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -13,6 +14,7 @@ const CustomButton: React.FC<ButtonProps> = ({
   page,
   onClick,
   submitForm,
+  disabled, // Destructure disabled prop
 }) => {
   return (
     <Button
@@ -20,6 +22,7 @@ const CustomButton: React.FC<ButtonProps> = ({
       variant="contained"
       onClick={onClick}
       href={page}
+      disabled={disabled} // Pass disabled prop to Button
       sx={{ borderRadius: "20px", bgcolor: "#7227a8" }}
     >
       {label}

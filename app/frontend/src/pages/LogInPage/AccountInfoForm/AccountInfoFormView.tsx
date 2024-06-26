@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UserAccountInfo } from "@/app/shared/src/types/users.types";
 import {
   Card,
@@ -7,6 +8,7 @@ import {
   FormControl,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
@@ -88,14 +90,17 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     name="password"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-password"
-                        label="password"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
+                      <>
+                        <TextField
+                          id="outlined-password"
+                          label="password"
+                          type="password"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        />
+                      </>
                     )}
                   />
                 </FormControl>

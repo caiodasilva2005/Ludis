@@ -1,5 +1,4 @@
-"use client";
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { User } from "@/app/shared/src/types/users.types";
 
 interface FlutterEmbedComponentProps {
@@ -13,19 +12,32 @@ const FlutterEmbedComponent: React.FC<FlutterEmbedComponentProps> = ({
   matchingUser,
   iframeRef,
 }) => {
-  if (iframeRef.current) {
-    const iframeWindow = iframeRef.current.contentWindow;
-    const message = {
-      username: currentUser?.accountInfo.username,
-      password: currentUser?.accountInfo.password,
-      email: currentUser?.accountInfo.email,
-      otherUser: matchingUser?.accountInfo.username,
-    };
+  const [triggerRebuild, setTriggerRebuild] = useState(false);
 
-    if (iframeWindow) {
-      iframeWindow.postMessage(message, "*");
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setTriggerRebuild(true);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId); // Cleanup timer on unmount
+  }, []);
+
+  useEffect(() => {
+    if (triggerRebuild && iframeRef.current) {
+      const iframeWindow = iframeRef.current.contentWindow;
+      const message = {
+        username: currentUser?.personalInfo.displayName,
+        password: currentUser?.accountInfo.password,
+        email: currentUser?.accountInfo.email,
+        otherUser: matchingUser?.personalInfo.displayName,
+      };
+
+      if (iframeWindow) {
+        iframeWindow.postMessage(message, "*");
+      }
     }
-  }
+  }, [triggerRebuild, currentUser, matchingUser, iframeRef]);
+
   return (
     <iframe
       ref={iframeRef}
