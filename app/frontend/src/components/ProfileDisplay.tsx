@@ -70,7 +70,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({
           </>
         }
         title={`${user.personalInfo.firstName} ${user.personalInfo.lastName}`}
-        subheader={user.accountInfo.username}
+        subheader={user.personalInfo.displayName}
       />
       <CardContent>
         <Stack spacing={2}>

@@ -33,6 +33,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
     setValue,
   } = useForm<UserPersonalInfo>({
     defaultValues: {
+      displayName: defaultValues?.displayName ?? "",
       firstName: defaultValues?.firstName ?? "",
       lastName: defaultValues?.lastName ?? "",
       image: defaultValues?.image,

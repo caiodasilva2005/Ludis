@@ -36,7 +36,8 @@ export const getAllMatches = (
  */
 export const hasInfoSet = (personalInfo?: UserPersonalInfo) => {
   if (!personalInfo) return false;
-  return personalInfo.firstName &&
+  return personalInfo.displayName &&
+    personalInfo.firstName &&
     personalInfo.lastName &&
     personalInfo.gender &&
     personalInfo.experienceLevel

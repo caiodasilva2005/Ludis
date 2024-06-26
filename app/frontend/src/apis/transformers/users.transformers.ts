@@ -1,4 +1,9 @@
-import { User, UserPersonalInfo } from "@/app/shared/src/types/users.types";
+import {
+  GoogleUser,
+  User,
+  UserAccountInfo,
+  UserPersonalInfo,
+} from "@/app/shared/src/types/users.types";
 
 /**
  * Transforms a user to ensure deep field transformation of date objects.

@@ -1,4 +1,5 @@
 import {
+  GoogleUser,
   User,
   UserAccountInfo,
   UserPersonalInfo,
@@ -10,6 +11,7 @@ import {
   getAllUsers,
   getSingleUser,
   getUserPersonalInfo,
+  logGoogleUserIn,
   logUserIn,
   removeFriend,
   setUserPersonalInfo,
@@ -86,6 +88,18 @@ export const useLogUserIn = () => {
     ["users", "login"],
     async (userAccountInfo: UserAccountInfo) => {
       const { data } = await logUserIn(userAccountInfo);
+      updateCurrentUser(data);
+      return data;
+    }
+  );
+};
+
+export const useGoogleLogIn = () => {
+  const updateCurrentUser = useSetCurrentUser();
+  return useMutation<User, Error, GoogleUser>(
+    ["users", "login"],
+    async (googleUserInfo: GoogleUser) => {
+      const { data } = await logGoogleUserIn(googleUserInfo);
       updateCurrentUser(data);
       return data;
     }

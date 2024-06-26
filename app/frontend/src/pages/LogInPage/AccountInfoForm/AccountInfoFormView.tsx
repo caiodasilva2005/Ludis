@@ -1,16 +1,20 @@
+import { useState } from "react";
 import { UserAccountInfo } from "@/app/shared/src/types/users.types";
 import {
   Card,
   CardContent,
   Container,
+  Divider,
   FormControl,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Control, Controller, UseFormHandleSubmit } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
 import Image from "next/image";
 import { UserAction } from "@/app/shared/src/types/actions.type";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 interface AccountInfoFormViewProps {
   control: Control<UserAccountInfo, any>;
@@ -19,6 +23,7 @@ interface AccountInfoFormViewProps {
   onLogIn: (accountInfo: UserAccountInfo) => void;
   onSignUp: (accountInfo: UserAccountInfo) => void;
   handleSubmit: UseFormHandleSubmit<UserAccountInfo>;
+  onGoogleLogIn: (googleAccountInfo: CredentialResponse) => void;
 }
 
 const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
@@ -28,6 +33,7 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   onLogIn,
   onSignUp,
   handleSubmit,
+  onGoogleLogIn,
 }) => {
   return (
     <form
@@ -65,22 +71,6 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
               <Stack spacing={2}>
                 <FormControl>
                   <Controller
-                    name="username"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-username"
-                        label="username"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                </FormControl>
-                <FormControl>
-                  <Controller
                     name="email"
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -100,14 +90,17 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     name="password"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-password"
-                        label="password"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
+                      <>
+                        <TextField
+                          id="outlined-password"
+                          label="password"
+                          type="password"
+                          onChange={(e) => {
+                            onChange(e.target.value);
+                          }}
+                          value={value}
+                        />
+                      </>
                     )}
                   />
                 </FormControl>
@@ -124,6 +117,12 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                   onClick={() => setAction("sign-up")}
                 />
               </Stack>
+              <Divider>Google Login</Divider>
+              <GoogleLogin
+                onSuccess={(res) => onGoogleLogIn(res)}
+                useOneTap
+                auto_select
+              />
             </Stack>
           </CardContent>
         </Card>

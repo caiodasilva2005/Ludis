@@ -130,6 +130,7 @@ export const matchesFilter = (
     activeFilters = filGender && filExperienceLevel;
   }
   if (filter.onlyFriends) {
+    if (!currentUser.friendUserIds) return false;
     activeFilters =
       activeFilters && currentUser.friendUserIds.includes(matchingUser.userId);
   }
