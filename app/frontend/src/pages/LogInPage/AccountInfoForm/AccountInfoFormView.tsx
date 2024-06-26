@@ -15,7 +15,6 @@ import CustomButton from "../../../components/CustomButton";
 import Image from "next/image";
 import { UserAction } from "@/app/shared/src/types/actions.type";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import validator from "email-validator"; // Import the email-validator library
 
 interface AccountInfoFormViewProps {
   control: Control<UserAccountInfo, any>;
@@ -36,32 +35,6 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
   handleSubmit,
   onGoogleLogIn,
 }) => {
-  const [passwordError, setPasswordError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-
-  const handlePasswordChange = (value: string) => {
-    if (value.length < 6) {
-      setPasswordError("Password must be at least 6 characters long.");
-      setIsPasswordValid(false);
-    } else {
-      setPasswordError("");
-      setIsPasswordValid(true);
-    }
-  };
-
-  const handleEmailChange = (value: string) => {
-    if (!validator.validate(value)) {
-      // Use the validate method from email-validator
-      setEmailError("Invalid email address.");
-      setIsEmailValid(false);
-    } else {
-      setEmailError("");
-      setIsEmailValid(true);
-    }
-  };
-
   return (
     <form
       id={"account-info-form"}
@@ -101,22 +74,14 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                     name="email"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <>
-                        <TextField
-                          id="outlined-email"
-                          label="email"
-                          onChange={(e) => {
-                            onChange(e.target.value);
-                            handleEmailChange(e.target.value);
-                          }}
-                          value={value}
-                        />
-                        {emailError && (
-                          <Typography color="error" variant="body2">
-                            {emailError}
-                          </Typography>
-                        )}
-                      </>
+                      <TextField
+                        id="outlined-email"
+                        label="email"
+                        onChange={(e) => {
+                          onChange(e.target.value);
+                        }}
+                        value={value}
+                      />
                     )}
                   />
                 </FormControl>
@@ -132,15 +97,9 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                           type="password"
                           onChange={(e) => {
                             onChange(e.target.value);
-                            handlePasswordChange(e.target.value);
                           }}
                           value={value}
                         />
-                        {passwordError && (
-                          <Typography color="error" variant="body2">
-                            {passwordError}
-                          </Typography>
-                        )}
                       </>
                     )}
                   />
@@ -151,13 +110,11 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
                   submitForm={true}
                   label="Log In"
                   onClick={() => setAction("log-in")}
-                  disabled={!isPasswordValid || !isEmailValid}
                 />
                 <CustomButton
                   submitForm={true}
                   label="Sign Up"
                   onClick={() => setAction("sign-up")}
-                  disabled={!isPasswordValid || !isEmailValid}
                 />
               </Stack>
               <Divider>Google Login</Divider>
