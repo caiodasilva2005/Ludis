@@ -16,16 +16,23 @@ const CreateAccountPage = () => {
   const router = useRouter();
   const { data: personalInfo, isLoading: personalInfoIsLoading } =
     useUserPersonalInfo(currentUser?.userId!);
-  const { mutateAsync: setUserPersonalInfo } = useSetUserPersonalInfo(
-    currentUser?.userId!
-  );
+  const {
+    mutateAsync: setUserPersonalInfo,
+    isLoading: setUserPersonalInfoIsLoading,
+    isSuccess: setUserPersonalInfoSuccess,
+  } = useSetUserPersonalInfo(currentUser?.userId!);
   const onSubmit = async (formData: UserPersonalInfo) => {
     const updatedPersonalInfo = await setUserPersonalInfo(formData);
     router.push(routes.HOME);
     return updatedPersonalInfo;
   };
 
-  if (personalInfoIsLoading) return <ProgressIndicator xpos={50} ypos={50} />;
+  if (
+    personalInfoIsLoading ||
+    setUserPersonalInfoIsLoading ||
+    setUserPersonalInfoSuccess
+  )
+    return <ProgressIndicator xpos={50} ypos={50} />;
 
   return (
     <PersonalInfoForm submitData={onSubmit} defaultValues={personalInfo} />

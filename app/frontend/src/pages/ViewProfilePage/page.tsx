@@ -8,7 +8,6 @@ import { useCurrentUser, useSingleUser } from "../../hooks/users.hooks";
 import { getMatchingUserId } from "../../utils/users";
 import ProgressIndicator from "../../components/ProgressIndicator";
 import { getAge } from "../../utils/datetime";
-import EventForm from "./EventForm/EventForm";
 import HomeButton from "../../components/HomeButton";
 
 const ViewProfilePage = () => {
@@ -16,7 +15,6 @@ const ViewProfilePage = () => {
   const { data: user, isLoading: userIsLoading } = useSingleUser(
     parseInt(userId!)
   );
-  const [modalOpen, setModalOpen] = useState(false);
 
   if (userIsLoading || !user) return <ProgressIndicator xpos={50} ypos={50} />;
   return (
@@ -129,37 +127,9 @@ const ViewProfilePage = () => {
                 fontColor="white"
               />
             </Box>
-            <Button
-              onClick={() => {
-                setModalOpen(true);
-                console.log("open modal!");
-              }}
-            >
-              <Box
-                sx={{
-                  padding: 2,
-                  backgroundImage: "linear-gradient(70deg, #911fad, #841b9e)",
-                  borderRadius: 4,
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Invite To Event
-                </Typography>
-              </Box>
-            </Button>
           </Stack>
         </Grid>
       </Grid>
-      <EventForm
-        setOpenModal={setModalOpen}
-        modalOpen={modalOpen}
-        submitData={(event) => console.log(event)}
-      />
       <HomeButton />
     </Box>
   );

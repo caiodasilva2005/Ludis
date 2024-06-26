@@ -73,12 +73,12 @@ const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
         >
           <Grid container>
             <Grid item xs={6}>
-              <Stack spacing={4} alignItems="center">
+              <Stack spacing={2} alignItems="center">
                 <Controller
                   name="image"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Stack spacing={4} alignItems="center">
+                    <Stack spacing={2} alignItems="center">
                       {uploadImageIsLoading ? (
                         <CircularProgress color="secondary" />
                       ) : (
@@ -111,7 +111,24 @@ const PersonalInfoFormView: React.FC<PersonalInfoFormViewProps> = ({
               </Stack>
             </Grid>
             <Grid item xs={6}>
-              <Stack spacing={2.5}>
+              <Stack spacing={1}>
+                <FormControl>
+                  <FormLabel>Display Name</FormLabel>
+                  <Controller
+                    name="displayName"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        required
+                        id="outlined-display-name"
+                        onChange={(e) => {
+                          onChange(e.target.value);
+                        }}
+                        value={value}
+                      />
+                    )}
+                  />
+                </FormControl>
                 <Box
                   sx={{
                     display: "flex",

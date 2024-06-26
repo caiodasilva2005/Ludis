@@ -14,11 +14,11 @@ export const userTransformer = (user: DatabaseUser): User => {
   return {
     userId: user.id,
     accountInfo: {
-      username: user.username,
       email: user.email,
       password: user.password,
     },
     personalInfo: {
+      displayName: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
       image: user.image,
@@ -40,6 +40,7 @@ export const userPersonalInfoTransformer = (
   user: DatabaseUser
 ): UserPersonalInfo => {
   return {
+    displayName: user.username,
     firstName: user.firstName,
     lastName: user.lastName,
     image: user.image,

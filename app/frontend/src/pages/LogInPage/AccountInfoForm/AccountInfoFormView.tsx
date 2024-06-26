@@ -69,22 +69,6 @@ const AccountInfoFormView: React.FC<AccountInfoFormViewProps> = ({
               <Stack spacing={2}>
                 <FormControl>
                   <Controller
-                    name="username"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        id="outlined-username"
-                        label="username"
-                        onChange={(e) => {
-                          onChange(e.target.value);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                </FormControl>
-                <FormControl>
-                  <Controller
                     name="email"
                     control={control}
                     render={({ field: { onChange, value } }) => (

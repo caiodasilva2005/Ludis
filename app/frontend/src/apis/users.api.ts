@@ -48,7 +48,6 @@ export const signUserUp = (userAccountInfo: UserAccountInfo) => {
   return axios.post<User>(
     apiUrls.usersSignUp(),
     {
-      username: userAccountInfo.username,
       email: userAccountInfo.email,
       password: userAccountInfo.password,
     },
@@ -69,7 +68,6 @@ export const logUserIn = (userAccountInfo: UserAccountInfo) => {
   return axios.post<User>(
     apiUrls.usersLogIn(),
     {
-      username: userAccountInfo.username,
       email: userAccountInfo.email,
       password: userAccountInfo.password,
     },
@@ -127,6 +125,7 @@ export const setUserPersonalInfo = (
   return axios.post<User>(
     apiUrls.usersPersonalInfo(userId.toString()),
     {
+      displayName: personalInfo.displayName,
       firstName: personalInfo.firstName,
       lastName: personalInfo.lastName,
       image: personalInfo.image,

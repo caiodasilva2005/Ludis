@@ -2,13 +2,13 @@ import { JwtPayload } from "jwt-decode";
 import { DateOfBirth } from "./datetime.types";
 
 export interface UserAccountInfo {
-  username: string;
   email: string;
   password: string;
 }
 
 /*TO-DO: make gender/explvl types*/
 export interface UserPersonalInfo {
+  displayName: string;
   firstName: string;
   lastName: string;
   image?: string;
