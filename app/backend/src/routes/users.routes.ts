@@ -3,7 +3,7 @@
  */
 import express from "express";
 import UsersController from "../controllers/users.controllers.ts";
-import { nonEmptyString } from "../utils/validation.utils.ts";
+import { intMinZero, nonEmptyString } from "../utils/validation.utils.ts";
 import { body } from "express-validator";
 import multer, { memoryStorage } from "multer";
 
@@ -47,6 +47,17 @@ userRouter.post(
   body("dateOfBirth"),
   body("bio"),
   UsersController.setUserPersonalInfo
+);
+userRouter.get("/:userId/friends", UsersController.getAllFriends);
+userRouter.post(
+  "/:userId/friends/add",
+  intMinZero(body("friendUserId")),
+  UsersController.addFriend
+);
+userRouter.post(
+  "/:userId/friends/remove",
+  intMinZero(body("friendUserId")),
+  UsersController.removeFriend
 );
 userRouter.post(
   "/upload-image",

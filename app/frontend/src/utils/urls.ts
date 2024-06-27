@@ -11,6 +11,9 @@ const usersSignUp = () => `${users()}/signup`;
 const usersLogIn = () => `${users()}/login`;
 const usersGoogleLogIn = () => `${usersLogIn()}/google`;
 const usersPersonalInfo = (id: string) => `${usersById(id)}/personal-info`;
+const usersFriends = (id: string) => `${usersById(id)}/friends`;
+const usersAddFriends = (id: string) => `${usersFriends(id)}/add`;
+const usersRemoveFriends = (id: string) => `${usersFriends(id)}/remove`;
 const uploadImage = () => `${users()}/upload-image`;
 
 export const apiUrls = {
@@ -20,5 +23,8 @@ export const apiUrls = {
   usersLogIn,
   usersGoogleLogIn,
   usersPersonalInfo,
+  usersFriends,
+  usersAddFriends,
+  usersRemoveFriends,
   uploadImage,
 };

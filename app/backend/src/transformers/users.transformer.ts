@@ -27,6 +27,7 @@ export const userTransformer = (user: DatabaseUser): User => {
       bio: user.bio,
       dateOfBirth: user.dateOfBirth,
     },
+    friendUserIds: user.friendUserIds,
   };
 };
 

@@ -13,6 +13,7 @@ export interface ExperienceLevelFilter {
 export interface Filter {
   gender: GenderFilter;
   experienceLevel: ExperienceLevelFilter;
+  onlyFriends: boolean;
 }
 
 export enum filterValues {

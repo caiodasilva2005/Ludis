@@ -30,6 +30,7 @@ export interface DatabaseUser {
   gender: string;
   bio?: string;
   dateOfBirth: DateOfBirth;
+  friendUserIds: number[];
 }
 
 export interface GoogleUser extends JwtPayload {
@@ -43,4 +44,5 @@ export interface User {
   userId: number;
   accountInfo: UserAccountInfo;
   personalInfo: UserPersonalInfo;
+  friendUserIds: number[];
 }

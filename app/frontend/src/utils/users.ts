@@ -5,12 +5,14 @@ import { isCompatibleAge, matchesFilter } from "./filters";
 /**
  * Gets all matches for the current user based on filters
  * @param filter
+ * @param friendUserIds ids of all friends
  * @param currentUser
  * @param users all users
  * @returns all users the match age and filters
  */
 export const getAllMatches = (
   filter: Filter,
+  friendUserIds?: number[],
   currentUser?: User,
   users?: User[]
 ) => {
@@ -25,7 +27,7 @@ export const getAllMatches = (
       )
     )
       return false;
-    return matchesFilter(user, filter);
+    return matchesFilter(user, filter, friendUserIds);
   });
 };
 
